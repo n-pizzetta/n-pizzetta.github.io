@@ -79,6 +79,7 @@ links:
       name: CV
       show: true
       href: assets/CV_nathan_pizzetta.pdf
+      icon: fas fa-file-pdf
 
 
 # Extra HTML which will be displayed below the links. Keep it short. Leave empty to disable.
