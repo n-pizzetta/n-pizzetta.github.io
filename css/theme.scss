@@ -1,22 +1,23 @@
 
-$fc-footer-height: 44px;
+:root {
+    --fc-footer-height: 44px;
+}
 
 html, body {
     font-family: 'Open Sans',Arial,Helvetica,sans-serif;
 }
+
 html {
     position: relative;
     min-height: 100%;
 }
+
 body {
-    margin-bottom: $fc-footer-height;
+    margin-bottom: var(--fc-footer-height);
 }
 
 .fullscreen-background {
     background: url("../assets/images/mountains.gif") no-repeat center center fixed; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
     background-size: cover;
 }
 
