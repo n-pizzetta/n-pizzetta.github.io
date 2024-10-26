@@ -116,6 +116,61 @@ div.row.links {
 }
 
 
+/* --------- The projects ---------------------------------------------------------------------- */
+
+#projects {
+    margin: 50px 0;
+    text-align: center;
+}
+
+#projects h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.scroll-container {
+    display: flex;
+    overflow-x: auto; /* Active le scroll horizontal */
+    padding: 20px;
+    gap: 20px; /* Espace entre les projets */
+    scrollbar-width: thin; /* Pour des barres de défilement fines */
+}
+
+.scroll-container::-webkit-scrollbar {
+    height: 8px; /* Hauteur de la barre de défilement */
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background-color: #888; /* Couleur de la barre */
+    border-radius: 10px;
+}
+
+.project {
+    min-width: 250px; /* Largeur minimale de chaque projet */
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+.project img {
+    max-width: 100%; /* Ajuste l'image pour qu'elle prenne tout l'espace disponible */
+    border-radius: 8px;
+}
+
+.project p {
+    margin-top: 10px;
+    font-size: 1em;
+}
+
+.project:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+
+
 /* --------- Footer ---------------------------------------------------------------------------- */
 
 footer {
