@@ -135,7 +135,7 @@ div.row.links {
 /* Scrollable Container for Projects */
 .scroll-container {
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
     overflow-x: auto; /* Enables horizontal scrolling */
     padding: 1rem;
     scrollbar-width: thin; /* Thin scrollbar for Firefox */
@@ -152,18 +152,18 @@ div.row.links {
 }
 
 .project-item {
-    min-width: 100px; /* Minimum width for each project item */
+    min-width: 50px; /* Minimum width for each project item */
     background-color: none;
     padding: 0.5em;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.573);
+    border-radius: 1px;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.688);
     text-align: center;
     font-size: 1rem;
     overflow: hidden;
 }
 
 .project-item img {
-    width: 90%; /* Makes image fill the width of the card */
+    width: 100%; /* Makes image fill the width of the card */
     height: auto; /* Keeps the aspect ratio of the image */
     border-radius: 6px;
     margin-bottom: 0.5rem;
@@ -172,7 +172,7 @@ div.row.links {
 .project-item p {
     margin-top: 0.5rem;
     font-size: 0.9rem;
-    color: #333;
+    color: #ffffff;
 }
 
 /* Hover Effect on Project Items */
