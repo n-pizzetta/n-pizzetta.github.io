@@ -156,10 +156,11 @@ div.row.links {
     background-color: none;
     padding: 0.5em;
     border-radius: 1px;
-    box-shadow: 0 16px 16px rgba(0, 0, 0, 0.688);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.688);
     text-align: center;
     font-size: 1rem;
     overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .project-item img {
@@ -178,7 +179,7 @@ div.row.links {
 /* Hover Effect on Project Items */
 .project-item:hover {
     transform: scale(1.05);
-    transition: transform 0.3s ease;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
 }
 
 /* Responsive Adjustments */
