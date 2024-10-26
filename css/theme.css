@@ -119,55 +119,81 @@ div.row.links {
 /* --------- The projects ---------------------------------------------------------------------- */
 
 #projects {
-    margin: 50px 0;
+    width: 100%;
+    padding: 2rem;
+    box-sizing: border-box;
     text-align: center;
+    overflow: hidden;
 }
 
 #projects h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #2e2b37;
 }
 
+/* Scrollable Container for Projects */
 .scroll-container {
     display: flex;
-    overflow-x: auto; /* Active le scroll horizontal */
-    padding: 20px;
-    gap: 20px; /* Espace entre les projets */
-    scrollbar-width: thin; /* Pour des barres de défilement fines */
+    gap: 1rem;
+    overflow-x: auto; /* Enables horizontal scrolling */
+    padding: 1rem;
+    scrollbar-width: thin; /* Thin scrollbar for Firefox */
+    scroll-behavior: smooth;
 }
 
 .scroll-container::-webkit-scrollbar {
-    height: 8px; /* Hauteur de la barre de défilement */
+    height: 8px; /* Scrollbar height for horizontal scroll */
 }
 
 .scroll-container::-webkit-scrollbar-thumb {
-    background-color: #888; /* Couleur de la barre */
-    border-radius: 10px;
+    background-color: rgba(46, 43, 55, 0.3);
+    border-radius: 4px;
 }
 
-.project {
-    min-width: 250px; /* Largeur minimale de chaque projet */
+.project-item {
+    min-width: 200px; /* Minimum width for each project item */
     background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-}
-
-.project img {
-    max-width: 100%; /* Ajuste l'image pour qu'elle prenne tout l'espace disponible */
+    padding: 1rem;
     border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 1rem;
+    overflow: hidden;
 }
 
-.project p {
-    margin-top: 10px;
-    font-size: 1em;
+.project-item img {
+    width: 100%; /* Makes image fill the width of the card */
+    height: auto; /* Keeps the aspect ratio of the image */
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
 }
 
-.project:hover {
+.project-item p {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Hover Effect on Project Items */
+.project-item:hover {
     transform: scale(1.05);
     transition: transform 0.3s ease;
 }
+
+/* Responsive Adjustments */
+@media screen and (max-width: 736px) {
+    #projects {
+        padding: 1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .project-item {
+        min-width: 150px;
+    }
+}
+
 
 
 
