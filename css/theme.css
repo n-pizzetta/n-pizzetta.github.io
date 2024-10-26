@@ -156,7 +156,7 @@ div.row.links {
     background-color: none;
     padding: 0.5em;
     border-radius: 1px;
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.688);
+    box-shadow: 0 16px 16px rgba(0, 0, 0, 0.688);
     text-align: center;
     font-size: 1rem;
     overflow: hidden;
