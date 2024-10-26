@@ -140,8 +140,6 @@ div.row.links {
     padding: 1rem;
     scrollbar-width: thin; /* Thin scrollbar for Firefox */
     scroll-behavior: smooth;
-    max-width: 90vw; /* Limits the width of the scroll container */
-    margin: 0 auto; /* Centers the container */
 }
 
 .scroll-container::-webkit-scrollbar {
