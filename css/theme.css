@@ -152,8 +152,8 @@ div.row.links {
 }
 
 .project-item {
-    min-width: 150px; /* Minimum width for each project item */
-    background-color: rgba(0, 0, 0, 0.5);
+    min-width: 100px; /* Minimum width for each project item */
+    background-color: none;
     padding: 0.5em;
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.573);
@@ -163,9 +163,9 @@ div.row.links {
 }
 
 .project-item img {
-    width: 100%; /* Makes image fill the width of the card */
+    width: 90%; /* Makes image fill the width of the card */
     height: auto; /* Keeps the aspect ratio of the image */
-    border-radius: 8px;
+    border-radius: 6px;
     margin-bottom: 0.5rem;
 }
 
