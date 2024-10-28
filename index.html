@@ -81,6 +81,22 @@ permalink: /
         <img id="avatar" src="{{ site.avatar }}" alt="{{ site.name }}">
     </div>
 </div>
+
+<!-- JavaScript Code -->
+<script>
+    // Select the avatar container
+    const avatarContainer = document.querySelector('.avatar-container');
+
+    // Function to handle mouse movement
+    document.addEventListener('mousemove', (event) => {
+        const x = (window.innerWidth / 2 - event.pageX) / 50; // Divide to control intensity
+        const y = (window.innerHeight / 2 - event.pageY) / 50;
+        
+        avatarContainer.style.transform = `translate(${x}px, ${y}px)`; // Move the avatar container
+    });
+</script>
+
+
 <div class="row">
     <div class="col">
         <h1 class="text-center fw-bold">{{ site.name }}</h1>

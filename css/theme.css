@@ -118,20 +118,27 @@ div.row.links {
 }
 
 /* Platform-specific colors */
-.linkedin-icon {
-    color: #0077b5; /* LinkedIn Blue */
+.linkedin-icon:hover {
+    background-color: #0077b5; /* LinkedIn Blue */
+    color: #fff; /* White icon on hover */
 }
 
-.github-icon {
-    color: #333; /* GitHub Black */
+/* GitHub Hover */
+.github-icon:hover {
+    background-color: #333; /* GitHub Black */
+    color: #fff;
 }
 
-.email-icon {
-    color: #007aff; /* iOS Blue, used commonly in Apple icons */
+/* Twitter Hover */
+.email-icon:hover {
+    background-color: #007aff; /* Twitter Blue */
+    color: #fff;
 }
 
-.cv-icon {
-    color: #ff0000; /* Adobe's signature red */
+/* Facebook Hover */
+.cv-icon:hover {
+    background-color: #ff0000; /* Facebook Blue */
+    color: #fff;
 }
 
 
