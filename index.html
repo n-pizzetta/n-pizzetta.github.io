@@ -77,17 +77,8 @@ permalink: /
 <div class="container fuse-core-content pb-4">
 
 <div class="row pt-sm-4">
-    <div class="flip-container">
-        <div class="flipper">
-            <!-- Front Side (Your Picture) -->
-            <div class="front">
-                <img id="avatar" src="{{ site.avatar }}" alt="{{ site.name }}">
-            </div>
-            <!-- Back Side (Alternate content) -->
-            <div class="back">
-                <img id="logo" src="{{ site.logo }}" alt="{{ site.name }}">
-            </div>
-        </div>
+    <div class="avatar-container">
+        <img id="avatar" src="{{ site.avatar }}" alt="{{ site.name }}">
     </div>
 </div>
 <div class="row">
@@ -102,7 +93,7 @@ permalink: /
     <div class="col-xs-12 col-sm-2 col-lg-1 px-3 px-sm-0 mt-2 mt-sm-3 text-sm-center"><a
         href="{{ linkInfo[1].href }}"{% if site.ga %}
         onclick="trackOutboundLink('{{ linkInfo[1].name }}', '{{ linkInfo[1].href }}'); return false;"
-        {% endif %}><i class="{{ linkInfo[1].icon }} fa-fw"></i>
+        {% endif %}><i class="{{ linkInfo[1].icon }} fa-fw {{ linkInfo[1].name | downcase }}-icon"></i>
         <span class="d-inline d-sm-none">{{ linkInfo[1].name }}</span></a></div>
 {% endif %}{% endfor %}{% endfor %}
 </div>
