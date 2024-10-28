@@ -55,6 +55,7 @@ plausible:
 # Leave empty for generic placeholder image.
 # You can use your GitHub image:
 avatar: "assets/images/pdp.jpg"
+logo: "assets/images/favicons/ms-icon-310x310.png"
 
 
 # All the social media and other sites that we want to link to. The 'show' flag determines if the link is shown.
