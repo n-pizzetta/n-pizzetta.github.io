@@ -190,11 +190,6 @@ div.row.links {
     margin-left: 50px;
 }
 
-.portfolio-header h2 {
-    color: #ffffff;
-}
-
-
 
 #projects {
     width: 100%;
@@ -249,22 +244,21 @@ div.row.links {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.8); /* Dark overlay */
-    display: flex;
     align-items: center;
     justify-content: center;
 }
 
 /* Modal Content */
 .modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    position: relative;
     background: none;
-    transform: translate(-50%, -50%) scale(1); /* Center modal and set initial scale */
-    transition: transform 0.3s ease; /* Smooth transition for zoom */
     padding: 20px;
     border-radius: 10px;
+    max-width: 50%;
+    max-height: 100%;
+    overflow: auto;
     text-align: center;
+    animation: zoomIn 0.3s ease; /* Zoom animation */
 }
 
 @keyframes zoomIn {
@@ -300,18 +294,16 @@ div.row.links {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: none; /* Example color (LinkedIn blue) */
+    background-color: #0077b5; /* Example color (LinkedIn blue) */
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    border-color: white;
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
 .external-link:hover {
-    background-color: #31064d; /* Darker shade on hover */
-    color: white;
+    background-color: #005a93; /* Darker shade on hover */
 }
 
 
