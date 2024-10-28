@@ -180,11 +180,15 @@ div.row.links {
 }
 
 .portfolio-header::before {
-    margin-right: 10px;
+    margin-right: 50px;
 }
 
 .portfolio-header::after {
-    margin-left: 10px;
+    margin-left: 50px;
+}
+
+.portfolio-header h2 {
+    color: #ffffff;
 }
 
 
