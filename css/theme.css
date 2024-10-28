@@ -104,25 +104,25 @@ div.row.links {
 
         /* Platform-specific colors */
         &.linkedin-icon:hover {
-            background-color: #0076b58a; /* LinkedIn Blue */
+            background-color: #0077b5; /* LinkedIn Blue */
             color: #fff; /* White icon on hover */
         }
 
         /* GitHub Hover */
         &.github-icon:hover {
-            background-color: #333333973339b; /* GitHub Black */
+            background-color: #333; /* GitHub Black */
             color: #fff;
         }
 
         /* Twitter Hover */
         &.email-icon:hover {
-            background-color: linear-gradient(#3870eab4 rgba(93, 195, 246, 0.695)F6); /* Twitter Blue */
+            background-color: linear-gradient(#386FEA, #5DC3F6); /* Twitter Blue */
             color: #fff;
         }
 
         /* Facebook Hover */
         &.cv-icon:hover {
-            background-color: #ff0000acc4; /* Facebook Blue */
+            background-color: #ff0000; /* Facebook Blue */
             color: #fff;
         }
 
@@ -194,7 +194,7 @@ div.row.links {
 }
 
 .project-item {
-    min-width: 300px; /* Minimum width for each project item */
+    min-width: 350px; /* Minimum width for each project item */
     background-color: none;
     padding: 0.5em;
     border-radius: 1px;
@@ -252,7 +252,7 @@ div.row.links {
 
 @media screen and (max-width: 480px) {
     .project-item {
-        min-width: 300px;
+        min-width: 350px;
     }
 }
 
