@@ -101,6 +101,30 @@ div.row.links {
             background-color: rgba(0, 0, 0, 0.5);
         }
 
+        /* Platform-specific colors */
+        &.linkedin-icon:hover {
+            background-color: #0077b5; /* LinkedIn Blue */
+            color: #fff; /* White icon on hover */
+        }
+
+        /* GitHub Hover */
+        &.github-icon:hover {
+            background-color: #333; /* GitHub Black */
+            color: #fff;
+        }
+
+        /* Twitter Hover */
+        &.email-icon:hover {
+            background-color: #007aff; /* Twitter Blue */
+            color: #fff;
+        }
+
+        /* Facebook Hover */
+        &.cv-icon:hover {
+            background-color: #ff0000; /* Facebook Blue */
+            color: #fff;
+        }
+
         > i {
             display: inline-block;
             margin: 16px 12px;
@@ -111,35 +135,7 @@ div.row.links {
     }
 }
 
-/* Default icon styles */
-.links i {
-    font-size: 1.5rem;
-    transition: color 0.3s ease; /* Smooth color transition on hover */
-}
 
-/* Platform-specific colors */
-.linkedin-icon:hover {
-    background-color: #0077b5; /* LinkedIn Blue */
-    color: #fff; /* White icon on hover */
-}
-
-/* GitHub Hover */
-.github-icon:hover {
-    background-color: #333; /* GitHub Black */
-    color: #fff;
-}
-
-/* Twitter Hover */
-.email-icon:hover {
-    background-color: #007aff; /* Twitter Blue */
-    color: #fff;
-}
-
-/* Facebook Hover */
-.cv-icon:hover {
-    background-color: #ff0000; /* Facebook Blue */
-    color: #fff;
-}
 
 
 /* --------- Extra HTML ------------------------------------------------------------------------ */
