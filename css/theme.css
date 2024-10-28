@@ -102,10 +102,10 @@ div.row.links {
             background-color: rgba(0, 0, 0, 0.5);
         }
 
-        /* Platform-specific colors */
+        /* LinkedIn Hoover */
         &.linkedin-icon:hover {
             background-color: #0077b5; /* LinkedIn Blue */
-            color: #fff; /* White icon on hover */
+            color: #fff;
         }
 
         /* GitHub Hover */
@@ -114,15 +114,15 @@ div.row.links {
             color: #fff;
         }
 
-        /* Twitter Hover */
+        /* Email Hover */
         &.email-icon:hover {
-            background-color: linear-gradient(#386FEA, #5DC3F6); /* Twitter Blue */
+            background-image: linear-gradient(#386FEA, #5DC3F6); /* Apple email Blue */
             color: #fff;
         }
 
-        /* Facebook Hover */
+        /* CV Hover */
         &.cv-icon:hover {
-            background-color: #ff0000; /* Facebook Blue */
+            background-color: #ff0000; /* PDF Red */
             color: #fff;
         }
 
