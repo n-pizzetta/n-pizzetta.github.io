@@ -168,7 +168,6 @@ permalink: /
         <!-- Modal Structure -->
         <div id="project-modal" class="modal" onclick="closeModalOutside(event)">
             <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
                 <img id="modal-image" src="" alt="Project Zoom">
                 <p id="modal-description"></p>
                 <a id="project-link" href="#" target="_blank" class="external-link">View Project</a>
@@ -183,24 +182,32 @@ permalink: /
     function openModal(projectId) {
         // Get the modal elements
         const modal = document.getElementById('project-modal');
+        const modalContent = document.querySelector('.modal-content');
         const modalImage = document.getElementById('modal-image');
         const modalDescription = document.getElementById('modal-description');
         const projectLink = document.getElementById('project-link');
 
-        // Update modal content based on the project
-        if (projectId === 'project1') {
-            modalImage.src = 'assets/images/csv_manager_app.gif'; // Update the image source
-            modalDescription.innerText = 'Friendly app to convert ACCESS databases to CSV.';
-            projectLink.href = 'https://github.com/n-pizzetta/csv-manager'; // Set the external link
-        } else if (projectId === 'project2') {
-            modalImage.src = 'assets/images/csv_manager_app.png';
-            modalDescription.innerText = 'Friendly app to convert ACCESS databases to CSV.';
-            projectLink.href = 'https://github.com/n-pizzetta/csv-manager';
-        }
+        // Copy the content from the project element to the modal
+        modalImage.src = projectElement.querySelector('img').src;
+        modalDescription.innerText = projectElement.querySelector('p').innerText;
 
-        // Display the modal
+        // Set modal initial position and scale to match project item
+        const projectRect = projectElement.getBoundingClientRect();
+        modalContent.style.width = `${projectRect.width}px`;
+        modalContent.style.height = `${projectRect.height}px`;
+        modalContent.style.transform = `translate(-50%, -50%) scale(1)`;
+
+        // Show the modal
         modal.style.display = 'flex';
-        document.getElementById('content').classList.add('blur-background');
+
+        // After a short delay, scale up the modal to its zoomed size
+        setTimeout(() => {
+            modalContent.style.width = 'auto'; // Remove fixed width/height to allow max size
+            modalContent.style.height = 'auto';
+            modalContent.style.maxWidth = '80%';
+            modalContent.style.maxHeight = '80vh';
+            modalContent.style.transform = 'translate(-50%, -50%) scale(1.3)'; // Adjust scale as needed
+        }, 10);
     }
 
     // Function to close the modal when clicking outside of it
@@ -211,12 +218,6 @@ permalink: /
         }
     }
 
-    // Function to close the modal
-    function closeModal() {
-        const modal = document.getElementById('project-modal');
-        modal.style.display = 'none';
-        document.getElementById('content').classList.remove('blur-background');
-    }
 </script>
 
 

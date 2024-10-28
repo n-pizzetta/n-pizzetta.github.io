@@ -69,6 +69,9 @@ h1 {
     }
     font-size: 3em;
 }
+h2 {
+    font-size: 2em;
+}
 h3 {
     font-size: 1.2em;
 }
@@ -246,21 +249,22 @@ div.row.links {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.8); /* Dark overlay */
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
 /* Modal Content */
 .modal-content {
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
     background: none;
+    transform: translate(-50%, -50%) scale(1); /* Center modal and set initial scale */
+    transition: transform 0.3s ease; /* Smooth transition for zoom */
     padding: 20px;
     border-radius: 10px;
-    max-width: 50%;
-    max-height: 50%;
-    overflow: auto;
     text-align: center;
-    animation: zoomIn 0.3s ease; /* Zoom animation */
 }
 
 @keyframes zoomIn {
