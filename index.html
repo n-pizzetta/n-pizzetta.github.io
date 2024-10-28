@@ -137,45 +137,78 @@ permalink: /
 <section id="projects">
     <h2>My Projects</h2>
     <div class="scroll-container">
-        <div class="project-item">
-            <a href="https://github.com/n-pizzetta/csv-manager" class="project-link">
-                <img src="assets/images/csv_manager_app.gif" alt="Project 1">
-                        <p>
-                            Friendly app to convert ACCESS databases to CSV.
-                        </p>
-            </a>
-        </div>
-        <div class="project-item">
-            <img src="assets/images/csv_manager_app.png" alt="Project 2">
-                    <p>Friendly app to convert ACCESS databases to CSV.</p>
-        </div>
-        <div class="project-item">
-            <img src="assets/images/csv_manager_app.png" alt="Project 3">
-                    <p>Friendly app to convert ACCESS databases to CSV.</p>
-        </div>
-        <div class="project-item">
-            <img src="assets/images/csv_manager_app.png" alt="Project 4">
-                    <p>Friendly app to convert ACCESS databases to CSV.</p>
-        </div>
-        <div class="project-item">
-            <img src="assets/images/csv_manager_app.png" alt="Project 6">
-                    <p>Friendly app to convert ACCESS databases to CSV.</p>
-        </div>
-        <div class="project-item">
-            <img src="assets/images/csv_manager_app.png" alt="Project 3">
-                    <p>Friendly app to convert ACCESS databases to CSV.</p>
-        </div>
-        <div class="project-item">
-            <img src="assets/images/csv_manager_app.png" alt="Project 4">
-                    <p>Friendly app to convert ACCESS databases to CSV.</p>
-        </div>
-        <div class="project-item">
-            <img src="assets/images/csv_manager_app.png" alt="Project 6">
-                    <p>Friendly app to convert ACCESS databases to CSV.</p>
-        </div>
+        <div class="project-container">
+            <div class="project-item" onclick="openModal('project1')">
+                <a href="https://github.com/n-pizzetta/csv-manager" class="project-link">
+                    <img src="assets/images/csv_manager_app.gif" alt="Project 1">
+                            <p>
+                                Friendly app to convert ACCESS databases to CSV.
+                            </p>
+                </a>
+            </div>
+            <div class="project-item" onclick="openModal('project2')">
+                <img src="assets/images/csv_manager_app.png" alt="Project 2">
+                        <p>Friendly app to convert ACCESS databases to CSV.</p>
+            </div>
+            <div class="project-item" onclick="openModal('project3')"> 
+                <img src="assets/images/csv_manager_app.png" alt="Project 3">
+                        <p>Friendly app to convert ACCESS databases to CSV.</p>
+            </div>
+            <div class="project-item" onclick="openModal('project4')">
+                <img src="assets/images/csv_manager_app.png" alt="Project 4">
+                        <p>Friendly app to convert ACCESS databases to CSV.</p>
+            </div>
+            <div class="project-item" onclick="openModal('project5')">
+                <img src="assets/images/csv_manager_app.png" alt="Project 5">
+                        <p>Friendly app to convert ACCESS databases to CSV.</p>
+            </div>
         <!-- Add more project items as needed -->
+        </div>
+
+        <!-- Modal Structure -->
+        <div id="project-modal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="modal-content">
+                <img id="modal-image" src="" alt="Project Zoom">
+                <p id="modal-description"></p>
+                <a id="project-link" href="#" target="_blank" class="external-link">View Project</a>
+            </div>
+        </div>
     </div>
 </section>
+
+<!-- JavaScript -->
+<script>
+    // Function to open the modal with project details
+    function openModal(projectId) {
+        // Get the modal elements
+        const modal = document.getElementById('project-modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalDescription = document.getElementById('modal-description');
+
+        // Update modal content based on the project
+        if (projectId === 'project1') {
+            modalImage.src = 'assets/images/csv_manager_app.gif'; // Update the image source
+            modalDescription.innerText = 'Friendly app to convert ACCESS databases to CSV.';
+            projectLink.href = 'https://github.com/n-pizzetta/csv-manager'; // Set the external link
+        } else if (projectId === 'project2') {
+            modalImage.src = 'assets/images/csv_manager_app.png';
+            modalDescription.innerText = 'Friendly app to convert ACCESS databases to CSV.';
+            projectLink.href = 'https://github.com/n-pizzetta/csv-manager';
+        }
+
+        // Display the modal
+        modal.style.display = 'flex';
+        document.body.classList.add('modal-open');
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        const modal = document.getElementById('project-modal');
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+    }
+</script>
 
 
 <footer><div class="container"><div class="row">

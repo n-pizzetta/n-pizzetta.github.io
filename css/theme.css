@@ -193,6 +193,87 @@ div.row.links {
     border-radius: 4px;
 }
 
+/* Project Container */
+.project-container {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Dark overlay */
+    backdrop-filter: blur(8px); /* Background blur */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+    text-align: center;
+    animation: zoomIn 0.3s ease; /* Zoom animation */
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Modal Close Button */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 5px 10px;
+    transition: 0.2s;
+}
+
+.close:hover {
+    color: #ff0000; /* Highlight close button on hover */
+}
+
+/* Blur Effect on Background */
+body.modal-open {
+    overflow: hidden; /* Prevent background scroll */
+    filter: blur(5px);
+}
+
+.external-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #0077b5; /* Example color (LinkedIn blue) */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.external-link:hover {
+    background-color: #005a93; /* Darker shade on hover */
+}
+
+
 .project-item {
     min-width: 350px; /* Minimum width for each project item */
     background-color: none;
