@@ -69,9 +69,6 @@ h1 {
     }
     font-size: 3em;
 }
-h2 {
-    font-size: 2em;
-}
 h3 {
     font-size: 1.2em;
 }
@@ -167,10 +164,10 @@ div.row.links {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5em; /* Adjust the size as needed */
+    font-size: 2em; /* Adjust the size as needed */
     font-weight: bold;
     position: relative;
-    color: #ccc; /* Text color */
+    color: #ffffff; /* Text color */
     margin: 40px 0; /* Add vertical spacing */
 }
 
@@ -254,7 +251,7 @@ div.row.links {
     background: none;
     padding: 20px;
     border-radius: 10px;
-    max-width: 50%;
+    max-width: 25%;
     max-height: 100%;
     overflow: auto;
     text-align: center;
@@ -294,7 +291,7 @@ div.row.links {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #0077b5; /* Example color (LinkedIn blue) */
+    background-color: none; /* Example color (LinkedIn blue) */
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -303,7 +300,8 @@ div.row.links {
 }
 
 .external-link:hover {
-    background-color: #005a93; /* Darker shade on hover */
+    background-color: #130127; /* Darker shade on hover */
+    color: white;
 }
 
 
