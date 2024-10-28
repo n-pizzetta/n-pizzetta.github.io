@@ -300,16 +300,18 @@ div.row.links {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #0077b5; /* Example color (LinkedIn blue) */
+    background-color: none; /* Example color (LinkedIn blue) */
     color: white;
     text-decoration: none;
     border-radius: 5px;
+    border-color: white;
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
 .external-link:hover {
-    background-color: #005a93; /* Darker shade on hover */
+    background-color: #31064d; /* Darker shade on hover */
+    color: white;
 }
 
 
