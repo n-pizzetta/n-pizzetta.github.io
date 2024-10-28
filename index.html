@@ -185,6 +185,7 @@ permalink: /
         const modal = document.getElementById('project-modal');
         const modalImage = document.getElementById('modal-image');
         const modalDescription = document.getElementById('modal-description');
+        const projectLink = document.getElementById('project-link');
 
         // Update modal content based on the project
         if (projectId === 'project1') {
@@ -199,14 +200,14 @@ permalink: /
 
         // Display the modal
         modal.style.display = 'flex';
-        document.body.classList.add('modal-open');
+        document.getElementById('content').classList.add('blur-background');
     }
 
     // Function to close the modal
     function closeModal() {
         const modal = document.getElementById('project-modal');
         modal.style.display = 'none';
-        document.body.classList.remove('modal-open');
+        document.getElementById('content').classList.remove('blur-background');
     }
 </script>
 

@@ -199,6 +199,10 @@ div.row.links {
     gap: 1rem;
 }
 
+#content {
+    transition: filter 0.3s ease;
+}
+
 /* Modal Styles */
 .modal {
     display: none; /* Hidden by default */
@@ -209,7 +213,6 @@ div.row.links {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.8); /* Dark overlay */
-    backdrop-filter: blur(8px); /* Background blur */
     align-items: center;
     justify-content: center;
 }
@@ -251,10 +254,9 @@ div.row.links {
     color: #ff0000; /* Highlight close button on hover */
 }
 
-/* Blur Effect on Background */
-body.modal-open {
-    overflow: hidden; /* Prevent background scroll */
-    filter: blur(5px);
+/* Blur Effect for Background */
+.blur-background {
+    filter: blur(8px); /* Apply blur only when this class is added */
 }
 
 .external-link {
