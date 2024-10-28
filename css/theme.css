@@ -40,6 +40,7 @@ div.fuse-core-content {
 .avatar-container {
     width: 180px; /* Set avatar size */
     height: 180px;
+    margin: 0 auto; /* Center horizontally */
     overflow: hidden;
     display: flex;
     align-items: center;
