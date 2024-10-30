@@ -71,86 +71,90 @@ permalink: /
     </script>
     {%- endif %}
 </head>
+
 <body class="fullscreen-background">
+<div id="content">
+    <div class="glass-pane">
+    <div class="container fuse-core-content pb-4">
 
-<div class="glass-pane">
-<div class="container fuse-core-content pb-4">
-
-<div class="row pt-sm-4">
-    <div class="col text-center">
-        <div class="avatar-container">
-            <img id="avatar" class="my-3 my-sm-4" src="{{ site.avatar }}" alt="{{ site.name }}">
-        </div>
-    </div>
-</div>
-
-
-<div class="row">
-    <div class="col">
-        <h1 class="text-center fw-bold">{{ site.name }}</h1>
-        {% if site.subtitle %}<h3 class="text-center fw-light">{{ site.subtitle }}</h3>{% endif %}
-    </div>
-</div>
-
-<div class="row justify-content-center links pt-1 pt-sm-2">
-{% for hash in site.links %}{% for linkInfo in hash %}{% if linkInfo[1].show %}
-    <div class="col-xs-12 col-sm-2 col-lg-1 px-3 px-sm-0 mt-2 mt-sm-3 text-sm-center"><a
-        href="{{ linkInfo[1].href }}" class="{{ linkInfo[1].name | downcase }}-icon" {% if site.ga %}
-        onclick="trackOutboundLink('{{ linkInfo[1].name }}', '{{ linkInfo[1].href }}'); return false;"
-        {% endif %}><i class="{{ linkInfo[1].icon }} fa-fw "></i>
-        <span class="d-inline d-sm-none">{{ linkInfo[1].name }}</span></a></div>
-{% endif %}{% endfor %}{% endfor %}
-</div>
-
-{% if site.extra_html %}
-<div class="row justify-content-center">
-    <div class="col mt-3 text-sm-center fuse-core-extra">{{ site.extra_html }}</div>
-</div>
-{% endif %}
-
-</div>
-</div>
-
-<!-- CV Section -->
-<div id="cv-container">
-    <div id="cv"  onclick="openModal('cv')">
-    <img src="assets/images/CV_nathan_pizzetta.png" alt="My CV" style="width: 100%; height: auto;">
-    </div>
-</div>
-
-<!-- Projects Section -->
-<section id="projects">
-    <h2 class="portfolio-header">My Portfolio</h2>
-    <div class="scroll-container">
-        <div class="project-container">
-            <div class="project-item" onclick="openModal('project1')">
-                <img src="assets/images/csv_manager_app.gif" alt="Project 1">
-                        <h3>CSV Manager</h3>
-                        <p>Friendly app to convert ACCESS databases to CSV.</p>
-            </div>
-            <div class="project-item" onclick="openModal('project2')">
-                <img src="assets/images/airport_traffic.png" alt="Project 2">
-                        <h3>Airport Traffic Time Series Analysis</h3>
-                        <p>This project analyzes airport traffic through time series modeling, focusing on data preprocessing and visualization. Using SARIMA and SARIMAX models, the study aims to predict future traffic patterns, leveraging optimized hyperparameters for accuracy. Key sections include data handling, model selection, and parameter tuning, with R scripts supporting the process.</p>
-            </div>
-            <div class="project-item" onclick="openModal('project3')"> 
-                <img src="assets/images/chicago_crime.gif" alt="Project 3">
-                        <h3>Chicago Crime Analysis</h3>
-                        <p>A quick Hackaton of 2 hours and a half in binome to merge three different datasets and analyze them. Our datasets contains crime cases of 2019, 2020 and 2021 in Chicago.</p>
-            </div>
-        </div>
-
-        <!-- Modal Structure -->
-        <div id="project-modal" class="modal" onclick="closeModalOutside(event)" style="display: none;">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <img id="modal-image" src="" alt="Project Zoom">
-                <p id="modal-description"></p>
-                <a id="project-link" href="#" target="_blank" class="external-link">Click to view</a>
+    <div class="row pt-sm-4">
+        <div class="col text-center">
+            <div class="avatar-container">
+                <img id="avatar" class="my-3 my-sm-4" src="{{ site.avatar }}" alt="{{ site.name }}">
             </div>
         </div>
     </div>
-</section>
+
+
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center fw-bold">{{ site.name }}</h1>
+            {% if site.subtitle %}<h3 class="text-center fw-light">{{ site.subtitle }}</h3>{% endif %}
+        </div>
+    </div>
+
+    <div class="row justify-content-center links pt-1 pt-sm-2">
+    {% for hash in site.links %}{% for linkInfo in hash %}{% if linkInfo[1].show %}
+        <div class="col-xs-12 col-sm-2 col-lg-1 px-3 px-sm-0 mt-2 mt-sm-3 text-sm-center"><a
+            href="{{ linkInfo[1].href }}" class="{{ linkInfo[1].name | downcase }}-icon" {% if site.ga %}
+            onclick="trackOutboundLink('{{ linkInfo[1].name }}', '{{ linkInfo[1].href }}'); return false;"
+            {% endif %}><i class="{{ linkInfo[1].icon }} fa-fw "></i>
+            <span class="d-inline d-sm-none">{{ linkInfo[1].name }}</span></a></div>
+    {% endif %}{% endfor %}{% endfor %}
+    </div>
+
+    {% if site.extra_html %}
+    <div class="row justify-content-center">
+        <div class="col mt-3 text-sm-center fuse-core-extra">{{ site.extra_html }}</div>
+    </div>
+    {% endif %}
+
+    </div>
+    </div>
+
+    <!-- CV Section -->
+    <div id="cv-container">
+        <div id="cv"  onclick="openModal('cv')">
+        <img src="assets/images/CV_nathan_pizzetta.png" alt="My CV" style="width: 100%; height: auto;">
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2 class="portfolio-header">My Portfolio</h2>
+        <div class="scroll-container">
+            <div class="project-container">
+                <div class="project-item" onclick="openModal('project1')">
+                    <h3>CSV Manager</h3>
+                    <img src="assets/images/csv_manager_app.gif" alt="Project 1">
+                    <p>Friendly app to convert ACCESS databases to CSV.</p>
+                </div>
+                <div class="project-item" onclick="openModal('project2')">
+                    <h3>Airport Traffic Time Series Analysis</h3>
+                    <img src="assets/images/airport_traffic.png" alt="Project 2">
+                    <p>This project analyzes airport traffic through time series modeling, focusing on data preprocessing and visualization. Using SARIMA and SARIMAX models, the study aims to predict future traffic patterns, leveraging optimized hyperparameters for accuracy. Key sections include data handling, model selection, and parameter tuning, with R scripts supporting the process.</p>
+                </div>
+                <div class="project-item" onclick="openModal('project3')"> 
+                    <h3>Chicago Crime Analysis</h3>
+                    <img src="assets/images/chicago_crime.gif" alt="Project 3">
+                    <p>A quick Hackaton of 2 hours and a half in binome to merge three different datasets and analyze them. Our datasets contains crime cases of 2019, 2020 and 2021 in Chicago.</p>
+                </div>
+            </div>  
+        </div>
+    </section>
+
+</div>
+
+<!-- Modal Structure -->
+<div id="project-modal" class="modal" onclick="closeModalOutside(event)" style="display: none;">
+    <div class="modal-content">
+        <h3 id="modal-title"></h3>
+        <img id="modal-image" src="" alt="Project Zoom">
+        <p id="modal-description"></p>
+        <a id="project-link" href="#" target="_blank" class="external-link">Click to view</a>
+    </div>
+</div>
+
 
 <!-- JavaScript -->
 <script>
@@ -158,25 +162,31 @@ permalink: /
     function openModal(projectId) {
         // Get the modal elements
         const modal = document.getElementById('project-modal');
+        const modalTitle = document.getElementById('modal-title');
         const modalImage = document.getElementById('modal-image');
         const modalDescription = document.getElementById('modal-description');
         const projectLink = document.getElementById('project-link');
 
         // Update modal content based on the project
         if (projectId === 'cv') {
+            modalTitle.innerText = 'My CV';
             modalImage.src = 'assets/images/CV_nathan_pizzetta.png';
+            modalDescription.innerText = '';
             projectLink.href = 'assets/CV_nathan_pizzetta.pdf';
         } else if (projectId === 'project1') {
+            modalTitle.innerText = 'CSV Manager';
             modalImage.src = 'assets/images/csv_manager_app.gif';
-            modalDescription.innerHTML = '<h3>CSV Manager</h3>Friendly app to convert ACCESS databases to CSV.';
+            modalDescription.innerText = 'Friendly app to convert ACCESS databases to CSV.';
             projectLink.href = 'https://github.com/n-pizzetta/csv-manager';
         } else if (projectId === 'project2') {
+            modalTitle.innerText = 'Airport Traffic Time Series Analysis';
             modalImage.src = 'assets/images/airport_traffic.png';
-            modalDescription.innerText = '<h3>Airport Traffic Time Series Analysis</h3>This project analyzes airport traffic through time series modeling (SARIMAX), focusing on data preprocessing and visualization.';
+            modalDescription.innerText = 'This project analyzes airport traffic through time series modeling (SARIMAX), focusing on data preprocessing and visualization.';
             projectLink.href = 'https://n-pizzetta.github.io/Applied/airport-traffic-last-version.html';
         } else if (projectId === 'project3') {
+            modalTitle.innerText = 'Chicago Crime Analysis';
             modalImage.src = 'assets/images/chicago_crime.gif';
-            modalDescription.innerText = '<h3>Chicago Crime Analysis</h3>A quick Hackaton of 2 hours and a half in binome to merge three different datasets and analyze them. Our datasets contains crime cases of 2019, 2020 and 2021 in Chicago.';
+            modalDescription.innerText = 'A quick Hackaton of 2 hours and a half in binome to merge three different datasets and analyze them. Our datasets contains crime cases of 2019, 2020 and 2021 in Chicago.';
             projectLink.href = 'https://n-pizzetta.github.io/r-project/chicago-crimes-weber-pizzetta.html';
         }
 

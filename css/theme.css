@@ -307,7 +307,7 @@ div.row.links {
     padding: 20px;
     border-radius: 10px;
     max-width: 40%;
-    max-height: auto;
+    height: 920px;
     overflow: auto;
     text-align: center;
     animation: zoomIn 0.3s ease; /* Zoom animation */
@@ -341,7 +341,7 @@ div.row.links {
 .blur-background {
     -webkit-backdrop-filter: blur(15px);
     filter: blur(15px); /* Apply blur only when this class is added */
-    background-color: rgba(182, 182, 182, 0.2);
+    background-color: none;
 }
 
 .external-link {
@@ -363,7 +363,7 @@ div.row.links {
 
 
 .project-item {
-    min-width: 350px; /* Minimum width for each project item */
+    min-width: 150px; /* Minimum width for each project item */
     background-color: none;
     padding: 0.5em;
     border-radius: 1px;
