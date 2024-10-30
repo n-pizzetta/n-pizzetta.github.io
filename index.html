@@ -128,27 +128,19 @@ permalink: /
         <div class="project-container">
             <div class="project-item" onclick="openModal('project1')">
                 <img src="assets/images/csv_manager_app.gif" alt="Project 1">
-                        <p>
-                            Friendly app to convert ACCESS databases to CSV.
-                        </p>
+                        <h3>CSV Manager</h3>
+                        <p>Friendly app to convert ACCESS databases to CSV.</p>
             </div>
             <div class="project-item" onclick="openModal('project2')">
-                <img src="assets/images/csv_manager_app.png" alt="Project 2">
-                        <p>Friendly app to convert ACCESS databases to CSV.</p>
+                <img src="assets/images/airport_traffic.png" alt="Project 2">
+                        <h3>Airport Traffic Time Series Analysis</h3>
+                        <p>This project analyzes airport traffic through time series modeling, focusing on data preprocessing and visualization. Using SARIMA and SARIMAX models, the study aims to predict future traffic patterns, leveraging optimized hyperparameters for accuracy. Key sections include data handling, model selection, and parameter tuning, with R scripts supporting the process.</p>
             </div>
             <div class="project-item" onclick="openModal('project3')"> 
-                <img src="assets/images/csv_manager_app.png" alt="Project 3">
-                        <p>Friendly app to convert ACCESS databases to CSV.</p>
+                <img src="assets/images/chicago_crime.gif" alt="Project 3">
+                        <h3>Chicago Crime Analysis</h3>
+                        <p>A quick Hackaton of 2 hours and a half in binome to merge three different datasets and analyze them. Our datasets contains crime cases of 2019, 2020 and 2021 in Chicago.</p>
             </div>
-            <div class="project-item" onclick="openModal('project4')">
-                <img src="assets/images/csv_manager_app.png" alt="Project 4">
-                        <p>Friendly app to convert ACCESS databases to CSV.</p>
-            </div>
-            <div class="project-item" onclick="openModal('project5')">
-                <img src="assets/images/csv_manager_app.png" alt="Project 5">
-                        <p>Friendly app to convert ACCESS databases to CSV.</p>
-            </div>
-        <!-- Add more project items as needed -->
         </div>
 
         <!-- Modal Structure -->
@@ -175,25 +167,17 @@ permalink: /
 
         // Update modal content based on the project
         if (projectId === 'project1') {
-            modalImage.src = 'assets/images/csv_manager_app.gif'; // Update the image source
-            modalDescription.innerText = 'Friendly app to convert ACCESS databases to CSV.';
-            projectLink.href = 'https://github.com/n-pizzetta/csv-manager'; // Set the external link
+            modalImage.src = 'assets/images/csv_manager_app.gif';
+            modalDescription.innerHTML = '<h3>CSV Manager</h3>Friendly app to convert ACCESS databases to CSV.';
+            projectLink.href = 'https://github.com/n-pizzetta/csv-manager';
         } else if (projectId === 'project2') {
-            modalImage.src = 'assets/images/csv_manager_app.png';
-            modalDescription.innerText = 'Friendly app to convert ACCESS databases to CSV.';
-            projectLink.href = 'https://github.com/n-pizzetta/csv-manager';
+            modalImage.src = 'assets/images/airport_traffic.png';
+            modalDescription.innerText = '<h3>Airport Traffic Time Series Analysis</h3>This project analyzes airport traffic through time series modeling, focusing on data preprocessing and visualization. Using SARIMA and SARIMAX models, the study aims to predict future traffic patterns, leveraging optimized hyperparameters for accuracy. Key sections include data handling, model selection, and parameter tuning, with R scripts supporting the process.';
+            projectLink.href = 'https://n-pizzetta.github.io/Applied/airport-traffic-last-version.html';
         } else if (projectId === 'project3') {
-            modalImage.src = 'assets/images/csv_manager_app.png';
-            modalDescription.innerText = 'Friendly app to convert ACCESS databases to CSV.';
-            projectLink.href = 'https://github.com/n-pizzetta/csv-manager';
-        } else if (projectId === 'project4') {
-            modalImage.src = 'assets/images/csv_manager_app.png';
-            modalDescription.innerText = 'Friendly app to convert ACCESS databases to CSV.';
-            projectLink.href = 'https://github.com/n-pizzetta/csv-manager';
-        } else if (projectId === 'project5') {
-            modalImage.src = 'assets/images/csv_manager_app.png';
-            modalDescription.innerText = 'Friendly app to convert ACCESS databases to CSV.';
-            projectLink.href = 'https://github.com/n-pizzetta/csv-manager';
+            modalImage.src = 'assets/images/chicago_crime.gif';
+            modalDescription.innerText = '<h3>Chicago Crime Analysis</h3>A quick Hackaton of 2 hours and a half in binome to merge three different datasets and analyze them. Our datasets contains crime cases of 2019, 2020 and 2021 in Chicago.';
+            projectLink.href = 'https://n-pizzetta.github.io/r-project/chicago-crimes-weber-pizzetta.html';
         }
 
         // Display the modal
