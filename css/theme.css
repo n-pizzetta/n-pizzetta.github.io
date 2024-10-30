@@ -176,11 +176,12 @@ div.row.links {
     transform-style: preserve-3d;
     transform-origin: center center;
     animation: spin 8s linear infinite;
+    transition: transform 1s ease;
 }
 
 #cv:hover {
-    animation-play-state: paused; /* Pause animation on hover */
-    animation-duration: 1s; /* Quickly finish the current spin */
+    animation: none; /* Stop the animation */
+    transform: rotateY(0deg); /* Reset to 0 degrees smoothly */
 }
 
 @keyframes spin {
@@ -264,7 +265,7 @@ div.row.links {
 /* Scrollable Container for Projects */
 .scroll-container {
     display: flex;
-    gap: 2rem;
+    gap: 3rem;
     overflow-x: auto; /* Enables horizontal scrolling */
     padding: 1rem;
     scrollbar-width: thin; /* Thin scrollbar for Firefox */
@@ -308,7 +309,7 @@ div.row.links {
 .modal-content {
     position: relative;
     color: #ffffff;
-    background: rgba(0, 0, 0, 0.123);
+    background: rgba(0, 0, 0, 0.1);
     padding: 20px;
     border-radius: 10px;
     max-width: 35%;
@@ -316,6 +317,31 @@ div.row.links {
     overflow: auto;
     text-align: center;
     animation: zoomIn 0.3s ease; /* Zoom animation */
+    transition: background 0.3s ease;
+}
+
+.modal-content:hover::after {
+    content: "View it"; /* Display the message */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* Black overlay with slight transparency */
+    color: #ffffff; /* White text color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem; /* Adjust font size as needed */
+    border-radius: 10px; /* Match the modal content border-radius */
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
+
+.modal-content::after {
+    /* Set initial state for the overlay */
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 @keyframes zoomIn {
@@ -323,11 +349,13 @@ div.row.links {
     to { transform: scale(1); opacity: 0; }
 }
 
+@keyframes backgrou
+
 /* Blur Effect for Background */
 .blur-background {
     -webkit-backdrop-filter: blur(7px);
     filter: blur(7px); /* Apply blur only when this class is added */
-    background-color: none;
+    background-color:rgba(0, 0, 0, 0.472);
 }
 
 .external-link {
@@ -353,9 +381,8 @@ div.row.links {
     height: 495px;
     background-color: rgba(30, 29, 29, 0.525);
     padding: 0.5em;
-    border-radius: 2.5px;
+    border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.688);
-    text-align: center;
     font-size: 1rem;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -374,6 +401,7 @@ div.row.links {
     margin-top: 0.5rem;
     font-size: 0.9rem;
     color: #ffffff;
+    text-align: justify;
 }
 
 /* Hover Effect on Project Items */
