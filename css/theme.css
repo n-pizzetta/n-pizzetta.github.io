@@ -174,7 +174,6 @@ div.row.links {
     width: 300px;
     transform-style: preserve-3d;
     transform-origin: center center;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
     animation: spin 8s linear infinite;
 }
 
@@ -199,12 +198,12 @@ div.row.links {
 #cv-container::after {
     content: '';
     position: absolute;
-    bottom: -10px;
+    bottom: -80px;
     left: 50%;
     transform: translateX(-50%);
-    width: 60%;
+    width: 10%;
     height: 15px;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.621);
     filter: blur(10px);
     border-radius: 50%;
     z-index: -1;
