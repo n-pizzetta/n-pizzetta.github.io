@@ -376,7 +376,7 @@ div.row.links {
 }
 
 .project-item img {
-    width: 800px; /* Makes image fill the width of the card */
+    width: 300px; /* Makes image fill the width of the card */
     height: auto; /* Keeps the aspect ratio of the image */
     object-fit: cover;
     border-radius: 6px;
