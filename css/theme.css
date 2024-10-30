@@ -178,6 +178,11 @@ div.row.links {
     animation: spin 8s linear infinite;
 }
 
+#cv:hover {
+    animation-play-state: paused; /* Pause animation on hover */
+    animation-duration: 1s; /* Quickly finish the current spin */
+}
+
 @keyframes spin {
     from {
         transform: rotateY(0deg);
@@ -294,7 +299,7 @@ div.row.links {
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Dark overlay */
+    background: none; /* Dark overlay */
     align-items: center;
     justify-content: center;
 }
@@ -306,8 +311,8 @@ div.row.links {
     background: rgba(0, 0, 0, 0.123);
     padding: 20px;
     border-radius: 10px;
-    max-width: 40%;
-    height: 920px;
+    max-width: 35%;
+    height: auto;
     overflow: auto;
     text-align: center;
     animation: zoomIn 0.3s ease; /* Zoom animation */
@@ -318,29 +323,10 @@ div.row.links {
     to { transform: scale(1); opacity: 0; }
 }
 
-/* Modal Close Button */
-.close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 30px;
-    font-weight: bold;
-    color: #fff;
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    padding: 5px 10px;
-    transition: 0.2s;
-}
-
-.close:hover {
-    color: #ff0000; /* Highlight close button on hover */
-}
-
 /* Blur Effect for Background */
 .blur-background {
-    -webkit-backdrop-filter: blur(15px);
-    filter: blur(15px); /* Apply blur only when this class is added */
+    -webkit-backdrop-filter: blur(7px);
+    filter: blur(7px); /* Apply blur only when this class is added */
     background-color: none;
 }
 
@@ -348,7 +334,7 @@ div.row.links {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: none; /* Example color (LinkedIn blue) */
+    background-color: none;
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -363,10 +349,11 @@ div.row.links {
 
 
 .project-item {
-    min-width: 150px; /* Minimum width for each project item */
-    background-color: none;
+    width: 350px;
+    height: 495px;
+    background-color: rgba(30, 29, 29, 0.525);
     padding: 0.5em;
-    border-radius: 1px;
+    border-radius: 2.5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.688);
     text-align: center;
     font-size: 1rem;
