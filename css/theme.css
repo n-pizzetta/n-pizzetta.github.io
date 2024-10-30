@@ -303,10 +303,10 @@ div.row.links {
 .modal-content {
     position: relative;
     color: #ffffff;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.123);
     padding: 20px;
     border-radius: 10px;
-    max-width: 25%;
+    max-width: 40%;
     max-height: auto;
     overflow: auto;
     text-align: center;
