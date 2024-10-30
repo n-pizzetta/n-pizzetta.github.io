@@ -313,7 +313,7 @@ div.row.links {
 
 @keyframes zoomIn {
     from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    to { transform: scale(1); opacity: 0; }
 }
 
 /* Modal Close Button */
@@ -337,7 +337,9 @@ div.row.links {
 
 /* Blur Effect for Background */
 .blur-background {
-    filter: blur(8px); /* Apply blur only when this class is added */
+    -webkit-backdrop-filter: blur(15px);
+    filter: blur(15px); /* Apply blur only when this class is added */
+    background-color: rgba(182, 182, 182, 0.2);
 }
 
 .external-link {
