@@ -84,28 +84,6 @@ permalink: /
     </div>
 </div>
 
-<!-- JavaScript Code -->
-<script>
-    // Select the avatar element
-    const avatarContainer = document.querySelector('.avatar-container');
-    const avatar = document.getElementById('avatar');
-
-    // Function to handle mouse movement
-    document.addEventListener('mousemove', (event) => {
-        // Get the center position of the avatar
-        const avatarRect = avatarContainer.getBoundingClientRect();
-        const avatarCenterX = avatarRect.left + avatarRect.width / 2;
-        const avatarCenterY = avatarRect.top + avatarRect.height / 2;
-
-        // Calculate the offset between mouse position and avatar center
-        const offsetX = (event.clientX - avatarCenterX) / 30; // Adjust divisor for sensitivity
-        const offsetY = (event.clientY - avatarCenterY) / 30;
-
-        // Apply a subtle rotation and translation effect
-        avatar.style.transform = `rotateY(${-offsetX}deg)`;
-    });
-</script>
-
 
 <div class="row">
     <div class="col">
@@ -131,6 +109,12 @@ permalink: /
 {% endif %}
 
 </div>
+</div>
+
+<div id="container">
+    <div id="cv">
+      <img src="CV_nathan_pizzetta.png" alt="My CV" style="width: 30%; height: auto;">
+    </div>
 </div>
 
 <!-- Projects Section -->
