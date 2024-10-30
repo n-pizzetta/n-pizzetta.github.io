@@ -111,13 +111,10 @@ permalink: /
 </div>
 </div>
 
-<div class="row">
-    <div class="col">
-        <div id="cv-container">
-            <div id="cv">
-            <img src="assets/images/CV_nathan_pizzetta.png" alt="My CV" style="width: 100%; height: auto;">
-            </div>
-        </div>
+<!-- CV Section -->
+<div id="cv-container">
+    <div id="cv"  onclick="openModal('cv')">
+    <img src="assets/images/CV_nathan_pizzetta.png" alt="My CV" style="width: 100%; height: auto;">
     </div>
 </div>
 
@@ -166,13 +163,16 @@ permalink: /
         const projectLink = document.getElementById('project-link');
 
         // Update modal content based on the project
-        if (projectId === 'project1') {
+        if (projectId === 'cv') {
+            modalImage.src = 'assets/images/CV_nathan_pizzetta.png';
+            projectLink.href = 'assets/CV_nathan_pizzetta.pdf';
+        } else if (projectId === 'project1') {
             modalImage.src = 'assets/images/csv_manager_app.gif';
             modalDescription.innerHTML = '<h3>CSV Manager</h3>Friendly app to convert ACCESS databases to CSV.';
             projectLink.href = 'https://github.com/n-pizzetta/csv-manager';
         } else if (projectId === 'project2') {
             modalImage.src = 'assets/images/airport_traffic.png';
-            modalDescription.innerText = '<h3>Airport Traffic Time Series Analysis</h3>This project analyzes airport traffic through time series modeling, focusing on data preprocessing and visualization. Using SARIMA and SARIMAX models, the study aims to predict future traffic patterns, leveraging optimized hyperparameters for accuracy. Key sections include data handling, model selection, and parameter tuning, with R scripts supporting the process.';
+            modalDescription.innerText = '<h3>Airport Traffic Time Series Analysis</h3>This project analyzes airport traffic through time series modeling (SARIMAX), focusing on data preprocessing and visualization.';
             projectLink.href = 'https://n-pizzetta.github.io/Applied/airport-traffic-last-version.html';
         } else if (projectId === 'project3') {
             modalImage.src = 'assets/images/chicago_crime.gif';

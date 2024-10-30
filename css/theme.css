@@ -249,10 +249,10 @@ div.row.links {
     overflow: hidden;
 }
 
-#projects h2 {
+#projects h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: #2e2b37;
+    color: #ffffff;
 }
 
 /* Scrollable Container for Projects */
@@ -420,6 +420,7 @@ div.row.links {
 @media screen and (max-width: 480px) {
     .project-item {
         min-width: 350px;
+        max-width: 350px;
     }
 }
 
