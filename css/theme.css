@@ -167,6 +167,7 @@ div.row.links {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 30px;
 }
  
 
@@ -301,7 +302,8 @@ div.row.links {
 /* Modal Content */
 .modal-content {
     position: relative;
-    background: none;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.8);
     padding: 20px;
     border-radius: 10px;
     max-width: 25%;
