@@ -265,7 +265,7 @@ div.row.links {
 /* Scrollable Container for Projects */
 .scroll-container {
     display: flex;
-    gap: 3rem;
+    gap: 6rem;
     overflow-x: auto; /* Enables horizontal scrolling */
     padding: 1rem;
     scrollbar-width: thin; /* Thin scrollbar for Firefox */
