@@ -350,8 +350,6 @@ div.row.links {
     to { transform: scale(1); opacity: 0; }
 }
 
-@keyframes backgrou
-
 /* Blur Effect for Background */
 .blur-background {
     -webkit-backdrop-filter: blur(7px);
