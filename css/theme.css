@@ -313,39 +313,13 @@ div.row.links {
     background: rgba(0, 0, 0, 0.1);
     padding: 20px;
     border-radius: 10px;
-    max-width: 50%;
-    min-width: 300px;
+    max-width: 40%;
+    height: auto;
     overflow: auto;
     text-align: center;
     animation: zoomIn 0.3s ease; /* Zoom animation */
-    transition: background 0.3s ease;
 }
 
-.modal-content:hover::after {
-    content: "View it"; /* Display the message */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9); /* Black overlay with slight transparency */
-    color: #ffffff; /* White text color */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem; /* Adjust font size as needed */
-    border-radius: 10px; /* Match the modal content border-radius */
-    transition: opacity 0.3s ease;
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.modal-content::after {
-    /* Set initial state for the overlay */
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
 
 @keyframes zoomIn {
     from { transform: scale(0.8); opacity: 0; }
