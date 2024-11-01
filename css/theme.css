@@ -167,30 +167,18 @@ div.row.links {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 30px;
     margin-bottom: 30px;
 }
  
 
 #cv {
     width: 300px;
-    transform-style: preserve-3d;
-    transform-origin: center center;
-    animation: spin 8s linear infinite;
-    transition: transform 1s ease;
 }
 
 #cv:hover {
-    animation: none; /* Stop the animation */
-    transform: rotateY(0deg); /* Reset to 0 degrees smoothly */
-}
-
-@keyframes spin {
-    from {
-        transform: rotateY(0deg);
-    }
-    to {
-        transform: rotateY(360deg);
-    }
+    background: rgba(0,0,0,0.01); /* Stop the animation */
+    content: "View it"; 
 }
   
 @keyframes float {
@@ -318,6 +306,13 @@ div.row.links {
     overflow: auto;
     text-align: center;
     animation: zoomIn 0.3s ease; /* Zoom animation */
+}
+
+.modal-content p {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #ffffff;
+    text-align: justify;
 }
 
 

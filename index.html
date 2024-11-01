@@ -139,6 +139,11 @@ permalink: /
                     <img src="assets/images/chicago_crime.gif" alt="Project 3">
                     <p>A quick Hackaton of 2 hours and a half in binome to merge three different datasets and analyze them. Our datasets contains crime cases of 2019, 2020 and 2021 in Chicago.</p>
                 </div>
+                <div class="project-item" onclick="openModal('project4')"> 
+                    <h3>Volunteer in Nepal</h3>
+                    <img src="assets/images/ciel_de_ghunsa.png" alt="Project 4">
+                    <p>I spent two months in Ghunsa, a mountain village near Everest in Nepal, as a volunteer English teacher.</p>
+                </div>
             </div>  
         </div>
     </section>
@@ -148,10 +153,11 @@ permalink: /
 <!-- Modal Structure -->
 <div id="project-modal" class="modal" onclick="closeModalOutside(event)" style="display: none;">
     <div class="modal-content">
-        <h1 id="modal-title"></h1>
+        <h2 id="modal-title"></h2>
         <img id="modal-image" src="" alt="Project Zoom">
+        <div></div>
         <p id="modal-description"></p>
-        <a id="project-link" href="#" target="_blank" class="external-link">View it</a>
+        <a id="project-link" href="#" target="_blank" class="external-link"></a>
     </div>
 </div>
 
@@ -173,21 +179,32 @@ permalink: /
             modalImage.src = 'assets/images/CV_nathan_pizzetta.png';
             modalDescription.innerText = '';
             projectLink.href = 'assets/CV_nathan_pizzetta.pdf';
+            projectlink.innerText = 'Download';
+            projectLink.setAttribute('download', 'CV_nathan_pizzetta.pdf');
         } else if (projectId === 'project1') {
             modalTitle.innerText = 'CSV Manager';
             modalImage.src = 'assets/images/csv_manager_app.gif';
             modalDescription.innerText = 'Friendly app to convert ACCESS databases to CSV.';
             projectLink.href = 'https://github.com/n-pizzetta/csv-manager';
+            projectlink.innerText = 'View';
         } else if (projectId === 'project2') {
             modalTitle.innerText = 'Airport Traffic Time Series Analysis';
             modalImage.src = 'assets/images/airport_traffic.png';
             modalDescription.innerText = 'This project analyzes airport traffic through time series modeling (SARIMAX), focusing on data preprocessing and visualization.';
             projectLink.href = 'https://n-pizzetta.github.io/Applied/airport-traffic-last-version.html';
+            projectlink.innerText = 'View';
         } else if (projectId === 'project3') {
             modalTitle.innerText = 'Chicago Crime Analysis';
             modalImage.src = 'assets/images/chicago_crime.gif';
             modalDescription.innerText = 'A quick Hackaton of 2 hours and a half in binome to merge three different datasets and analyze them. Our datasets contains crime cases of 2019, 2020 and 2021 in Chicago.';
             projectLink.href = 'https://n-pizzetta.github.io/r-project/chicago-crimes-weber-pizzetta.html';
+            projectlink.innerText = 'View';
+        } else if (projectId === 'project4') {
+            modalTitle.innerText = 'Volunteer in Nepal';
+            modalImage.src = 'assets/images/ciel_de_ghunsa.png';
+            modalDescription.innerText = 'I spent two months in Ghunsa, a mountain village near Everest in Nepal, as a volunteer English teacher.';
+            projectLink.href = 'https://cieldeghunsa-asso.jimdofree.com';
+            projectlink.innerText = 'Check our website';
         }
 
         // Display the modal
