@@ -177,7 +177,7 @@ div.row.links {
 }
 
 #cv:hover {
-    background: rgba(0,0,0,0.01); /* Stop the animation */
+    background: rgba(0,0,0,0.01);
     content: "View it"; 
 }
   
