@@ -171,6 +171,13 @@ div.row.links {
     margin-bottom: 30px;
 }
 
+#cv {
+    width: 300px;
+    position: relative;
+    overflow: hidden; /* Ensures background color stays within #cv bounds */
+    display: inline-block;
+}
+
 #cv img {
     width: 100%;
     height: auto;
