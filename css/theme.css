@@ -170,14 +170,15 @@ div.row.links {
     margin-top: 90px;
     margin-bottom: 30px;
 }
- 
 
-#cv {
-    width: 300px;
+#cv img {
+    width: 100%;
+    height: auto;
+    transition: background 0.3s ease-in-out;
 }
 
 #cv:hover {
-    background: rgba(0, 0, 0, 0.696);
+    background: rgba(0, 0, 0, 0.7);
 }
 
 #cv:hover::after {
@@ -188,10 +189,10 @@ div.row.links {
     transform: translate(-50%, -50%);
     color: #fff; /* Set text color */
     font-size: 16px; /* Adjust font size as needed */
-    background: rgba(0, 0, 0, 0.2);
     padding: 5px 10px; /* Optional padding */
     border-radius: 5px; /* Optional rounded corners */
     pointer-events: none; /* Ensures the text doesn't interfere with hover */
+    z-index: 1;
 }
   
 @keyframes float {
