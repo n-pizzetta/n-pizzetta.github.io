@@ -173,33 +173,11 @@ div.row.links {
 
 #cv {
     width: 300px;
-    position: relative;
-    overflow: hidden; /* Ensures background color stays within #cv bounds */
-    display: inline-block;
-}
-
-#cv img {
-    width: 100%;
-    height: auto;
-    transition: background 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out; /* Smooth zoom transition */
 }
 
 #cv:hover {
-    background: rgba(0, 0, 0, 0.7);
-}
-
-#cv:hover::after {
-    content: "View it";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff; /* Set text color */
-    font-size: 16px; /* Adjust font size as needed */
-    padding: 5px 10px; /* Optional padding */
-    border-radius: 5px; /* Optional rounded corners */
-    pointer-events: none; /* Ensures the text doesn't interfere with hover */
-    z-index: 1;
+    transform: scale(1.1); /* Scales the element to 110% on hover */
 }
   
 @keyframes float {
