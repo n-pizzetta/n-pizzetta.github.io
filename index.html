@@ -172,6 +172,8 @@ permalink: /
         const modalDescription = document.getElementById('modal-description');
         const projectLink = document.getElementById('project-link');
 
+        projectLink.removeAttribute('download');
+
         // Update modal content based on the project
         if (projectId === 'cv') {
             modalTitle.innerText = 'My CV';
