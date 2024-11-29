@@ -124,6 +124,11 @@ permalink: /
         <h2 class="portfolio-header">MY PORTFOLIO</h2>
         <div class="scroll-container">
             <div class="project-container">
+                <div class="project-item" onclick="openModal('project5')"> 
+                    <h3>Churn prediction with customer clustering</h3>
+                    <img src="assets/images/churn-prediction.jpg" alt="Project 5">
+                    <p>Project on a fictive dataset of a telecom company. The goal is to predict the churn of the customers and to cluster them in order to target them with specific marketing strategies.</p>
+                </div>
                 <div class="project-item" onclick="openModal('project1')">
                     <h3>CSV Manager</h3>
                     <img src="assets/images/csv_manager_app.gif" alt="Project 1">
@@ -191,7 +196,7 @@ permalink: /
         } else if (projectId === 'project2') {
             modalTitle.innerText = 'Airport Traffic Time Series Analysis';
             modalImage.src = 'assets/images/airport_traffic.png';
-            modalDescription.innerText = 'This project analyzes airport traffic through time series modeling (SARIMAX), focusing on data preprocessing and visualization.';
+            modalDescription.innerText = 'This project analyzes airport traffic through time series modeling, focusing on data preprocessing and visualization. Using SARIMA and SARIMAX models, the study aims to predict future traffic patterns, leveraging optimized hyperparameters for accuracy. Key sections include data handling, model selection, and parameter tuning, with R scripts supporting the process.';
             projectLink.href = 'https://n-pizzetta.github.io/Applied/airport-traffic-last-version.html';
             projectLink.innerText = 'View';
         } else if (projectId === 'project3') {
@@ -205,6 +210,12 @@ permalink: /
             modalImage.src = 'assets/images/ciel_de_ghunsa.png';
             modalDescription.innerText = 'I spent two months in Ghunsa, a mountain village near Everest in Nepal, as a volunteer English teacher.';
             projectLink.href = 'https://cieldeghunsa-asso.jimdofree.com';
+            projectLink.innerText = 'Check our website';
+        } else if (projectId === 'project5') {
+            modalTitle.innerText = 'Churn Prediction with customer clustering';
+            modalImage.src = 'assets/images/churn-prediction.jpg';
+            modalDescription.innerText = 'Project on a fictive dataset of a telecom company. The goal is to predict the churn of the customers and to cluster them in order to target them with specific marketing strategies.';
+            projectLink.href = 'https://github.com/n-pizzetta/churn_prediction';
             projectLink.innerText = 'Check our website';
         }
 
