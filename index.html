@@ -124,6 +124,11 @@ permalink: /
         <h2 class="portfolio-header">MY PORTFOLIO</h2>
         <div class="scroll-container">
             <div class="project-container">
+                <div class="project-item" onclick="openModal('project6')"> 
+                    <h3>Image Generation with Diffusion Model</h3>
+                    <img src="assets/images/diffusion.png" alt="Project 6">
+                    <p>This project delves into the theoretical and practical aspects of diffusion models and their integration with U-Net architectures for image generation tasks.</p>
+                </div>
                 <div class="project-item" onclick="openModal('project5')"> 
                     <h3>Churn prediction with customer clustering</h3>
                     <img src="assets/images/churn-prediction.jpg" alt="Project 5">
@@ -216,7 +221,13 @@ permalink: /
             modalImage.src = 'assets/images/churn-prediction.jpg';
             modalDescription.innerText = 'Project on a fictive dataset of a telecom company. The goal is to predict the churn of the customers and to cluster them in order to target them with specific marketing strategies.';
             projectLink.href = 'https://github.com/n-pizzetta/churn_prediction';
-            projectLink.innerText = 'Check our website';
+            projectLink.innerText = 'View';
+        } else if (projectId === 'project6') {
+            modalTitle.innerText = 'Image Generation with Diffusion Model';
+            modalImage.src = 'assets/images/diffusion.png';
+            modalDescription.innerText = 'This project delves into the theoretical and practical aspects of diffusion models and their integration with U-Net architectures for image generation tasks.';
+            projectLink.href = 'https://github.com/n-pizzetta/diffusion_model';
+            projectLink.innerText = 'View';
         }
 
         // Display the modal
