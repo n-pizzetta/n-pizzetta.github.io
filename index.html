@@ -124,6 +124,11 @@ permalink: /
         <h2 class="portfolio-header">MY PORTFOLIO</h2>
         <div class="scroll-container">
             <div class="project-container">
+                <div class="project-item" onclick="openModal('project7')"> 
+                    <h3>Object Detection on Videos.</h3>
+                    <img src="assets/images/object_detection.gif" alt="Project 7">
+                    <p>A YOLO-based object detection project with a clean setup using pip, pre-commit hooks, linting, and testing.</p>
+                </div>
                 <div class="project-item" onclick="openModal('project6')"> 
                     <h3>Image Generation with Diffusion Model</h3>
                     <img src="assets/images/diffusion.png" alt="Project 6">
@@ -227,6 +232,12 @@ permalink: /
             modalImage.src = 'assets/images/diffusion.png';
             modalDescription.innerText = 'This project delves into the theoretical and practical aspects of diffusion models and their integration with U-Net architectures for image generation tasks.';
             projectLink.href = 'https://github.com/n-pizzetta/diffusion_model';
+            projectLink.innerText = 'View';
+        } else if (projectId === 'project7') {
+            modalTitle.innerText = 'Object Detection on Videos.';
+            modalImage.src = 'assets/images/object_detection.gif';
+            modalDescription.innerText = 'A YOLO-based object detection project with a clean setup using pip, pre-commit hooks, linting, and testing.';
+            projectLink.href = 'https://github.com/n-pizzetta/object_detection';
             projectLink.innerText = 'View';
         }
 
