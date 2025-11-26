@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    
+    <script async defer data-domain="n-pizzetta.github.io" src="https://plausible.io/js/plausible.outbound-links.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Nathan Pizzetta - V2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicons/np.png">
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicons/np.png">
+    <link rel="shortcut icon" href="/assets/images/favicons/np.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <!-- Custom V2 CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/v2.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="fullscreen-background drawer-active">
+    
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="/en/" class="lang-link " onclick="saveCurrentTab(event, '/en/')">EN</a>
+        <span class="lang-separator">|</span>
+        <a href="/fr/" class="lang-link active" onclick="saveCurrentTab(event, '/fr/')">FR</a>
+    </div>
+    
+    <!-- TOGGLE BUTTON (Outside glass-pane for proper fixed positioning) -->
+    <button id="drawer-toggle" class="drawer-toggle-btn" onclick="toggleDrawer()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- DRAWER (Sidebar - Outside glass-pane for proper fixed positioning) -->
+    <div id="sidebar-drawer" class="sidebar-drawer open">
+        <button class="close-drawer-btn" onclick="toggleDrawer()"><i class="fas fa-bars"></i></button>
+        
+        <div class="drawer-content d-flex flex-column justify-content-center align-items-center text-center h-100">
+            <div class="avatar-container mb-4">
+                <img id="avatar" src="/assets/images/pdp.jpg" alt="Nathan Pizzetta">
+            </div>
+            <h1 class="fw-bold">Nathan Pizzetta</h1>
+            <h3 class="fw-light mb-4">Data Scientist et Data Engineer</h3>
+            
+            <!-- Social Links -->
+            <div class="row links mb-4">
+            
+                <a href="https://linkedin.com/in/n-pizzetta/" class="social-link linkedin-icon" target="_blank" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            
+                <a href="https://github.com/n-pizzetta" class="social-link github-icon" target="_blank" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+            
+                <a href="mailto:nathan.pizzetta@gmail.com" class="social-link email-icon" target="_blank" aria-label="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            
+            </div>
+            
+            <!-- Quote -->
+            <div class="quote-container px-4 mb-4">
+                <blockquote class="quote-text">
+                    "On ne comprend vraiment quelque chose que lorsqu'on l'apprend de plusieurs façons."
+                </blockquote>
+                <cite class="quote-author">— Marvin Minsky</cite>
+            </div>
+            
+            <!-- CV Button -->
+            <div id="cv-section">
+                <a href="/assets/CV_nathan_pizzetta.pdf" target="_blank" class="cv-button">
+                    <i class="fas fa-file-download me-2"></i> Télécharger mon CV
+                </a>
+            </div>
+
+            <!-- Footer inside drawer -->
+            <div class="mt-auto pt-4 small text-white-50">
+                Réalisé par Nathan Pizzetta
+            </div>
+        </div>
+    </div>
+    
+    <!-- OVERLAY (Click to close - Outside glass-pane) -->
+    <div id="drawer-overlay" class="drawer-overlay" onclick="toggleDrawer()"></div>
+
+    <div class="glass-pane">
+        <!-- MAIN CONTENT -->
+        <div class="container-fluid fuse-core-content pt-5">
+            <!-- Add padding top to avoid content being hidden by toggle button on mobile -->
+            <div class="container">
+                
+                <!-- TABS NAVIGATION -->
+                <div class="tabs-container">
+                    <button class="tab-btn active" onclick="switchTab('portfolio')">Mon Portfolio</button>
+                    <button class="tab-btn" onclick="switchTab('studies')">Mes Études</button>
+                    <button class="tab-btn" onclick="switchTab('experiences')">Mes Expériences</button>
+                </div>
+                
+                <!-- PORTFOLIO TAB -->
+                <div id="portfolio-tab" class="tab-content active">
+                    <section id="projects">
+                        <div class="project-grid">
+                        <!-- Project 7 -->
+                        <a href="https://github.com/n-pizzetta/object_detection" target="_blank" class="project-card-link">
+                            <article class="project-card">
+                                <div class="project-image-container" data-view-project="VOIR LE PROJET">
+                                    <img src="/assets/images/object_detection.gif" alt="Détection d'objets sur vidéos">
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">Détection d'objets sur vidéos</h3>
+                                    <p class="project-description">Projet de détection d'objets basé sur YOLO avec une configuration propre utilisant pip, pre-commit hooks, linting et tests.</p>
+                                    <div class="project-tags">
+                                        <span class="tag">YOLO</span>
+                                        <span class="tag">Python</span>
+                                        <span class="tag">Git/GitHub</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+
+                        <!-- Project 5 -->
+                        <a href="https://github.com/n-pizzetta/diffusion_model" target="_blank" class="project-card-link">
+                            <article class="project-card">
+                                <div class="project-image-container diffusion-img" data-view-project="VOIR LE PROJET">
+                                    <img src="/assets/images/diffusion.png" alt="Génération d'images">
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">Génération d'images</h3>
+                                    <p class="project-description">Exploration approfondie des modèles de diffusion et leur intégration avec les architectures U-Net pour la génération d'images.</p>
+                                    <div class="project-tags">
+                                        <span class="tag">Deep Learning</span>
+                                        <span class="tag">U-Net</span>
+                                        <span class="tag">GenAI</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+
+                        <!-- Project 6 -->
+                        <a href="https://github.com/n-pizzetta/churn_prediction" target="_blank" class="project-card-link">
+                            <article class="project-card">
+                                <div class="project-image-container" data-view-project="VOIR LE PROJET">
+                                    <img src="/assets/images/churn-prediction.jpg" alt="Prédiction du Churn">
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">Prédiction du Churn</h3>
+                                    <p class="project-description">Prédiction du churn client et clustering pour des stratégies marketing ciblées sur un dataset télécoms.</p>
+                                    <div class="project-tags">
+                                        <span class="tag">Machine Learning</span>
+                                        <span class="tag">Clustering</span>
+                                        <span class="tag">Python</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+
+                        <!-- Project 3 -->
+                        <a href="https://github.com/n-pizzetta/csv-manager" target="_blank" class="project-card-link">
+                            <article class="project-card">
+                                <div class="project-image-container" data-view-project="VOIR LE PROJET">
+                                    <img src="/assets/images/csv_manager_app.gif" alt="Gestionnaire CSV">
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">Gestionnaire CSV</h3>
+                                    <p class="project-description">Application pour lire et convertir efficacement des bases de données ACCESS au format CSV.</p>
+                                    <div class="project-tags">
+                                        <span class="tag">Python</span>
+                                        <span class="tag">Tkinter</span>
+                                        <span class="tag">Streamlit</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+
+                        <!-- Project 1 -->
+                        <a href="https://n-pizzetta.github.io/Applied/airport-traffic-last-version.html" target="_blank" class="project-card-link">
+                            <article class="project-card">
+                                <div class="project-image-container" data-view-project="VOIR LE PROJET">
+                                    <img src="/assets/images/airport_traffic.png" alt="Analyse du trafic aérien">
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">Analyse du trafic aérien</h3>
+                                    <p class="project-description">Modélisation de séries temporelles avec SARIMA/SARIMAX pour prédire les tendances de trafic futures.</p>
+                                    <div class="project-tags">
+                                        <span class="tag">Séries temporelles</span>
+                                        <span class="tag">SARIMA</span>
+                                        <span class="tag">R markdown</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+
+                        <!-- Project 2 -->
+                        <a href="https://n-pizzetta.github.io/r-project/chicago-crimes-weber-pizzetta.html" target="_blank" class="project-card-link">
+                            <article class="project-card">
+                                <div class="project-image-container" data-view-project="VOIR LE PROJET">
+                                    <img src="/assets/images/chicago_crime.gif" alt="Analyse de la criminalité à Chicago">
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">Analyse de la criminalité à Chicago</h3>
+                                    <p class="project-description">Projet hackathon : Fusion et analyse de 3 années de données criminelles de Chicago.</p>
+                                    <div class="project-tags">
+                                        <span class="tag">Analyse de données</span>
+                                        <span class="tag">Visualisation</span>
+                                        <span class="tag">R markdown</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+                    </div>
+                </section>
+                </div>
+                
+                <!-- STUDIES TAB -->
+                <div id="studies-tab" class="tab-content">
+                    <p class="section-subtitle">Parcours Académique</p>
+                    
+                    <div class="timeline">
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <span class="timeline-date">2023 - 2025</span>
+                                <h3 class="timeline-title">Master en Data Science pour les Sciences Sociales</h3>
+                                <p class="timeline-institution">Toulouse School of Economics (TSE)</p>
+                                <p class="timeline-description">Spécialisé en méthodes statistiques avancées, modélisation économétrique et applications du machine learning. Focus sur l'analyse prédictive, l'analyse de séries temporelles et l'inférence causale.</p>
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <span class="timeline-date">2022 - 2023</span>
+                                <h3 class="timeline-title">Année de césure</h3>
+                                <p class="timeline-institution">Ghunsa, Népal / Paris, France</p>
+                                <p class="timeline-description">Premier semestre en tant que professeur d'anglais bénévole dans un village de montagne isolé au Népal, suivi d'un stage de 6 mois à la Délégation Générale du Québec à Paris.</p>
+                                
+                                <div class="experience-links">
+                                    
+                                    <button class="experience-link-btn" onclick="navigateToExperience('exp-nepal')">
+                                        Semestre 1 : Bénévolat au Népal
+                                    </button>
+                                    
+                                    <button class="experience-link-btn" onclick="navigateToExperience('exp-dgqp')">
+                                        Semestre 2 : Stage à la DGQP
+                                    </button>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <span class="timeline-date">2019 - 2022</span>
+                                <h3 class="timeline-title">Double Licence en Mathématiques et Économie</h3>
+                                <p class="timeline-institution">Toulouse School of Economics (TSE)</p>
+                                <p class="timeline-description">Solides fondations en microéconomie, macroéconomie et méthodes quantitatives. Introduction à l'analyse statistique et à la programmation avec R et Python.</p>
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <span class="timeline-date">2017 - 2019</span>
+                                <h3 class="timeline-title">Bac Scientifique avec spécialité Mathématiques</h3>
+                                <p class="timeline-institution">Lycée Lapérouse, Albi</p>
+                                <p class="timeline-description"></p>
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <span class="timeline-date">2016 - 2017</span>
+                                <h3 class="timeline-title">Année d'échange</h3>
+                                <p class="timeline-institution">Rotary Club, Puebla (Mexique)</p>
+                                <p class="timeline-description">J'ai passé une année d'échange dans la ville de Puebla au Mexique où j'ai suivi le cursus scolaire mexicain au sein de UPAEP et j'ai vécu au sein de trois familles d'accueil différentes.</p>
+                                
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- EXPERIENCES TAB -->
+                <div id="experiences-tab" class="tab-content">
+                    <p class="section-subtitle">Parcours Professionnel</p>
+                    
+                    <div class="timeline">
+                        
+                        <div class="timeline-item" >
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                
+                                
+                                <span class="timeline-date">Oct 2025 - Présent</span>
+                                <h3 class="timeline-title">
+                                    Consultant IA & Data Scientist
+                                </h3>
+                                <p class="timeline-institution">CDI, AVISIA</p>
+                                <p class="timeline-description">Développement d'un outil d'automatisation de tâches basé sur l'IA pour une grande enseigne de bricolage et décoration. Conception et mise en œuvre d'une architecture full-stack sur Google Cloud Platform (GCP) pour applications web et mobile, offrant des solutions scalables pour optimiser les workflows opérationnels.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item" >
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                
+                                
+                                <span class="timeline-date">Avr-Oct 2025</span>
+                                <h3 class="timeline-title">
+                                    Stagiaire Consultant Data Scientist
+                                </h3>
+                                <p class="timeline-institution">Stage, AVISIA</p>
+                                <p class="timeline-description">Développement d'un modèle prédictif pour évaluer le potentiel sur 3 ans des clients présents dans le portefeuille d'une multinationale en assurance. Test de mise en oeuvre d'un Agent MCP en utilisant n8n pour l'orchestration des requêtes et des traitements. Travail sur un plugin Python pour Dataiku permettant la migration de code SAS vers SQL et Python.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item" >
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                
+                                
+                                <span class="timeline-date">Août 2024 - Fév 2025</span>
+                                <h3 class="timeline-title">
+                                    Alternant Data Scientist
+                                </h3>
+                                <p class="timeline-institution">Alternance, Écologie Logistique</p>
+                                <p class="timeline-description">Développement de modèles de computer vision pour la détection de véhicules sur vidéo et création d'un site web personnel pour développer mes compétences en programmation. Formation intensive sur l'utilisation de Git et GitHub. Organisation et préparation d'un hackathon data science pour étudiants portant sur l'analyse de la pollution à Saint-Cyr et l'analyse du trafic suite à la fermeture d'une artère principale pour travaux.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item featured-experience" >
+                            <div class="timeline-marker featured-marker"></div>
+                            <div class="timeline-content featured-content">
+                                
+                                <div class="featured-badge-container">
+                                    <span class="featured-badge">
+                                        <i class="fas fa-trophy"></i> Finaliste
+                                    </span>
+                                </div>
+                                
+                                
+                                <span class="timeline-date">Juin-Sept 2024</span>
+                                <h3 class="timeline-title">
+                                    Finaliste du Hackathon GOOGLE & Think Young
+                                </h3>
+                                <p class="timeline-institution">Hackathon, TSE Junior Entreprise</p>
+                                <p class="timeline-description">Développement d'une application NLP appelée "Verichat" pour vérifier la véracité des informations et fournir des insights sur les membres du Parlement Européen. Obtenu une partenariat avec AFP (Agence France Presse) pour accéder à leurs APIs. Présentation de notre solution aux bureaux de Google à Paris.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item" >
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                
+                                
+                                <span class="timeline-date">Mai-Août 2024</span>
+                                <h3 class="timeline-title">
+                                    Stagiaire Data Scientist
+                                </h3>
+                                <p class="timeline-institution">Stage, Écologie Logistique</p>
+                                <p class="timeline-description">Développement de scripts de web scraping pour la récupération automatisée de données et création de modèles économétriques pour suivre et analyser les données de pollution. Déploiement d'une application de conversion de bases de données Access vers CSV, améliorant l'accessibilité des données et l'efficacité du workflow.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item" >
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                
+                                
+                                <div class="recommendation-badge-container">
+                                    <a href="https://www.linkedin.com/in/n-pizzetta/details/recommendations/" target="_blank" class="recommendation-badge">
+                                        <i class="fab fa-linkedin"></i> Recommandation
+                                    </a>
+                                </div>
+                                
+                                <span class="timeline-date">Avr-Juin 2024</span>
+                                <h3 class="timeline-title">
+                                    Consultant Data Scientist
+                                </h3>
+                                <p class="timeline-institution">Mission, TSE Junior Entreprise</p>
+                                <p class="timeline-description">Développement et mise en place d'un modèle prédictif pour ADDEV Materials, une entreprise aérospatiale. Fourniture d'insights actionnables et de recommandations basées sur les données.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item" id="exp-dgqp">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                
+                                
+                                <span class="timeline-date">Jan-Juin 2023</span>
+                                <h3 class="timeline-title">
+                                    Stage Assistant de Projets Économiques
+                                </h3>
+                                <p class="timeline-institution">Stage, Délégation Générale du Québec à Paris (DGQP)</p>
+                                <p class="timeline-description">Assistant projet sur différents événements et dossiers clients. Événements : Salon International de l'Aéronautique et de l'Espace, VivaTech, Santexpo, MIPIM. Prospection et mise en relation entre les entreprises québécoises et les entreprises françaises. Organisation et gestion d'un emploi du temps très dense en rencontres. Gestion de la logistique lors de l'événement et du bon déroulement des entretiens. Segmentation de marché, recherche active de contacts clés.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item" id="exp-nepal">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                
+                                
+                                <span class="timeline-date">Oct-Dec 2022</span>
+                                <h3 class="timeline-title">
+                                    Professeur d'Anglais Bénévole
+                                </h3>
+                                <p class="timeline-institution">Ghunsa, Népal</p>
+                                <p class="timeline-description">Enseignement de l'anglais à des enfants dans un village de montagne isolé près de l'Everest. Développement de matériel pédagogique et organisation d'activités éducatives.</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function toggleDrawer() {
+            document.getElementById('sidebar-drawer').classList.toggle('open');
+            document.getElementById('drawer-overlay').classList.toggle('active');
+            document.body.classList.toggle('drawer-active');
+        }
+        
+        // Save current tab when switching language
+        function saveCurrentTab(event, url) {
+            event.preventDefault();
+            
+            // Get the currently active tab
+            const activeTab = document.querySelector('.tab-content.active');
+            if (activeTab) {
+                const tabName = activeTab.id.replace('-tab', '');
+                // Save to sessionStorage (persists during navigation)
+                sessionStorage.setItem('activeTab', tabName);
+            }
+            
+            // Navigate to the new language page
+            window.location.href = url;
+        }
+        
+        // Restore the active tab on page load
+        function restoreActiveTab() {
+            const savedTab = sessionStorage.getItem('activeTab');
+            
+            if (savedTab && savedTab !== 'portfolio') {
+                // Hide all tabs
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Remove active class from all buttons
+                const tabButtons = document.querySelectorAll('.tab-btn');
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Show the saved tab
+                const targetTab = document.getElementById(savedTab + '-tab');
+                if (targetTab) {
+                    targetTab.classList.add('active');
+                    
+                    // Activate the corresponding button
+                    const buttons = document.querySelectorAll('.tab-btn');
+                    buttons.forEach(btn => {
+                        if (btn.textContent.toLowerCase().includes(savedTab) || 
+                            btn.onclick.toString().includes(savedTab)) {
+                            btn.classList.add('active');
+                        }
+                    });
+                }
+            }
+        }
+        
+        // Tab switching function
+        function switchTab(tabName) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            // Save the current tab
+            sessionStorage.setItem('activeTab', tabName);
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Navigate to experience from studies
+        function navigateToExperience(experienceId) {
+            // Switch to experiences tab
+            switchTab('experiences');
+            
+            // Wait for tab transition
+            setTimeout(() => {
+                const experienceElement = document.getElementById(experienceId);
+                if (experienceElement) {
+                    // Scroll to the experience
+                    experienceElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Add highlight effect
+                    experienceElement.classList.add('highlighted');
+                    
+                    // Remove highlight after animation
+                    setTimeout(() => {
+                        experienceElement.classList.remove('highlighted');
+                    }, 3000);
+                }
+            }, 500);
+        }
+        
+        // Restore tab on page load
+        window.addEventListener('DOMContentLoaded', restoreActiveTab);
+    </script>
+</body>
+</html>
+

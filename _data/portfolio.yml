@@ -1,0 +1,154 @@
+en:
+  nav:
+    home: "Home"
+    projects: "Projects"
+  hero:
+    subtitle: "Data Scientist and Data Engineer"
+    welcome: "Welcome to my portfolio!"
+    intro: "Please take a look at my projects and feel free to reach out to me if you have any questions or would like to collaborate."
+    quote: "\"You don't understand anything until you learn it more than one way.\""
+    quote_author: "Marvin Minsky"
+    download_cv: "Download my CV"
+  tabs:
+    portfolio: "My Portfolio"
+    studies: "My Studies"
+    experiences: "My Experiences"
+  portfolio:
+    title: "My Portfolio"
+    subtitle: "My Projects"
+    view_details: "View Details"
+    view_project: "VIEW PROJECT"
+  studies:
+    title: "My Studies"
+    subtitle: "Academic Background"
+  experiences:
+    title: "My Experiences"
+    subtitle: "Professional Journey"
+  footer:
+    built_by: "Built by Nathan Pizzetta"
+  
+  # Project 7
+  project7:
+    title: "Object Detection on Videos"
+    description: "A YOLO-based object detection project with a clean setup using pip, pre-commit hooks, linting, and testing."
+    tag1: "YOLO"
+    tag2: "Python"
+    tag3: "Git/GitHub"
+  
+  # Project 5
+  project5:
+    title: "Image Generation"
+    description: "Deep dive into diffusion models and their integration with U-Net architectures for image generation."
+    tag1: "Deep Learning"
+    tag2: "U-Net"
+    tag3: "GenAI"
+  
+  # Project 6
+  project6:
+    title: "Churn Prediction"
+    description: "Predicting customer churn and clustering for targeted marketing strategies on a telecom dataset."
+    tag1: "Machine Learning"
+    tag2: "Clustering"
+    tag3: "Python"
+  
+  # Project 3
+  project3:
+    title: "CSV Manager"
+    description: "User-friendly application to read and convert ACCESS databases to CSV format efficiently."
+    tag1: "Python"
+    tag2: "Tkinter"
+    tag3: "Streamlit"
+  
+  # Project 1
+  project1:
+    title: "Airport Traffic Analysis"
+    description: "Time series modeling using SARIMA/SARIMAX to predict future traffic patterns."
+    tag1: "Time Series"
+    tag2: "SARIMA"
+    tag3: "R markdown"
+  
+  # Project 2
+  project2:
+    title: "Chicago Crime Analysis"
+    description: "Hackathon project: Merging and analyzing 3 years of Chicago crime data."
+    tag1: "Data Analysis"
+    tag2: "Visualization"
+    tag3: "R markdown"
+
+fr:
+  nav:
+    home: "Accueil"
+    projects: "Projets"
+  hero:
+    subtitle: "Data Scientist et Data Engineer"
+    welcome: "Bienvenue sur mon portfolio !"
+    intro: "N'hésitez pas à consulter mes projets et à me contacter si vous avez des questions ou souhaitez collaborer."
+    quote: "\"On ne comprend vraiment quelque chose que lorsqu'on l'apprend de plusieurs façons.\""
+    quote_author: "Marvin Minsky"
+    download_cv: "Télécharger mon CV"
+  tabs:
+    portfolio: "Mon Portfolio"
+    studies: "Mes Études"
+    experiences: "Mes Expériences"
+  portfolio:
+    title: "Mon Portfolio"
+    subtitle: "Mes Projets"
+    view_details: "Voir les détails"
+    view_project: "VOIR LE PROJET"
+  studies:
+    title: "Mes Études"
+    subtitle: "Parcours Académique"
+  experiences:
+    title: "Mes Expériences"
+    subtitle: "Parcours Professionnel"
+  footer:
+    built_by: "Réalisé par Nathan Pizzetta"
+  
+  # Project 7
+  project7:
+    title: "Détection d'objets sur vidéos"
+    description: "Projet de détection d'objets basé sur YOLO avec une configuration propre utilisant pip, pre-commit hooks, linting et tests."
+    tag1: "YOLO"
+    tag2: "Python"
+    tag3: "Git/GitHub"
+  
+  # Project 5
+  project5:
+    title: "Génération d'images"
+    description: "Exploration approfondie des modèles de diffusion et leur intégration avec les architectures U-Net pour la génération d'images."
+    tag1: "Deep Learning"
+    tag2: "U-Net"
+    tag3: "GenAI"
+  
+  # Project 6
+  project6:
+    title: "Prédiction du Churn"
+    description: "Prédiction du churn client et clustering pour des stratégies marketing ciblées sur un dataset télécoms."
+    tag1: "Machine Learning"
+    tag2: "Clustering"
+    tag3: "Python"
+  
+  # Project 3
+  project3:
+    title: "Gestionnaire CSV"
+    description: "Application pour lire et convertir efficacement des bases de données ACCESS au format CSV."
+    tag1: "Python"
+    tag2: "Tkinter"
+    tag3: "Streamlit"
+  
+  # Project 1
+  project1:
+    title: "Analyse du trafic aérien"
+    description: "Modélisation de séries temporelles avec SARIMA/SARIMAX pour prédire les tendances de trafic futures."
+    tag1: "Séries temporelles"
+    tag2: "SARIMA"
+    tag3: "R markdown"
+  
+  # Project 2
+  project2:
+    title: "Analyse de la criminalité à Chicago"
+    description: "Projet hackathon : Fusion et analyse de 3 années de données criminelles de Chicago."
+    tag1: "Analyse de données"
+    tag2: "Visualisation"
+    tag3: "R markdown"
+

@@ -1,24 +1,12 @@
 {%- if site.ga and site.ga.account %}
-    <!-- Google Analytics -->
+    <!-- Google Analytics 4 (gtag.js) -->
     {% comment %} should be the first script in the HEAD section {%- endcomment -%}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga.account }}"></script>
     <script>
-        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-        ga('create', '{{ site.ga.account }}', 'auto');{% if site.ga.anonymizeip %}
-        ga('set', 'anonymizeIp', true);{% endif %}
-        ga('send', 'pageview');
-    </script>
-    <script async src='https://www.google-analytics.com/analytics.js'></script>
-    <script>
-        var trackOutboundLink = function(targetName, targetUrl) {
-            if (ga.loaded) {
-                ga('send', 'event', 'outbound', 'click', targetName, {
-                    'transport': 'beacon',
-                    'hitCallback': function(){ document.location = targetUrl; }
-                });
-            } else {
-                document.location = targetUrl;
-            }
-        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ site.ga.account }}'{% if site.ga.anonymizeip %}, { 'anonymize_ip': true }{% endif %});
     </script>
 {%- endif %}
 

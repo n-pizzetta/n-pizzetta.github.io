@@ -4,6 +4,10 @@ exclude: ['README.*', 'LICENSE.txt']
 sass:
     style: expanded
 
+# Default language
+lang: en
+languages: ['en', 'fr']
+
 
 # CAUTION
 # When modifying this file, take care to preserve the indentation. This is YAML ...
@@ -37,11 +41,10 @@ baseurl: ''
 # In order to comply with EU cookie law, enable 'cookieconsent' to show a little popup asking users to acknowledge the GA cookies.
 # Also, some places require you to anonymize the users' IPs, which can be enabled via 'anonymizeip' below. You normally want that.
 # https://support.google.com/analytics/answer/2763052
-#ga:
-#ga:
-#    account: 'UA-120960520-1'
-#    cookieconsent: true
-#    anonymizeip: true
+ga:
+    account: 'G-5S13RSPXSY'  # Google Analytics 4 (GA4) Measurement ID
+    cookieconsent: false  # Set to true if you want cookie consent popup
+    anonymizeip: true
 
 # Plausible.io Analytics (alternative to Google Analytics that does not need cookies -> no cookie consent required)
 # A config setting is required in plausible to enable tracking of the outbound links. Details described here:
@@ -76,11 +79,6 @@ links:
       show: true
       href: mailto:nathan.pizzetta@gmail.com
       icon: fas fa-envelope
-  - cv:
-      name: CV
-      show: true
-      href: assets/CV_nathan_pizzetta.pdf
-      icon: fas fa-file-pdf
 
 
 # Extra HTML which will be displayed below the links. Keep it short. Leave empty to disable.

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=/en/">
+    <script>
+        // Detect browser language and redirect
+        const lang = navigator.language || navigator.userLanguage;
+        const preferredLang = lang.startsWith('fr') ? 'fr' : 'en';
+        
+        // Check if user has a saved language preference
+        const savedLang = sessionStorage.getItem('preferredLang');
+        const targetLang = savedLang || preferredLang;
+        
+        window.location.href = `/${targetLang}/`;
+    </script>
+    <title>Redirecting...</title>
+</head>
+<body>
+    <p>Redirecting to <a href="/en/">/en/</a>...</p>
+</body>
+</html>
+

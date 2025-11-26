@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'en' }}">
+<head>
+    {% include analytics.html %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% if site.title %}{{ site.title }}{% else %}{{ site.name }}{% endif %} - V2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/assets/images/favicons/np.png">
+    <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/images/favicons/np.png">
+    <link rel="shortcut icon" href="{{ site.baseurl }}/assets/images/favicons/np.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <!-- Custom V2 CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/css/v2.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="fullscreen-background drawer-active">
+    
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="{{ site.baseurl }}/en/" class="lang-link {% if page.lang == 'en' %}active{% endif %}" onclick="saveCurrentTab(event, '{{ site.baseurl }}/en/')">EN</a>
+        <span class="lang-separator">|</span>
+        <a href="{{ site.baseurl }}/fr/" class="lang-link {% if page.lang == 'fr' %}active{% endif %}" onclick="saveCurrentTab(event, '{{ site.baseurl }}/fr/')">FR</a>
+    </div>
+    
+    <!-- TOGGLE BUTTON (Outside glass-pane for proper fixed positioning) -->
+    <button id="drawer-toggle" class="drawer-toggle-btn" onclick="toggleDrawer()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- DRAWER (Sidebar - Outside glass-pane for proper fixed positioning) -->
+    <div id="sidebar-drawer" class="sidebar-drawer open">
+        <button class="close-drawer-btn" onclick="toggleDrawer()"><i class="fas fa-bars"></i></button>
+        
+        <div class="drawer-content d-flex flex-column justify-content-center align-items-center text-center h-100">
+            <div class="avatar-container mb-4">
+                <img id="avatar" src="{{ site.baseurl }}/{{ site.avatar }}" alt="{{ site.name }}">
+            </div>
+            <h1 class="fw-bold">{{ site.name }}</h1>
+            <h3 class="fw-light mb-4">{{ "hero.subtitle" | t: page.lang }}</h3>
+            
+            <!-- Social Links -->
+            <div class="row links mb-4">
+            {% for hash in site.links %}{% for linkInfo in hash %}{% if linkInfo[1].show %}
+                <a href="{{ linkInfo[1].href }}" class="social-link {{ linkInfo[1].name | downcase }}-icon" target="_blank" aria-label="{{ linkInfo[1].name }}">
+                    <i class="{{ linkInfo[1].icon }}"></i>
+                </a>
+            {% endif %}{% endfor %}{% endfor %}
+            </div>
+            
+            <!-- Quote -->
+            <div class="quote-container px-4 mb-4">
+                <blockquote class="quote-text">
+                    {{ "hero.quote" | t: page.lang }}
+                </blockquote>
+                <cite class="quote-author">— {{ "hero.quote_author" | t: page.lang }}</cite>
+            </div>
+            
+            <!-- CV Button -->
+            <div id="cv-section">
+                <a href="{{ site.baseurl }}/assets/CV_nathan_pizzetta.pdf" target="_blank" class="cv-button">
+                    <i class="fas fa-file-download me-2"></i> {{ "hero.download_cv" | t: page.lang }}
+                </a>
+            </div>
+
+            <!-- Footer inside drawer -->
+            <div class="mt-auto pt-4 small text-white-50">
+                {{ "footer.built_by" | t: page.lang }}
+            </div>
+        </div>
+    </div>
+    
+    <!-- OVERLAY (Click to close - Outside glass-pane) -->
+    <div id="drawer-overlay" class="drawer-overlay" onclick="toggleDrawer()"></div>
+
+    <div class="glass-pane">
+        <!-- MAIN CONTENT -->
+        <div class="container-fluid fuse-core-content pt-5">
+            <!-- Add padding top to avoid content being hidden by toggle button on mobile -->
+            <div class="container">
+                
+                <!-- TABS NAVIGATION -->
+                <div class="tabs-container">
+                    <button class="tab-btn active" onclick="switchTab('portfolio')">{{ "tabs.portfolio" | t: page.lang }}</button>
+                    <button class="tab-btn" onclick="switchTab('studies')">{{ "tabs.studies" | t: page.lang }}</button>
+                    <button class="tab-btn" onclick="switchTab('experiences')">{{ "tabs.experiences" | t: page.lang }}</button>
+                </div>
+                
+                <!-- PORTFOLIO TAB -->
+                <div id="portfolio-tab" class="tab-content active">
+                    <section id="projects">
+                        <div class="project-grid">
+                        <!-- Project 7 -->
+                        <a href="https://github.com/n-pizzetta/object_detection" target="_blank" class="project-card-link">
+                            <article class="project-card">
+                                <div class="project-image-container" data-view-project="{{ 'portfolio.view_project' | t: page.lang }}">
+                                    <img src="{{ site.baseurl }}/assets/images/object_detection.gif" alt="{{ 'project7.title' | t: page.lang }}">
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">{{ "project7.title" | t: page.lang }}</h3>
+                                    <p class="project-description">{{ "project7.description" | t: page.lang }}</p>
+                                    <div class="project-tags">
+                                        <span class="tag">{{ "project7.tag1" | t: page.lang }}</span>
+                                        <span class="tag">{{ "project7.tag2" | t: page.lang }}</span>
+                                        <span class="tag">{{ "project7.tag3" | t: page.lang }}</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+
+                        <!-- Project 5 -->
+                        <a href="https://github.com/n-pizzetta/diffusion_model" target="_blank" class="project-card-link">
+                            <article class="project-card">
+                                <div class="project-image-container diffusion-img" data-view-project="{{ 'portfolio.view_project' | t: page.lang }}">
+                                    <img src="{{ site.baseurl }}/assets/images/diffusion.png" alt="{{ 'project5.title' | t: page.lang }}">
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">{{ "project5.title" | t: page.lang }}</h3>
+                                    <p class="project-description">{{ "project5.description" | t: page.lang }}</p>
+                                    <div class="project-tags">
+                                        <span class="tag">{{ "project5.tag1" | t: page.lang }}</span>
+                                        <span class="tag">{{ "project5.tag2" | t: page.lang }}</span>
+                                        <span class="tag">{{ "project5.tag3" | t: page.lang }}</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+
+                        <!-- Project 6 -->
+                        <a href="https://github.com/n-pizzetta/churn_prediction" target="_blank" class="project-card-link">
+                            <article class="project-card">
+                                <div class="project-image-container" data-view-project="{{ 'portfolio.view_project' | t: page.lang }}">
+                                    <img src="{{ site.baseurl }}/assets/images/churn-prediction.jpg" alt="{{ 'project6.title' | t: page.lang }}">
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">{{ "project6.title" | t: page.lang }}</h3>
+                                    <p class="project-description">{{ "project6.description" | t: page.lang }}</p>
+                                    <div class="project-tags">
+                                        <span class="tag">{{ "project6.tag1" | t: page.lang }}</span>
+                                        <span class="tag">{{ "project6.tag2" | t: page.lang }}</span>
+                                        <span class="tag">{{ "project6.tag3" | t: page.lang }}</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+
+                        <!-- Project 3 -->
+                        <a href="https://github.com/n-pizzetta/csv-manager" target="_blank" class="project-card-link">
+                            <article class="project-card">
+                                <div class="project-image-container" data-view-project="{{ 'portfolio.view_project' | t: page.lang }}">
+                                    <img src="{{ site.baseurl }}/assets/images/csv_manager_app.gif" alt="{{ 'project3.title' | t: page.lang }}">
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">{{ "project3.title" | t: page.lang }}</h3>
+                                    <p class="project-description">{{ "project3.description" | t: page.lang }}</p>
+                                    <div class="project-tags">
+                                        <span class="tag">{{ "project3.tag1" | t: page.lang }}</span>
+                                        <span class="tag">{{ "project3.tag2" | t: page.lang }}</span>
+                                        <span class="tag">{{ "project3.tag3" | t: page.lang }}</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+
+                        <!-- Project 1 -->
+                        <a href="https://n-pizzetta.github.io/Applied/airport-traffic-last-version.html" target="_blank" class="project-card-link">
+                            <article class="project-card">
+                                <div class="project-image-container" data-view-project="{{ 'portfolio.view_project' | t: page.lang }}">
+                                    <img src="{{ site.baseurl }}/assets/images/airport_traffic.png" alt="{{ 'project1.title' | t: page.lang }}">
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">{{ "project1.title" | t: page.lang }}</h3>
+                                    <p class="project-description">{{ "project1.description" | t: page.lang }}</p>
+                                    <div class="project-tags">
+                                        <span class="tag">{{ "project1.tag1" | t: page.lang }}</span>
+                                        <span class="tag">{{ "project1.tag2" | t: page.lang }}</span>
+                                        <span class="tag">{{ "project1.tag3" | t: page.lang }}</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+
+                        <!-- Project 2 -->
+                        <a href="https://n-pizzetta.github.io/r-project/chicago-crimes-weber-pizzetta.html" target="_blank" class="project-card-link">
+                            <article class="project-card">
+                                <div class="project-image-container" data-view-project="{{ 'portfolio.view_project' | t: page.lang }}">
+                                    <img src="{{ site.baseurl }}/assets/images/chicago_crime.gif" alt="{{ 'project2.title' | t: page.lang }}">
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">{{ "project2.title" | t: page.lang }}</h3>
+                                    <p class="project-description">{{ "project2.description" | t: page.lang }}</p>
+                                    <div class="project-tags">
+                                        <span class="tag">{{ "project2.tag1" | t: page.lang }}</span>
+                                        <span class="tag">{{ "project2.tag2" | t: page.lang }}</span>
+                                        <span class="tag">{{ "project2.tag3" | t: page.lang }}</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+                    </div>
+                </section>
+                </div>
+                
+                <!-- STUDIES TAB -->
+                <div id="studies-tab" class="tab-content">
+                    <p class="section-subtitle">{{ "studies.subtitle" | t: page.lang }}</p>
+                    
+                    <div class="timeline">
+                        {% for study in site.data.studies %}
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <span class="timeline-date">{{ study.date[page.lang] }}</span>
+                                <h3 class="timeline-title">{{ study.title[page.lang] }}</h3>
+                                <p class="timeline-institution">{{ study.institution[page.lang] }}</p>
+                                <p class="timeline-description">{{ study.description[page.lang] }}</p>
+                                {% if study.experiences %}
+                                <div class="experience-links">
+                                    {% for exp_link in study.experiences %}
+                                    <button class="experience-link-btn" onclick="navigateToExperience('{{ exp_link.id }}')">
+                                        {{ exp_link.label[page.lang] }}
+                                    </button>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- EXPERIENCES TAB -->
+                <div id="experiences-tab" class="tab-content">
+                    <p class="section-subtitle">{{ "experiences.subtitle" | t: page.lang }}</p>
+                    
+                    <div class="timeline">
+                        {% for experience in site.data.experiences %}
+                        <div class="timeline-item{% if experience.featured %} featured-experience{% endif %}" {% if experience.id %}id="{{ experience.id }}"{% endif %}>
+                            <div class="timeline-marker{% if experience.featured %} featured-marker{% endif %}"></div>
+                            <div class="timeline-content{% if experience.featured %} featured-content{% endif %}">
+                                {% if experience.badge %}
+                                <div class="featured-badge-container">
+                                    <span class="featured-badge">
+                                        <i class="{{ experience.badge.icon }}"></i> {{ experience.badge.label[page.lang] }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                                {% if experience.recommendation %}
+                                <div class="recommendation-badge-container">
+                                    <a href="{{ experience.recommendation.url }}" target="_blank" class="recommendation-badge">
+                                        <i class="fab fa-linkedin"></i> {{ experience.recommendation.label[page.lang] }}
+                                    </a>
+                                </div>
+                                {% endif %}
+                                <span class="timeline-date">{{ experience.date[page.lang] }}</span>
+                                <h3 class="timeline-title">
+                                    {{ experience.title[page.lang] }}
+                                </h3>
+                                <p class="timeline-institution">{{ experience.institution[page.lang] }}</p>
+                                <p class="timeline-description">{{ experience.description[page.lang] }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function toggleDrawer() {
+            document.getElementById('sidebar-drawer').classList.toggle('open');
+            document.getElementById('drawer-overlay').classList.toggle('active');
+            document.body.classList.toggle('drawer-active');
+        }
+        
+        // Save current tab when switching language
+        function saveCurrentTab(event, url) {
+            event.preventDefault();
+            
+            // Get the currently active tab
+            const activeTab = document.querySelector('.tab-content.active');
+            if (activeTab) {
+                const tabName = activeTab.id.replace('-tab', '');
+                // Save to sessionStorage (persists during navigation)
+                sessionStorage.setItem('activeTab', tabName);
+            }
+            
+            // Navigate to the new language page
+            window.location.href = url;
+        }
+        
+        // Restore the active tab on page load
+        function restoreActiveTab() {
+            const savedTab = sessionStorage.getItem('activeTab');
+            
+            if (savedTab && savedTab !== 'portfolio') {
+                // Hide all tabs
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Remove active class from all buttons
+                const tabButtons = document.querySelectorAll('.tab-btn');
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Show the saved tab
+                const targetTab = document.getElementById(savedTab + '-tab');
+                if (targetTab) {
+                    targetTab.classList.add('active');
+                    
+                    // Activate the corresponding button
+                    const buttons = document.querySelectorAll('.tab-btn');
+                    buttons.forEach(btn => {
+                        if (btn.textContent.toLowerCase().includes(savedTab) || 
+                            btn.onclick.toString().includes(savedTab)) {
+                            btn.classList.add('active');
+                        }
+                    });
+                }
+            }
+        }
+        
+        // Tab switching function
+        function switchTab(tabName) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            // Save the current tab
+            sessionStorage.setItem('activeTab', tabName);
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Navigate to experience from studies
+        function navigateToExperience(experienceId) {
+            // Switch to experiences tab
+            switchTab('experiences');
+            
+            // Wait for tab transition
+            setTimeout(() => {
+                const experienceElement = document.getElementById(experienceId);
+                if (experienceElement) {
+                    // Scroll to the experience
+                    experienceElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Add highlight effect
+                    experienceElement.classList.add('highlighted');
+                    
+                    // Remove highlight after animation
+                    setTimeout(() => {
+                        experienceElement.classList.remove('highlighted');
+                    }, 3000);
+                }
+            }, 500);
+        }
+        
+        // Restore tab on page load
+        window.addEventListener('DOMContentLoaded', restoreActiveTab);
+    </script>
+</body>
+</html>
+
