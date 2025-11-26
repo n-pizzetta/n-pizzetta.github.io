@@ -2,6 +2,14 @@
 <html lang="fr">
 <head>
     
+    <!-- Google Analytics 4 (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5S13RSPXSY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5S13RSPXSY', { 'anonymize_ip': true });
+    </script>
     <script async defer data-domain="n-pizzetta.github.io" src="https://plausible.io/js/plausible.outbound-links.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,47 +48,214 @@
     <div id="sidebar-drawer" class="sidebar-drawer open">
         <button class="close-drawer-btn" onclick="toggleDrawer()"><i class="fas fa-bars"></i></button>
         
-        <div class="drawer-content d-flex flex-column justify-content-center align-items-center text-center h-100">
-            <div class="avatar-container mb-4">
-                <img id="avatar" src="/assets/images/pdp.jpg" alt="Nathan Pizzetta">
+        <div class="drawer-content">
+            <div class="drawer-header-group">
+                <div class="avatar-container">
+                    <img id="avatar" src="/assets/images/pdp.jpg" alt="Nathan Pizzetta">
+                </div>
+                <h1 class="fw-bold">Nathan Pizzetta</h1>
+                <h3 class="fw-light">Data Scientist et Data Engineer</h3>
+                
+                <!-- Social Links -->
+                <div class="social-links-container">
+                
+                    <a href="https://linkedin.com/in/n-pizzetta/" class="social-link linkedin-icon" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                
+                    <a href="https://github.com/n-pizzetta" class="social-link github-icon" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                
+                    <a href="mailto:nathan.pizzetta@gmail.com" class="social-link email-icon" target="_blank" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                
+                    <!-- CV icon (appears when quiz is active) -->
+                    <a href="/assets/CV_nathan_pizzetta.pdf" target="_blank" class="cv-icon-small" aria-label="Download CV">
+                        <i class="fas fa-file-download"></i>
+                    </a>
+                </div>
+
+                <!-- CV Button -->
+                <div id="cv-section">
+                    <a href="/assets/CV_nathan_pizzetta.pdf" target="_blank" class="cv-button">
+                        <i class="fas fa-file-download me-2"></i> Télécharger mon CV
+                    </a>
+                </div>
             </div>
-            <h1 class="fw-bold">Nathan Pizzetta</h1>
-            <h3 class="fw-light mb-4">Data Scientist et Data Engineer</h3>
             
-            <!-- Social Links -->
-            <div class="row links mb-4">
-            
-                <a href="https://linkedin.com/in/n-pizzetta/" class="social-link linkedin-icon" target="_blank" aria-label="LinkedIn">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-            
-                <a href="https://github.com/n-pizzetta" class="social-link github-icon" target="_blank" aria-label="GitHub">
-                    <i class="fab fa-github"></i>
-                </a>
-            
-                <a href="mailto:nathan.pizzetta@gmail.com" class="social-link email-icon" target="_blank" aria-label="Email">
-                    <i class="fas fa-envelope"></i>
-                </a>
-            
+            <!-- Quiz: Reconstruct My Journey -->
+            <div class="quiz-wrapper">
+                <div class="quiz-container">
+                    <div class="quiz-play-screen" id="quiz-play-screen">
+                        <button class="quiz-play-btn" onclick="startQuiz()">
+                            <i class="fas fa-play"></i>
+                            <span>Jouer</span>
+                        </button>
+                    </div>
+                    <div id="quiz-game" class="quiz-game" style="display: none;">
+                        <div class="quiz-question-container">
+                            <p class="quiz-question-text" id="quiz-question"></p>
+                            <div class="quiz-options" id="quiz-options"></div>
+                            <div class="quiz-feedback" id="quiz-feedback"></div>
+                        </div>
+                        <div class="quiz-progress">
+                            <span id="quiz-progress-text"></span>
+                            <div class="quiz-progress-bar">
+                                <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+                            </div>
+                        </div>
+                        <div class="quiz-score" id="quiz-score"></div>
+                        <div class="quiz-final" id="quiz-final" style="display: none;">
+                            <p class="quiz-final-score" id="quiz-final-score"></p>
+                            <button class="quiz-restart-btn" onclick="restartQuiz()">Rejouer</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <!-- Quote -->
-            <div class="quote-container px-4 mb-4">
-                <blockquote class="quote-text">
-                    "On ne comprend vraiment quelque chose que lorsqu'on l'apprend de plusieurs façons."
-                </blockquote>
-                <cite class="quote-author">— Marvin Minsky</cite>
-            </div>
+            <!-- Quiz Data (hidden) -->
+            <script>
+                window.quizData = {
+                    lang: "fr",
+                    questions: [
+                        
+                        
+                        {
+                            question: "Quelle est la langue officielle du Mexique ?",
+                            options: [
+                                
+                                "Mexicain",
+                                
+                                "Portugais",
+                                
+                                "Espagnol"
+                                
+                            ],
+                            correct: 2,
+                            explanation: "L'Espagnol est la langue officielle du Mexique ! Je parle donc espagnol, anglais et français. Dios mio !"
+                        },
+                        
+                        {
+                            question: "Quel était le nom de l'outil NLP que nous avons développé pour le Hackathon Google ?",
+                            options: [
+                                
+                                "Verichat",
+                                
+                                "FactCheck",
+                                
+                                "TruthBot"
+                                
+                            ],
+                            correct: 0,
+                            explanation: "Verichat était conçu pour vérifier la véracité des informations sur les membres du Parlement Européen !"
+                        },
+                        
+                        {
+                            question: "Quel partenaire avons-nous obtenu pour le projet du Hackathon Google ?",
+                            options: [
+                                
+                                "Reuters",
+                                
+                                "The Guardian",
+                                
+                                "AFP (Agence France Presse)"
+                                
+                            ],
+                            correct: 2,
+                            explanation: "Nous avons obtenu un partenariat avec l'AFP pour accéder à leurs APIs !"
+                        },
+                        
+                        {
+                            question: "Où ai-je fait mon bénévolat pendant ma seconde année de césure ?",
+                            options: [
+                                
+                                "Inde",
+                                
+                                "Népal",
+                                
+                                "Thaïlande"
+                                
+                            ],
+                            correct: 1,
+                            explanation: "J'ai enseigné l'anglais à Ghunsa, un village de montagne isolé au Népal près de l'Everest !"
+                        },
+                        
+                        {
+                            question: "En quelle année ai-je fait mon année d'échange au Mexique ?",
+                            options: [
+                                
+                                "2011-2012",
+                                
+                                "2016-2017",
+                                
+                                "2022-2023"
+                                
+                            ],
+                            correct: 1,
+                            explanation: "J'avais 16 ans lorsque j'ai passé une année à Puebla, au Mexique, en tant qu'étudiant d'échange !"
+                        },
+                        
+                        {
+                            question: "Quel était le nom de l'entreprise aérospatiale pour laquelle j'ai travaillé en tant que Consultant Data Scientist ?",
+                            options: [
+                                
+                                "Airbus",
+                                
+                                "ADDEV Materials",
+                                
+                                "Boeing"
+                                
+                            ],
+                            correct: 1,
+                            explanation: "Nous avons développé un modèle prédictif pour ADDEV Materials !"
+                        },
+                        
+                        {
+                            question: "Où avons-nous pitché la solution du Hackathon Google ?",
+                            options: [
+                                
+                                "Siège de Google à Paris",
+                                
+                                "Siège de Google à Londres",
+                                
+                                "Campus de TSE"
+                                
+                            ],
+                            correct: 0,
+                            explanation: "Nous avons présenté notre solution au siège de Google à Paris !"
+                        },
+                        
+                        {
+                            question: "Quel type de modèle ai-je développé pendant mon stage chez AVISIA ?",
+                            options: [
+                                
+                                "Un modèle d'estimation de la TVA à payer",
+                                
+                                "Un modèle en assurance sur le potentiel des clients sur 3 ans",
+                                
+                                "Un modèle de détection des fraudes"
+                                
+                            ],
+                            correct: 1,
+                            explanation: "J'ai participé au développement d'un modèle pour une multinationale en assurance !"
+                        }
+                        
+                    ],
+                    labels: {
+                        question_count: "Question {current}/{total}",
+                        score: "Score : {score}/{total}",
+                        correct: "Correct ! ✅",
+                        incorrect: "Incorrect ! ❌",
+                        final_score: "Score final : {score}/{total}"
+                    }
+                };
+            </script>
             
-            <!-- CV Button -->
-            <div id="cv-section">
-                <a href="/assets/CV_nathan_pizzetta.pdf" target="_blank" class="cv-button">
-                    <i class="fas fa-file-download me-2"></i> Télécharger mon CV
-                </a>
-            </div>
 
             <!-- Footer inside drawer -->
-            <div class="mt-auto pt-4 small text-white-50">
+            <div class="drawer-footer small text-white-50">
                 Réalisé par Nathan Pizzetta
             </div>
         </div>
@@ -532,8 +707,204 @@
             }, 500);
         }
         
+        // Quiz: Reconstruct My Journey
+        let currentQuestion = 0;
+        let score = 0;
+        let quizQuestions = [];
+        let quizLabels = {};
+        
+        function initQuiz() {
+            if (!window.quizData) return;
+            
+            quizQuestions = window.quizData.questions;
+            quizLabels = window.quizData.labels;
+            
+            // Don't start automatically - wait for Play button
+        }
+        
+        function startQuiz() {
+            const playScreen = document.getElementById('quiz-play-screen');
+            const quizGame = document.getElementById('quiz-game');
+            const drawerContent = document.querySelector('.drawer-content');
+            
+            // Add quiz-active class to trigger header animations
+            drawerContent.classList.add('quiz-active');
+            
+            // Hide play screen with animation
+            playScreen.style.opacity = '0';
+            playScreen.style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                playScreen.style.display = 'none';
+                
+                // Show quiz game with animation
+                quizGame.style.display = 'block';
+                quizGame.style.opacity = '0';
+                quizGame.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    quizGame.style.opacity = '1';
+                    quizGame.style.transform = 'scale(1)';
+                }, 50);
+                
+                // Initialize and start quiz
+                quizQuestions = shuffleArray([...window.quizData.questions]);
+                currentQuestion = 0;
+                score = 0;
+                showQuestion();
+            }, 300);
+        }
+        
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+        
+        function showQuestion() {
+            if (currentQuestion >= quizQuestions.length) {
+                showFinalScore();
+                return;
+            }
+            
+            const question = quizQuestions[currentQuestion];
+            const questionEl = document.getElementById('quiz-question');
+            const optionsEl = document.getElementById('quiz-options');
+            const feedbackEl = document.getElementById('quiz-feedback');
+            const progressText = document.getElementById('quiz-progress-text');
+            const progressFill = document.getElementById('quiz-progress-fill');
+            const scoreEl = document.getElementById('quiz-score');
+            const finalEl = document.getElementById('quiz-final');
+            
+            // Hide final screen
+            finalEl.style.display = 'none';
+            
+            // Update question
+            questionEl.textContent = question.question;
+            
+            // Update options
+            optionsEl.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'quiz-option-btn';
+                button.textContent = option;
+                button.onclick = () => selectAnswer(index);
+                optionsEl.appendChild(button);
+            });
+            
+            // Update progress
+            const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
+            progressText.textContent = quizLabels.question_count
+                .replace('{current}', currentQuestion + 1)
+                .replace('{total}', quizQuestions.length);
+            progressFill.style.width = progress + '%';
+            
+            // Update score
+            scoreEl.textContent = quizLabels.score
+                .replace('{score}', score)
+                .replace('{total}', currentQuestion);
+            
+            // Clear feedback
+            feedbackEl.textContent = '';
+            feedbackEl.className = 'quiz-feedback';
+        }
+        
+        function selectAnswer(selectedIndex) {
+            const question = quizQuestions[currentQuestion];
+            const optionsEl = document.getElementById('quiz-options');
+            const feedbackEl = document.getElementById('quiz-feedback');
+            const buttons = optionsEl.querySelectorAll('.quiz-option-btn');
+            
+            // Disable all buttons
+            buttons.forEach(btn => btn.disabled = true);
+            
+            // Check answer
+            if (selectedIndex === question.correct) {
+                score++;
+                feedbackEl.textContent = quizLabels.correct + ' ' + question.explanation;
+                feedbackEl.className = 'quiz-feedback quiz-feedback-correct';
+                buttons[selectedIndex].classList.add('quiz-option-correct');
+            } else {
+                feedbackEl.textContent = quizLabels.incorrect + ' ' + question.explanation;
+                feedbackEl.className = 'quiz-feedback quiz-feedback-incorrect';
+                buttons[selectedIndex].classList.add('quiz-option-incorrect');
+                buttons[question.correct].classList.add('quiz-option-correct');
+            }
+            
+            // Update score
+            const scoreEl = document.getElementById('quiz-score');
+            scoreEl.textContent = quizLabels.score
+                .replace('{score}', score)
+                .replace('{total}', currentQuestion + 1);
+            
+            // Move to next question after delay
+            setTimeout(() => {
+                currentQuestion++;
+                showQuestion();
+            }, 4000);
+        }
+        
+        function showFinalScore() {
+            const questionContainer = document.querySelector('.quiz-question-container');
+            const progressEl = document.querySelector('.quiz-progress');
+            const scoreEl = document.getElementById('quiz-score');
+            const finalEl = document.getElementById('quiz-final');
+            const finalScoreEl = document.getElementById('quiz-final-score');
+            
+            questionContainer.style.display = 'none';
+            progressEl.style.display = 'none';
+            scoreEl.style.display = 'none';
+            
+            finalScoreEl.textContent = quizLabels.final_score
+                .replace('{score}', score)
+                .replace('{total}', quizQuestions.length);
+            
+            finalEl.style.display = 'block';
+        }
+        
+        function restartQuiz() {
+            const quizGame = document.getElementById('quiz-game');
+            const playScreen = document.getElementById('quiz-play-screen');
+            const drawerContent = document.querySelector('.drawer-content');
+            
+            // Remove quiz-active class to restore header
+            drawerContent.classList.remove('quiz-active');
+            
+            // Reset question container visibility
+            const questionContainer = document.querySelector('.quiz-question-container');
+            const progressEl = document.querySelector('.quiz-progress');
+            const scoreEl = document.getElementById('quiz-score');
+            questionContainer.style.display = 'block';
+            progressEl.style.display = 'block';
+            scoreEl.style.display = 'block';
+            
+            // Hide quiz game with animation
+            quizGame.style.opacity = '0';
+            quizGame.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                quizGame.style.display = 'none';
+                
+                // Show play screen with animation
+                playScreen.style.display = 'flex';
+                playScreen.style.opacity = '0';
+                playScreen.style.transform = 'scale(0.9)';
+                
+                setTimeout(() => {
+                    playScreen.style.opacity = '1';
+                    playScreen.style.transform = 'scale(1)';
+                }, 50);
+            }, 300);
+        }
+        
         // Restore tab on page load
-        window.addEventListener('DOMContentLoaded', restoreActiveTab);
+        window.addEventListener('DOMContentLoaded', function() {
+            restoreActiveTab();
+            initQuiz();
+        });
     </script>
 </body>
 </html>
