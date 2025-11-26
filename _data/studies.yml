@@ -1,0 +1,70 @@
+- date:
+    en: "2023 - 2025"
+    fr: "2023 - 2025"
+  title:
+    en: "Master's Degree in Data Science for Social Sciences"
+    fr: "Master en Data Science pour les Sciences Sociales"
+  institution:
+    en: "Toulouse School of Economics (TSE)"
+    fr: "Toulouse School of Economics (TSE)"
+  description:
+    en: "Specialized in advanced statistical methods, econometric modeling, and machine learning applications. Focus on predictive analytics, time series analysis, and causal inference."
+    fr: "Spécialisé en méthodes statistiques avancées, modélisation économétrique et applications du machine learning. Focus sur l'analyse prédictive, l'analyse de séries temporelles et l'inférence causale."
+
+- date:
+    en: "2022 - 2023"
+    fr: "2022 - 2023"
+  title:
+    en: "Gap Year"
+    fr: "Année de césure"
+  institution:
+    en: "Ghunsa, Nepal / Paris, France"
+    fr: "Ghunsa, Népal / Paris, France"
+  description:
+    en: "First semester as a volunteer English teacher in a remote mountain village in Nepal, followed by a 6-month internship at the General Delegation of Quebec in Paris."
+    fr: "Premier semestre en tant que professeur d'anglais bénévole dans un village de montagne isolé au Népal, suivi d'un stage de 6 mois à la Délégation Générale du Québec à Paris."
+  experiences:
+    - id: "exp-nepal"
+      label:
+        en: "Semester 1 : Volunteer in Nepal"
+        fr: "Semestre 1 : Bénévolat au Népal"
+    - id: "exp-dgqp"
+      label:
+        en: "Semester 2 : Internship at DGQP"
+        fr: "Semestre 2 : Stage à la DGQP"
+
+- date:
+    en: "2019 - 2022"
+    fr: "2019 - 2022"
+  title:
+    en: "Double Bachelor's Degree in Mathematics and Economics"
+    fr: "Double Licence en Mathématiques et Économie"
+  institution:
+    en: "Toulouse School of Economics (TSE)"
+    fr: "Toulouse School of Economics (TSE)"
+  description:
+    en: "Strong foundation in microeconomics, macroeconomics, and quantitative methods. Introduction to statistical analysis and programming with R and Python."
+    fr: "Solides fondations en microéconomie, macroéconomie et méthodes quantitatives. Introduction à l'analyse statistique et à la programmation avec R et Python."
+
+- date:
+    en: "2017 - 2019"
+    fr: "2017 - 2019"
+  title:
+    en: "High School Diploma with a Specialization in Mathematics"
+    fr: "Bac Scientifique avec spécialité Mathématiques"
+  institution:
+    en: "Lycée Lapérouse, Albi"
+    fr: "Lycée Lapérouse, Albi"
+
+- date:
+    en: "2016 - 2017"
+    fr: "2016 - 2017"
+  title:
+    en: "Exchange Year"
+    fr: "Année d'échange"
+  institution:
+    en: "Rotary Club, Puebla (Mexico)"
+    fr: "Rotary Club, Puebla (Mexique)"
+  description:
+    en: "I spent one year in Puebla, Mexico, as an exchange student. I followed the Mexican school program at UPAEP and lived in three different host families."
+    fr: "J'ai passé une année d'échange dans la ville de Puebla au Mexique où j'ai suivi le cursus scolaire mexicain au sein de UPAEP et j'ai vécu au sein de trois familles d'accueil différentes."

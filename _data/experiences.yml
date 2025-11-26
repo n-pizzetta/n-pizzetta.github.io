@@ -1,0 +1,117 @@
+- date:
+    en: "Oct 2025 - Present"
+    fr: "Oct 2025 - Présent"
+  title:
+    en: "AI Consultant & Data Scientist"
+    fr: "Consultant IA & Data Scientist"
+  institution:
+    en: "CDI, AVISIA"
+    fr: "CDI, AVISIA"
+  description:
+    en: "Developed an AI-powered task automation tool for a major home improvement and design retail group. Designed and implemented full-stack architecture on Google Cloud Platform (GCP) for web and mobile applications, delivering scalable solutions to optimize operational workflows."
+    fr: "Développement d'un outil d'automatisation de tâches basé sur l'IA pour une grande enseigne de bricolage et décoration. Conception et mise en œuvre d'une architecture full-stack sur Google Cloud Platform (GCP) pour applications web et mobile, offrant des solutions scalables pour optimiser les workflows opérationnels."
+
+- date:
+    en: "Apr-Oct 2025"
+    fr: "Avr-Oct 2025"
+  title:
+    en: "Data Science Consultant Intern"
+    fr: "Stagiaire Consultant Data Scientist"
+  institution:
+    en: "Internship, AVISIA"
+    fr: "Stage, AVISIA"
+  description:
+    en: "Developed a predictive model to assess the 3-year potential of existing clients in a multinational insurance company's portfolio. Tested the implementation of an MCP Agent using n8n for request orchestration and processing. Worked on a Python plugin for Dataiku enabling SAS code migration to SQL and Python."
+    fr: "Développement d'un modèle prédictif pour évaluer le potentiel sur 3 ans des clients présents dans le portefeuille d'une multinationale en assurance. Test de mise en oeuvre d'un Agent MCP en utilisant n8n pour l'orchestration des requêtes et des traitements. Travail sur un plugin Python pour Dataiku permettant la migration de code SAS vers SQL et Python."
+
+- date:
+    en: "Aug 2024 - Feb 2025"
+    fr: "Août 2024 - Fév 2025"
+  title:
+    en: "Data Scientist Alternant"
+    fr: "Alternant Data Scientist"
+  institution:
+    en: "Apprenticeship, Écologie Logistique"
+    fr: "Alternance, Écologie Logistique"
+  description:
+    en: "Developed computer vision models for vehicle detection in video streams and built a personal website to enhance coding skills. Intensive training in Git and GitHub workflows. Organized and prepared a data science hackathon for students focused on pollution analysis in Saint-Cyr and traffic impact assessment following the closure of a major artery for construction work."
+    fr: "Développement de modèles de computer vision pour la détection de véhicules sur vidéo et création d'un site web personnel pour développer mes compétences en programmation. Formation intensive sur l'utilisation de Git et GitHub. Organisation et préparation d'un hackathon data science pour étudiants portant sur l'analyse de la pollution à Saint-Cyr et l'analyse du trafic suite à la fermeture d'une artère principale pour travaux."
+
+- date:
+    en: "Jun-Sept 2024"
+    fr: "Juin-Sept 2024"
+  title:
+    en: "Finalist of GOOGLE & Think Young Hackathon"
+    fr: "Finaliste du Hackathon GOOGLE & Think Young"
+  institution:
+    en: "Hackathon, TSE Junior Enterprise"
+    fr: "Hackathon, TSE Junior Entreprise"
+  description:
+    en: "Developed an NLP tool called \"Verichat\" to fact-check information and provide insights on members of the European Parliament. Got a partnership with AFP (Agence France Presse) to get access to their APIs. Presented our solution at Google's headquarters in Paris."
+    fr: "Développement d'une application NLP appelée \"Verichat\" pour vérifier la véracité des informations et fournir des insights sur les membres du Parlement Européen. Obtenu une partenariat avec AFP (Agence France Presse) pour accéder à leurs APIs. Présentation de notre solution aux bureaux de Google à Paris."
+  featured: true
+  badge:
+    icon: "fas fa-trophy"
+    label:
+      en: "Finalist"
+      fr: "Finaliste"
+
+- date:
+    en: "May-Aug 2024"
+    fr: "Mai-Août 2024"
+  title:
+    en: "Data Scientist Intern"
+    fr: "Stagiaire Data Scientist"
+  institution:
+    en: "Internship, Écologie Logistique"
+    fr: "Stage, Écologie Logistique"
+  description:
+    en: "Developed web scraping scripts for automated data retrieval and built econometric models to track and analyze pollution data. Deployed an application to convert Access databases to CSV format, improving data accessibility and workflow efficiency."
+    fr: "Développement de scripts de web scraping pour la récupération automatisée de données et création de modèles économétriques pour suivre et analyser les données de pollution. Déploiement d'une application de conversion de bases de données Access vers CSV, améliorant l'accessibilité des données et l'efficacité du workflow."
+
+- date:
+    en: "Apr-Jun 2024"
+    fr: "Avr-Juin 2024"
+  title:
+    en: "Data Scientist Consultant"
+    fr: "Consultant Data Scientist"
+  institution:
+    en: "Mission, TSE Junior Enterprise"
+    fr: "Mission, TSE Junior Entreprise"
+  description:
+    en: "Developed and implemented a predictive model for ADDEV Materials, an aerospace company. Delivered actionable insights and data-driven recommendations."
+    fr: "Développement et mise en place d'un modèle prédictif pour ADDEV Materials, une entreprise aérospatiale. Fourniture d'insights actionnables et de recommandations basées sur les données."
+  recommendation:
+    url: "https://www.linkedin.com/in/n-pizzetta/details/recommendations/"
+    label:
+      en: "Recommendation"
+      fr: "Recommandation"
+
+
+- date:
+    en: "Jan-Jun 2023"
+    fr: "Jan-Juin 2023"
+  title:
+    en: "Economic Projects Assistant Intern"
+    fr: "Stage Assistant de Projets Économiques"
+  institution:
+    en: "Internship, General Delegation of Quebec in Paris (DGQP)"
+    fr: "Stage, Délégation Générale du Québec à Paris (DGQP)"
+  description:
+    en: "Project support on various events and client files. Events: Paris Air Show, VivaTech, Santexpo, MIPIM. Responsibilities: Prospecting and networking between Quebec and French companies. Organization and management of dense meeting schedules. Event logistics and interview coordination. Market segmentation and active search for key contacts."
+    fr: "Assistant projet sur différents événements et dossiers clients. Événements : Salon International de l'Aéronautique et de l'Espace, VivaTech, Santexpo, MIPIM. Prospection et mise en relation entre les entreprises québécoises et les entreprises françaises. Organisation et gestion d'un emploi du temps très dense en rencontres. Gestion de la logistique lors de l'événement et du bon déroulement des entretiens. Segmentation de marché, recherche active de contacts clés."
+  id: "exp-dgqp"
+
+- date:
+    en: "Oct-Dec 2022"
+    fr: "Oct-Dec 2022"
+  title:
+    en: "Volunteer English Teacher"
+    fr: "Professeur d'Anglais Bénévole"
+  institution:
+    en: "Ghunsa, Nepal"
+    fr: "Ghunsa, Népal"
+  description:
+    en: "Taught English to children in a remote mountain village near Everest. Developed teaching materials and organized educational activities."
+    fr: "Enseignement de l'anglais à des enfants dans un village de montagne isolé près de l'Everest. Développement de matériel pédagogique et organisation d'activités éducatives."
+  id: "exp-nepal"
