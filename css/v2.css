@@ -30,7 +30,7 @@ body {
 
 /* Background */
 .fullscreen-background {
-    background: url("../assets/images/background_mountains.jpg") no-repeat center center fixed; 
+    background: url("/assets/images/background_mountains.jpg") no-repeat center center fixed; 
     background-size: cover;
 }
 
