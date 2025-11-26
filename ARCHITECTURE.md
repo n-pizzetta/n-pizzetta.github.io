@@ -32,7 +32,7 @@ Votre site est un **site statique généré** avec **Jekyll**, un générateur d
 ## 📁 Structure du Projet
 
 ```
-n-pizzetta.github.io/
+nathan.directory/
 │
 ├── _config.yml          # ⚙️ Configuration globale (titre, analytics, etc.)
 ├── Gemfile              # 📦 Dépendances Ruby (Jekyll, webrick)
@@ -114,7 +114,7 @@ bundle exec jekyll build
 
 ```yaml
 name: Nathan Pizzetta
-url: https://n-pizzetta.github.io
+url: https://nathan.directory
 ga:
   account: 'G-5S13RSPXSY'  # Google Analytics
 ```
@@ -285,7 +285,7 @@ _site/fr/index.html
 ### **GitHub Pages**
 1. Push sur la branche `main`
 2. GitHub exécute Jekyll automatiquement
-3. Site accessible sur `https://n-pizzetta.github.io`
+3. Site accessible sur `https://nathan.directory`
 
 ### **Cloudflare Pages**
 1. Build command : `bundle exec jekyll build`

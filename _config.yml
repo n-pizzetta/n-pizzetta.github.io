@@ -30,7 +30,7 @@ robots:
 
 
 # website address when deployed, also given as canonical link
-url: https://n-pizzetta.github.io
+url: https://nathan.directory
 
 # The 'baseurl' is prepended to all website-internal links.
 # 'baseurl' will often be '', but for a project page on gh-pages, it needs to be the project name.
@@ -51,7 +51,7 @@ ga:
 # https://plausible.io/docs/outbound-link-click-tracking
 # Leave empty (just "plausible:" with subitems commented out) to disable.
 plausible:
-    domain: 'n-pizzetta.github.io'
+    domain: 'nathan.directory'
 
 
 # A picture of you, square(!), at least 180x180 pixels, more is better. Recommended file size < 100 KB.
