@@ -127,28 +127,25 @@ div.fuse-core-content {
 /* --------- Navigation: Off-Canvas Sidebar (Drawer) -------------------------------- */
 
 .sidebar-drawer {
-    position: fixed !important; /* Force fixed positioning */
+    position: fixed !important;
     top: 0 !important;
     bottom: 0 !important;
-    left: -350px; /* Hidden by default */
+    left: -350px;
     width: 320px;
     height: 100vh;
     background: rgba(0, 0, 0, 0.9);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    z-index: 9999; /* Very high z-index */
-    transition: left 0.4s cubic-bezier(0.4, 0.0, 0.2, 1); /* Smoother easing */
+    z-index: 9999;
+    transition: left 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
     box-shadow: 5px 0 15px rgba(0,0,0,0.5);
-    padding: 2rem;
-    overflow: hidden; /* Disable scrolling inside sidebar */
-    will-change: left; /* Optimize for animation */
-    /* Ensure content is vertically centered if needed */
+    padding: 2rem 1.5rem;
+    overflow: hidden !important; /* No scrolling */
+    will-change: left;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    /* Force the element to stay in place regardless of scroll */
-    transform: translateZ(0); /* Force GPU acceleration and create new stacking context */
-    backface-visibility: hidden; /* Prevent flickering */
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .sidebar-drawer.open {
@@ -223,6 +220,153 @@ div.fuse-core-content {
     color: white;
 }
 
+/* Drawer Content - Flexbox structure */
+.drawer-content {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    width: 100% !important;
+    padding: 2rem 1rem 1rem !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 0.8rem;
+    overflow: hidden !important; /* No scrolling */
+}
+
+.drawer-header-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    width: 100%;
+    flex-shrink: 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Collapsed state - when quiz is active */
+.drawer-content.quiz-active .drawer-header-group {
+    gap: 0.4rem;
+}
+
+.drawer-content.quiz-active .avatar-container {
+    animation: rollAway 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes rollAway {
+    0% {
+        transform: translateX(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-200px) rotate(-360deg);
+        opacity: 0;
+        width: 0;
+        height: 0;
+        margin: 0;
+    }
+}
+
+.drawer-content.quiz-active h1 {
+    font-size: 1.4rem !important;
+    margin-bottom: 0 !important;
+    transition: all 0.4s ease;
+}
+
+.drawer-content.quiz-active h3 {
+    font-size: 0.85rem !important;
+    margin-bottom: 0 !important;
+    transition: all 0.4s ease;
+}
+
+.drawer-content.quiz-active #cv-section {
+    animation: shrinkToIcon 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 0.2s;
+}
+
+@keyframes shrinkToIcon {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+        max-height: 100px;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0);
+        max-height: 0;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+
+/* CV icon that appears in social links */
+.cv-icon-small {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    color: white;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    animation: popIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 0.4s;
+    opacity: 0;
+    transform: scale(0);
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    70% {
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        display: flex;
+    }
+}
+
+.drawer-content.quiz-active .cv-icon-small {
+    display: flex;
+}
+
+.cv-icon-small:hover {
+    background: #d32f2f;
+    color: white;
+    border-color: #d32f2f;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.social-links-container {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    width: auto !important;
+    flex-wrap: nowrap !important;
+    transition: all 0.4s ease;
+}
+
+.drawer-footer {
+    margin-top: auto;
+    padding: 1rem 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    flex-shrink: 0;
+}
 
 /* --------- Avatar ---------------------------------------------------------------------------- */
 
@@ -321,30 +465,323 @@ div.row.links {
     font-style: normal;
 }
 
+/* --------- Quiz: Reconstruct My Journey ------------------------------------ */
+
+.quiz-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 0;
+}
+
+.quiz-container {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.quiz-play-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.5rem 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+button.quiz-play-btn,
+.quiz-play-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 80px !important;
+    height: 80px !important;
+    color: white !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    cursor: pointer;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.3rem !important;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    position: relative;
+    overflow: visible !important;
+    z-index: 1;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    margin: 0 auto !important;
+}
+
+/* Pulsing ring animation */
+.quiz-play-btn::before,
+.quiz-play-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(102, 126, 234, 0.6);
+    transform: translate(-50%, -50%);
+    animation: pulseRing 2s ease-out infinite;
+}
+
+.quiz-play-btn::after {
+    animation-delay: 1s;
+}
+
+@keyframes pulseRing {
+    0% {
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+    }
+    100% {
+        width: 180%;
+        height: 180%;
+        opacity: 0;
+    }
+}
+
+.quiz-play-btn:hover {
+    transform: scale(1.1) !important;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.7) !important;
+}
+
+.quiz-play-btn:hover::before,
+.quiz-play-btn:hover::after {
+    animation-play-state: paused;
+    opacity: 0;
+}
+
+.quiz-play-btn:active {
+    transform: scale(0.95) !important;
+}
+
+.quiz-play-btn i {
+    font-size: 1.8rem !important;
+    margin-bottom: 0 !important;
+    line-height: 1 !important;
+}
+
+.quiz-play-btn span {
+    font-size: 0.65rem !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    line-height: 1 !important;
+}
+
+
+.quiz-game {
+    background: rgba(20, 20, 20, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    transition: opacity 0.3s ease, transform 0.3s ease, display 0.3s ease;
+    position: relative;
+    z-index: 1;
+    opacity: 1;
+    transform: scale(1);
+    width: 100%;
+}
+
+.quiz-question-container {
+    margin-bottom: 1rem;
+}
+
+.quiz-question-text {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+}
+
+.quiz-option-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    width: 100%;
+}
+
+.quiz-option-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateX(5px);
+}
+
+.quiz-option-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.quiz-option-correct {
+    background: rgba(52, 168, 83, 0.3) !important;
+    border-color: #34A853 !important;
+    color: white !important;
+}
+
+.quiz-option-incorrect {
+    background: rgba(234, 67, 53, 0.3) !important;
+    border-color: #EA4335 !important;
+    color: white !important;
+}
+
+.quiz-feedback {
+    font-size: 0.75rem;
+    padding: 0.6rem;
+    border-radius: 6px;
+    margin-top: 0.5rem;
+    line-height: 1.4;
+    animation: fadeIn 0.3s ease;
+}
+
+.quiz-feedback-correct {
+    background: rgba(52, 168, 83, 0.2);
+    color: #81C995;
+    border-left: 3px solid #34A853;
+}
+
+.quiz-feedback-incorrect {
+    background: rgba(234, 67, 53, 0.2);
+    color: #F28B82;
+    border-left: 3px solid #EA4335;
+}
+
+.quiz-progress {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.quiz-progress span {
+    display: block;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.4rem;
+}
+
+.quiz-progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.quiz-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+}
+
+.quiz-score {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    margin-top: 0.5rem;
+    font-weight: 600;
+}
+
+.quiz-final {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.quiz-final-score {
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    background: rgba(102, 126, 234, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(102, 126, 234, 0.4);
+}
+
+.quiz-restart-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 0.5rem 1.2rem;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quiz-restart-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
 /* --------- CV Button ------------------------------------------------------ */
 
 #cv-section {
     text-align: center;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
+    padding: 0;
+    width: 100%;
 }
 
 .cv-button {
-    display: inline-block;
-    padding: 0.6rem 1.5rem;
-    background: rgba(255,255,255,0.1);
-    border: 2px solid white;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.8rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.8);
     border-radius: 50px;
     color: white;
-    font-weight: bold;
+    font-weight: 600;
     text-decoration: none;
     font-size: 0.9rem;
     transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .cv-button:hover {
-    background: white;
-    color: #333;
+    background: rgba(255, 255, 255, 0.95);
+    color: #1a1a1a;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-color: white;
+}
+
+.cv-button i {
+    font-size: 1rem;
 }
 
 /* --------- Tabs Navigation ----------------------------------------------------------------- */

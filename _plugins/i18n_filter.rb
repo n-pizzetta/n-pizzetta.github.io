@@ -13,6 +13,21 @@ module Jekyll
       
       result || key
     end
+    
+    def jsonify(input)
+      case input
+      when String
+        '"' + input.gsub('\\', '\\\\').gsub('"', '\\"').gsub("\n", '\\n').gsub("\r", '\\r') + '"'
+      when Array
+        '[' + input.map { |item| jsonify(item) }.join(',') + ']'
+      when Hash
+        '{' + input.map { |k, v| "#{jsonify(k.to_s)}:#{jsonify(v)}" }.join(',') + '}'
+      when nil
+        'null'
+      else
+        input.to_s
+      end
+    end
   end
 end
 

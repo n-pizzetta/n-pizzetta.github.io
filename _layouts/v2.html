@@ -4,7 +4,7 @@
     {% include analytics.html %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{% if site.title %}{{ site.title }}{% else %}{{ site.name }}{% endif %} - V2</title>
+    <title>{% if site.title %}{{ site.title }}{% else %}{{ site.name }}{% endif %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Favicons -->
@@ -39,39 +39,97 @@
     <div id="sidebar-drawer" class="sidebar-drawer open">
         <button class="close-drawer-btn" onclick="toggleDrawer()"><i class="fas fa-bars"></i></button>
         
-        <div class="drawer-content d-flex flex-column justify-content-center align-items-center text-center h-100">
-            <div class="avatar-container mb-4">
-                <img id="avatar" src="{{ site.baseurl }}/{{ site.avatar }}" alt="{{ site.name }}">
+        <div class="drawer-content">
+            <div class="drawer-header-group">
+                <div class="avatar-container">
+                    <img id="avatar" src="{{ site.baseurl }}/{{ site.avatar }}" alt="{{ site.name }}">
+                </div>
+                <h1 class="fw-bold">{{ site.name }}</h1>
+                <h3 class="fw-light">{{ "hero.subtitle" | t: page.lang }}</h3>
+                
+                <!-- Social Links -->
+                <div class="social-links-container">
+                {% for hash in site.links %}{% for linkInfo in hash %}{% if linkInfo[1].show %}
+                    <a href="{{ linkInfo[1].href }}" class="social-link {{ linkInfo[1].name | downcase }}-icon" target="_blank" aria-label="{{ linkInfo[1].name }}">
+                        <i class="{{ linkInfo[1].icon }}"></i>
+                    </a>
+                {% endif %}{% endfor %}{% endfor %}
+                    <!-- CV icon (appears when quiz is active) -->
+                    <a href="{{ site.baseurl }}/assets/CV_nathan_pizzetta.pdf" target="_blank" class="cv-icon-small" aria-label="Download CV">
+                        <i class="fas fa-file-download"></i>
+                    </a>
+                </div>
+
+                <!-- CV Button -->
+                <div id="cv-section">
+                    <a href="{{ site.baseurl }}/assets/CV_nathan_pizzetta.pdf" target="_blank" class="cv-button">
+                        <i class="fas fa-file-download me-2"></i> {{ "hero.download_cv" | t: page.lang }}
+                    </a>
+                </div>
             </div>
-            <h1 class="fw-bold">{{ site.name }}</h1>
-            <h3 class="fw-light mb-4">{{ "hero.subtitle" | t: page.lang }}</h3>
             
-            <!-- Social Links -->
-            <div class="row links mb-4">
-            {% for hash in site.links %}{% for linkInfo in hash %}{% if linkInfo[1].show %}
-                <a href="{{ linkInfo[1].href }}" class="social-link {{ linkInfo[1].name | downcase }}-icon" target="_blank" aria-label="{{ linkInfo[1].name }}">
-                    <i class="{{ linkInfo[1].icon }}"></i>
-                </a>
-            {% endif %}{% endfor %}{% endfor %}
+            <!-- Quiz: Reconstruct My Journey -->
+            <div class="quiz-wrapper">
+                <div class="quiz-container">
+                    <div class="quiz-play-screen" id="quiz-play-screen">
+                        <button class="quiz-play-btn" onclick="startQuiz()">
+                            <i class="fas fa-play"></i>
+                            <span>{{ "quiz.play_button" | t: page.lang }}</span>
+                        </button>
+                    </div>
+                    <div id="quiz-game" class="quiz-game" style="display: none;">
+                        <div class="quiz-question-container">
+                            <p class="quiz-question-text" id="quiz-question"></p>
+                            <div class="quiz-options" id="quiz-options"></div>
+                            <div class="quiz-feedback" id="quiz-feedback"></div>
+                        </div>
+                        <div class="quiz-progress">
+                            <span id="quiz-progress-text"></span>
+                            <div class="quiz-progress-bar">
+                                <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+                            </div>
+                        </div>
+                        <div class="quiz-score" id="quiz-score"></div>
+                        <div class="quiz-final" id="quiz-final" style="display: none;">
+                            <p class="quiz-final-score" id="quiz-final-score"></p>
+                            <button class="quiz-restart-btn" onclick="restartQuiz()">{{ "quiz.play_again" | t: page.lang }}</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <!-- Quote -->
-            <div class="quote-container px-4 mb-4">
-                <blockquote class="quote-text">
-                    {{ "hero.quote" | t: page.lang }}
-                </blockquote>
-                <cite class="quote-author">— {{ "hero.quote_author" | t: page.lang }}</cite>
-            </div>
+            <!-- Quiz Data (hidden) -->
+            <script>
+                window.quizData = {
+                    lang: "{{ page.lang }}",
+                    questions: [
+                        {% assign quiz_questions = site.data.portfolio[page.lang].quiz.questions %}
+                        {% for q in quiz_questions %}
+                        {
+                            question: {{ q.question | jsonify }},
+                            options: [
+                                {% for opt in q.options %}
+                                {{ opt | jsonify }}{% unless forloop.last %},{% endunless %}
+                                {% endfor %}
+                            ],
+                            correct: {{ q.correct }},
+                            explanation: {{ q.explanation | jsonify }}
+                        }{% unless forloop.last %},{% endunless %}
+                        {% endfor %}
+                    ],
+                    labels: {
+                        question_count: {{ "quiz.question_count" | t: page.lang | jsonify }},
+                        score: {{ "quiz.score" | t: page.lang | jsonify }},
+                        correct: {{ "quiz.correct" | t: page.lang | jsonify }},
+                        incorrect: {{ "quiz.incorrect" | t: page.lang | jsonify }},
+                        final_score: {{ "quiz.final_score" | t: page.lang | jsonify }}
+                    }
+                };
+            </script>
             
-            <!-- CV Button -->
-            <div id="cv-section">
-                <a href="{{ site.baseurl }}/assets/CV_nathan_pizzetta.pdf" target="_blank" class="cv-button">
-                    <i class="fas fa-file-download me-2"></i> {{ "hero.download_cv" | t: page.lang }}
-                </a>
-            </div>
 
             <!-- Footer inside drawer -->
-            <div class="mt-auto pt-4 small text-white-50">
+            <div class="drawer-footer small text-white-50">
                 {{ "footer.built_by" | t: page.lang }}
             </div>
         </div>
@@ -377,8 +435,204 @@
             }, 500);
         }
         
+        // Quiz: Reconstruct My Journey
+        let currentQuestion = 0;
+        let score = 0;
+        let quizQuestions = [];
+        let quizLabels = {};
+        
+        function initQuiz() {
+            if (!window.quizData) return;
+            
+            quizQuestions = window.quizData.questions;
+            quizLabels = window.quizData.labels;
+            
+            // Don't start automatically - wait for Play button
+        }
+        
+        function startQuiz() {
+            const playScreen = document.getElementById('quiz-play-screen');
+            const quizGame = document.getElementById('quiz-game');
+            const drawerContent = document.querySelector('.drawer-content');
+            
+            // Add quiz-active class to trigger header animations
+            drawerContent.classList.add('quiz-active');
+            
+            // Hide play screen with animation
+            playScreen.style.opacity = '0';
+            playScreen.style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                playScreen.style.display = 'none';
+                
+                // Show quiz game with animation
+                quizGame.style.display = 'block';
+                quizGame.style.opacity = '0';
+                quizGame.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    quizGame.style.opacity = '1';
+                    quizGame.style.transform = 'scale(1)';
+                }, 50);
+                
+                // Initialize and start quiz
+                quizQuestions = shuffleArray([...window.quizData.questions]);
+                currentQuestion = 0;
+                score = 0;
+                showQuestion();
+            }, 300);
+        }
+        
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+        
+        function showQuestion() {
+            if (currentQuestion >= quizQuestions.length) {
+                showFinalScore();
+                return;
+            }
+            
+            const question = quizQuestions[currentQuestion];
+            const questionEl = document.getElementById('quiz-question');
+            const optionsEl = document.getElementById('quiz-options');
+            const feedbackEl = document.getElementById('quiz-feedback');
+            const progressText = document.getElementById('quiz-progress-text');
+            const progressFill = document.getElementById('quiz-progress-fill');
+            const scoreEl = document.getElementById('quiz-score');
+            const finalEl = document.getElementById('quiz-final');
+            
+            // Hide final screen
+            finalEl.style.display = 'none';
+            
+            // Update question
+            questionEl.textContent = question.question;
+            
+            // Update options
+            optionsEl.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'quiz-option-btn';
+                button.textContent = option;
+                button.onclick = () => selectAnswer(index);
+                optionsEl.appendChild(button);
+            });
+            
+            // Update progress
+            const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
+            progressText.textContent = quizLabels.question_count
+                .replace('{current}', currentQuestion + 1)
+                .replace('{total}', quizQuestions.length);
+            progressFill.style.width = progress + '%';
+            
+            // Update score
+            scoreEl.textContent = quizLabels.score
+                .replace('{score}', score)
+                .replace('{total}', currentQuestion);
+            
+            // Clear feedback
+            feedbackEl.textContent = '';
+            feedbackEl.className = 'quiz-feedback';
+        }
+        
+        function selectAnswer(selectedIndex) {
+            const question = quizQuestions[currentQuestion];
+            const optionsEl = document.getElementById('quiz-options');
+            const feedbackEl = document.getElementById('quiz-feedback');
+            const buttons = optionsEl.querySelectorAll('.quiz-option-btn');
+            
+            // Disable all buttons
+            buttons.forEach(btn => btn.disabled = true);
+            
+            // Check answer
+            if (selectedIndex === question.correct) {
+                score++;
+                feedbackEl.textContent = quizLabels.correct + ' ' + question.explanation;
+                feedbackEl.className = 'quiz-feedback quiz-feedback-correct';
+                buttons[selectedIndex].classList.add('quiz-option-correct');
+            } else {
+                feedbackEl.textContent = quizLabels.incorrect + ' ' + question.explanation;
+                feedbackEl.className = 'quiz-feedback quiz-feedback-incorrect';
+                buttons[selectedIndex].classList.add('quiz-option-incorrect');
+                buttons[question.correct].classList.add('quiz-option-correct');
+            }
+            
+            // Update score
+            const scoreEl = document.getElementById('quiz-score');
+            scoreEl.textContent = quizLabels.score
+                .replace('{score}', score)
+                .replace('{total}', currentQuestion + 1);
+            
+            // Move to next question after delay
+            setTimeout(() => {
+                currentQuestion++;
+                showQuestion();
+            }, 4000);
+        }
+        
+        function showFinalScore() {
+            const questionContainer = document.querySelector('.quiz-question-container');
+            const progressEl = document.querySelector('.quiz-progress');
+            const scoreEl = document.getElementById('quiz-score');
+            const finalEl = document.getElementById('quiz-final');
+            const finalScoreEl = document.getElementById('quiz-final-score');
+            
+            questionContainer.style.display = 'none';
+            progressEl.style.display = 'none';
+            scoreEl.style.display = 'none';
+            
+            finalScoreEl.textContent = quizLabels.final_score
+                .replace('{score}', score)
+                .replace('{total}', quizQuestions.length);
+            
+            finalEl.style.display = 'block';
+        }
+        
+        function restartQuiz() {
+            const quizGame = document.getElementById('quiz-game');
+            const playScreen = document.getElementById('quiz-play-screen');
+            const drawerContent = document.querySelector('.drawer-content');
+            
+            // Remove quiz-active class to restore header
+            drawerContent.classList.remove('quiz-active');
+            
+            // Reset question container visibility
+            const questionContainer = document.querySelector('.quiz-question-container');
+            const progressEl = document.querySelector('.quiz-progress');
+            const scoreEl = document.getElementById('quiz-score');
+            questionContainer.style.display = 'block';
+            progressEl.style.display = 'block';
+            scoreEl.style.display = 'block';
+            
+            // Hide quiz game with animation
+            quizGame.style.opacity = '0';
+            quizGame.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                quizGame.style.display = 'none';
+                
+                // Show play screen with animation
+                playScreen.style.display = 'flex';
+                playScreen.style.opacity = '0';
+                playScreen.style.transform = 'scale(0.9)';
+                
+                setTimeout(() => {
+                    playScreen.style.opacity = '1';
+                    playScreen.style.transform = 'scale(1)';
+                }, 50);
+            }, 300);
+        }
+        
         // Restore tab on page load
-        window.addEventListener('DOMContentLoaded', restoreActiveTab);
+        window.addEventListener('DOMContentLoaded', function() {
+            restoreActiveTab();
+            initQuiz();
+        });
     </script>
 </body>
 </html>
