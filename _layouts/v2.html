@@ -11,7 +11,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/assets/images/favicons/np.png">
     <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/images/favicons/np.png">
     <link rel="shortcut icon" href="{{ site.baseurl }}/assets/images/favicons/np.png">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#1a1a1a">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
@@ -23,16 +23,36 @@
 
 <body class="fullscreen-background drawer-active">
     
-    <!-- Language Switcher -->
-    <div class="language-switcher">
+    <!-- Language Switcher (Desktop) -->
+    <div class="language-switcher desktop-lang">
         <a href="{{ site.baseurl }}/en/" class="lang-link {% if page.lang == 'en' %}active{% endif %}" onclick="saveCurrentTab(event, '{{ site.baseurl }}/en/')">EN</a>
         <span class="lang-separator">|</span>
         <a href="{{ site.baseurl }}/fr/" class="lang-link {% if page.lang == 'fr' %}active{% endif %}" onclick="saveCurrentTab(event, '{{ site.baseurl }}/fr/')">FR</a>
     </div>
-    
-    <!-- TOGGLE BUTTON (Outside glass-pane for proper fixed positioning) -->
-    <button id="drawer-toggle" class="drawer-toggle-btn" onclick="toggleDrawer()">
+
+    <!-- Language Switcher (Mobile) - top left, shows active lang only -->
+    <div class="mobile-lang-switcher" id="mobile-lang-switcher">
+        <button class="mobile-lang-active" onclick="toggleLangDropdown()">
+            {{ page.lang | upcase }}
+            <i class="fas fa-chevron-down mobile-lang-chevron"></i>
+        </button>
+        <div class="mobile-lang-dropdown" id="mobile-lang-dropdown">
+            {% if page.lang == 'fr' %}
+            <a href="{{ site.baseurl }}/en/" class="mobile-lang-item" onclick="saveCurrentTab(event, '{{ site.baseurl }}/en/')">English</a>
+            {% else %}
+            <a href="{{ site.baseurl }}/fr/" class="mobile-lang-item" onclick="saveCurrentTab(event, '{{ site.baseurl }}/fr/')">Français</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- TOGGLE BUTTON Desktop (burger icon) -->
+    <button id="drawer-toggle" class="drawer-toggle-btn desktop-drawer-toggle" onclick="toggleDrawer()">
         <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- TOGGLE BUTTON Mobile (avatar photo, top right) -->
+    <button class="mobile-avatar-toggle" onclick="toggleMobileDrawer()">
+        <img src="{{ site.baseurl }}/{{ site.avatar }}" alt="{{ site.name }}">
     </button>
 
     <!-- DRAWER (Sidebar - Outside glass-pane for proper fixed positioning) -->
@@ -70,9 +90,39 @@
             </div>
         </div>
     </div>
-    
-    <!-- OVERLAY (Click to close - Outside glass-pane) -->
+
+    <!-- OVERLAY (Click to close desktop drawer) -->
     <div id="drawer-overlay" class="drawer-overlay" onclick="toggleDrawer()"></div>
+
+    <!-- MOBILE BOTTOM SHEET -->
+    <div id="mobile-sheet-overlay" class="mobile-sheet-overlay" onclick="closeMobileDrawer()"></div>
+    <div id="mobile-bottom-sheet" class="mobile-bottom-sheet">
+        <div class="sheet-handle" onclick="toggleMobileDrawer()"></div>
+        <div class="sheet-content">
+            <div class="sheet-avatar-row">
+                <img src="{{ site.baseurl }}/{{ site.avatar }}" alt="{{ site.name }}" class="sheet-avatar">
+                <div class="sheet-identity">
+                    <h2 class="sheet-name">{{ site.name }}</h2>
+                    <p class="sheet-subtitle">{{ "hero.subtitle" | t: page.lang }}</p>
+                </div>
+            </div>
+            <div class="sheet-links">
+                {% for hash in site.links %}{% for linkInfo in hash %}{% if linkInfo[1].show %}
+                <a href="{{ linkInfo[1].href }}" class="sheet-link-item" target="_blank">
+                    <i class="{{ linkInfo[1].icon }}"></i>
+                    <span>{{ linkInfo[1].name }}</span>
+                </a>
+                {% endif %}{% endfor %}{% endfor %}
+                <a href="{{ site.baseurl }}/assets/CV_nathan_pizzetta.pdf" target="_blank" class="sheet-link-item">
+                    <i class="fas fa-file-download"></i>
+                    <span>{{ "hero.download_cv" | t: page.lang }}</span>
+                </a>
+            </div>
+            <div class="sheet-footer small text-white-50">
+                {{ "footer.built_by" | t: page.lang }}
+            </div>
+        </div>
+    </div>
 
     <div class="glass-pane">
         <!-- MAIN CONTENT -->
@@ -82,20 +132,23 @@
                 
                 <!-- TABS NAVIGATION -->
                 <div class="tabs-container">
-                    <button class="tab-btn active" onclick="switchTab('portfolio')">{{ "tabs.portfolio" | t: page.lang }}</button>
+                    <button class="tab-btn" onclick="switchTab('portfolio')">{{ "tabs.portfolio" | t: page.lang }}</button>
                     <button class="tab-btn" onclick="switchTab('studies')">{{ "tabs.studies" | t: page.lang }}</button>
-                    <button class="tab-btn" onclick="switchTab('experiences')">{{ "tabs.experiences" | t: page.lang }}</button>
+                    <button class="tab-btn active" onclick="switchTab('experiences')">{{ "tabs.experiences" | t: page.lang }}</button>
                 </div>
                 
                 <!-- PORTFOLIO TAB -->
-                <div id="portfolio-tab" class="tab-content active">
+                <div id="portfolio-tab" class="tab-content">
+                    <p class="section-subtitle">{{ "portfolio.subtitle" | t: page.lang }}</p>
                     <section id="projects">
                         <div class="project-grid">
                         <!-- Project 7 -->
                         <a href="https://github.com/n-pizzetta/object_detection" target="_blank" class="project-card-link">
                             <article class="project-card">
                                 <div class="project-image-container" data-view-project="{{ 'portfolio.view_project' | t: page.lang }}">
-                                    <img src="{{ site.baseurl }}/assets/images/object_detection.gif" alt="{{ 'project7.title' | t: page.lang }}">
+                                    <video autoplay muted loop playsinline poster="{{ site.baseurl }}/assets/images/object_detection_poster.jpg" loading="lazy">
+                                        <source src="{{ site.baseurl }}/assets/images/object_detection.mp4" type="video/mp4">
+                                    </video>
                                 </div>
                                 <div class="project-content">
                                     <h3 class="project-title">{{ "project7.title" | t: page.lang }}</h3>
@@ -113,7 +166,7 @@
                         <a href="https://github.com/n-pizzetta/diffusion_model" target="_blank" class="project-card-link">
                             <article class="project-card">
                                 <div class="project-image-container diffusion-img" data-view-project="{{ 'portfolio.view_project' | t: page.lang }}">
-                                    <img src="{{ site.baseurl }}/assets/images/diffusion.png" alt="{{ 'project5.title' | t: page.lang }}">
+                                    <img src="{{ site.baseurl }}/assets/images/diffusion.png" alt="{{ 'project5.title' | t: page.lang }}" loading="lazy">
                                 </div>
                                 <div class="project-content">
                                     <h3 class="project-title">{{ "project5.title" | t: page.lang }}</h3>
@@ -131,7 +184,7 @@
                         <a href="https://github.com/n-pizzetta/churn_prediction" target="_blank" class="project-card-link">
                             <article class="project-card">
                                 <div class="project-image-container" data-view-project="{{ 'portfolio.view_project' | t: page.lang }}">
-                                    <img src="{{ site.baseurl }}/assets/images/churn-prediction.jpg" alt="{{ 'project6.title' | t: page.lang }}">
+                                    <img src="{{ site.baseurl }}/assets/images/churn-prediction.jpg" alt="{{ 'project6.title' | t: page.lang }}" loading="lazy">
                                 </div>
                                 <div class="project-content">
                                     <h3 class="project-title">{{ "project6.title" | t: page.lang }}</h3>
@@ -149,7 +202,7 @@
                         <a href="https://github.com/n-pizzetta/csv-manager" target="_blank" class="project-card-link">
                             <article class="project-card">
                                 <div class="project-image-container" data-view-project="{{ 'portfolio.view_project' | t: page.lang }}">
-                                    <img src="{{ site.baseurl }}/assets/images/csv_manager_app.gif" alt="{{ 'project3.title' | t: page.lang }}">
+                                    <img src="{{ site.baseurl }}/assets/images/csv_manager_app.gif" alt="{{ 'project3.title' | t: page.lang }}" loading="lazy">
                                 </div>
                                 <div class="project-content">
                                     <h3 class="project-title">{{ "project3.title" | t: page.lang }}</h3>
@@ -167,7 +220,7 @@
                         <a href="https://n-pizzetta.github.io/Applied/airport-traffic-last-version.html" target="_blank" class="project-card-link">
                             <article class="project-card">
                                 <div class="project-image-container" data-view-project="{{ 'portfolio.view_project' | t: page.lang }}">
-                                    <img src="{{ site.baseurl }}/assets/images/airport_traffic.png" alt="{{ 'project1.title' | t: page.lang }}">
+                                    <img src="{{ site.baseurl }}/assets/images/airport_traffic.png" alt="{{ 'project1.title' | t: page.lang }}" loading="lazy">
                                 </div>
                                 <div class="project-content">
                                     <h3 class="project-title">{{ "project1.title" | t: page.lang }}</h3>
@@ -185,7 +238,9 @@
                         <a href="https://n-pizzetta.github.io/r-project/chicago-crimes-weber-pizzetta.html" target="_blank" class="project-card-link">
                             <article class="project-card">
                                 <div class="project-image-container" data-view-project="{{ 'portfolio.view_project' | t: page.lang }}">
-                                    <img src="{{ site.baseurl }}/assets/images/chicago_crime.gif" alt="{{ 'project2.title' | t: page.lang }}">
+                                    <video autoplay muted loop playsinline poster="{{ site.baseurl }}/assets/images/chicago_crime_poster.jpg" loading="lazy">
+                                        <source src="{{ site.baseurl }}/assets/images/chicago_crime.mp4" type="video/mp4">
+                                    </video>
                                 </div>
                                 <div class="project-content">
                                     <h3 class="project-title">{{ "project2.title" | t: page.lang }}</h3>
@@ -231,7 +286,7 @@
                 </div>
                 
                 <!-- EXPERIENCES TAB -->
-                <div id="experiences-tab" class="tab-content">
+                <div id="experiences-tab" class="tab-content active">
                     <p class="section-subtitle">{{ "experiences.subtitle" | t: page.lang }}</p>
                     
                     <div class="timeline">
@@ -269,6 +324,22 @@
         </div>
     </div>
 
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <button class="bottom-nav-item active" onclick="switchTab('experiences')" data-tab="experiences">
+            <i class="fas fa-briefcase"></i>
+            <span>{{ "tabs.experiences" | t: page.lang }}</span>
+        </button>
+        <button class="bottom-nav-item" onclick="switchTab('portfolio')" data-tab="portfolio">
+            <i class="fas fa-code"></i>
+            <span>{{ "tabs.portfolio" | t: page.lang }}</span>
+        </button>
+        <button class="bottom-nav-item" onclick="switchTab('studies')" data-tab="studies">
+            <i class="fas fa-graduation-cap"></i>
+            <span>{{ "tabs.studies" | t: page.lang }}</span>
+        </button>
+    </nav>
+
     <!-- JavaScript -->
     <script>
         function toggleDrawer() {
@@ -276,6 +347,70 @@
             document.getElementById('drawer-overlay').classList.toggle('active');
             document.body.classList.toggle('drawer-active');
         }
+
+        function toggleMobileDrawer() {
+            var sheet = document.getElementById('mobile-bottom-sheet');
+            var overlay = document.getElementById('mobile-sheet-overlay');
+            sheet.classList.toggle('open');
+            overlay.classList.toggle('active');
+            document.body.classList.toggle('mobile-sheet-open');
+        }
+
+        function closeMobileDrawer() {
+            document.getElementById('mobile-bottom-sheet').classList.remove('open');
+            document.getElementById('mobile-sheet-overlay').classList.remove('active');
+            document.body.classList.remove('mobile-sheet-open');
+        }
+
+        // Swipe down to close bottom sheet
+        (function() {
+            var sheet = document.getElementById('mobile-bottom-sheet');
+            if (!sheet) return;
+            var startY = 0;
+            var currentY = 0;
+            var isDragging = false;
+
+            sheet.addEventListener('touchstart', function(e) {
+                if (sheet.scrollTop > 0) return;
+                startY = e.touches[0].clientY;
+                isDragging = true;
+                sheet.style.transition = 'none';
+            }, { passive: true });
+
+            sheet.addEventListener('touchmove', function(e) {
+                if (!isDragging) return;
+                currentY = e.touches[0].clientY;
+                var diff = currentY - startY;
+                if (diff > 0) {
+                    sheet.style.transform = 'translateY(' + diff + 'px)';
+                }
+            }, { passive: true });
+
+            sheet.addEventListener('touchend', function() {
+                if (!isDragging) return;
+                isDragging = false;
+                sheet.style.transition = '';
+                var diff = currentY - startY;
+                if (diff > 80) {
+                    closeMobileDrawer();
+                }
+                sheet.style.transform = '';
+                currentY = 0;
+                startY = 0;
+            });
+        })();
+
+        function toggleLangDropdown() {
+            document.getElementById('mobile-lang-switcher').classList.toggle('expanded');
+        }
+
+        // Close lang dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            var langSwitcher = document.getElementById('mobile-lang-switcher');
+            if (langSwitcher && !langSwitcher.contains(e.target)) {
+                langSwitcher.classList.remove('expanded');
+            }
+        });
         
         // Save current tab when switching language
         function saveCurrentTab(event, url) {
@@ -293,58 +428,55 @@
             window.location.href = url;
         }
         
+        // Sync active state across desktop tabs and bottom nav
+        function syncActiveState(tabName) {
+            // Desktop tab buttons
+            document.querySelectorAll('.tab-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+                if (btn.onclick && btn.onclick.toString().indexOf(tabName) !== -1) {
+                    btn.classList.add('active');
+                }
+            });
+            // Mobile bottom nav items
+            document.querySelectorAll('.bottom-nav-item').forEach(function(item) {
+                item.classList.remove('active');
+                if (item.getAttribute('data-tab') === tabName) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
         // Restore the active tab on page load
         function restoreActiveTab() {
             const savedTab = sessionStorage.getItem('activeTab');
-            
-            if (savedTab && savedTab !== 'portfolio') {
+
+            if (savedTab && savedTab !== 'experiences') {
                 // Hide all tabs
-                const tabContents = document.querySelectorAll('.tab-content');
-                tabContents.forEach(content => {
+                document.querySelectorAll('.tab-content').forEach(function(content) {
                     content.classList.remove('active');
                 });
-                
-                // Remove active class from all buttons
-                const tabButtons = document.querySelectorAll('.tab-btn');
-                tabButtons.forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                
+
                 // Show the saved tab
                 const targetTab = document.getElementById(savedTab + '-tab');
                 if (targetTab) {
                     targetTab.classList.add('active');
-                    
-                    // Activate the corresponding button
-                    const buttons = document.querySelectorAll('.tab-btn');
-                    buttons.forEach(btn => {
-                        if (btn.textContent.toLowerCase().includes(savedTab) || 
-                            btn.onclick.toString().includes(savedTab)) {
-                            btn.classList.add('active');
-                        }
-                    });
+                    syncActiveState(savedTab);
                 }
             }
         }
-        
+
         // Tab switching function
         function switchTab(tabName) {
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => {
+            document.querySelectorAll('.tab-content').forEach(function(content) {
                 content.classList.remove('active');
             });
-            
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            tabButtons.forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
+
             document.getElementById(tabName + '-tab').classList.add('active');
-            event.target.classList.add('active');
-            
+            syncActiveState(tabName);
+
             // Save the current tab
             sessionStorage.setItem('activeTab', tabName);
-            
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
@@ -371,9 +503,14 @@
             }, 500);
         }
         
-        // Restore tab on page load
+        // Restore tab on page load + close drawer on mobile
         window.addEventListener('DOMContentLoaded', function() {
             restoreActiveTab();
+            if (window.innerWidth < 768) {
+                document.getElementById('sidebar-drawer').classList.remove('open');
+                document.getElementById('drawer-overlay').classList.remove('active');
+                document.body.classList.remove('drawer-active');
+            }
         });
     </script>
 </body>

@@ -1,4 +1,6 @@
 *.Rhistory
 *.DS_Store
 *.mov
-*.DS_Store
+_site/
+.jekyll-cache/
+.sass-cache/
