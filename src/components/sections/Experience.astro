@@ -1,0 +1,119 @@
+---
+import { t } from '@/i18n/ui';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+
+const experiences = [
+  {
+    date: { en: 'Oct 2025 - Present', fr: 'Oct 2025 - Présent' },
+    title: { en: 'AI Consultant & Data Scientist', fr: 'Consultant IA & Data Scientist' },
+    institution: { en: 'CDI, AVISIA', fr: 'CDI, AVISIA' },
+    description: {
+      en: 'Developed an AI-powered task automation tool for a major home improvement retail group. Full-stack architecture on GCP for web and mobile applications.',
+      fr: "Développement d'un outil d'automatisation de tâches basé sur l'IA pour une grande enseigne de bricolage. Conception d'une architecture full-stack sur GCP.",
+    },
+  },
+  {
+    date: { en: 'Apr-Oct 2025', fr: 'Avr-Oct 2025' },
+    title: { en: 'Data Science Consultant Intern', fr: 'Stagiaire Consultant Data Scientist' },
+    institution: { en: 'Internship, AVISIA', fr: 'Stage, AVISIA' },
+    description: {
+      en: 'Predictive model for 3-year client potential assessment at a multinational insurance company. MCP Agent testing with n8n. Python plugin for Dataiku for SAS migration.',
+      fr: 'Modèle prédictif pour évaluer le potentiel client sur 3 ans. Test Agent MCP avec n8n. Plugin Python pour Dataiku pour migration SAS.',
+    },
+  },
+  {
+    date: { en: 'Aug 2024 - Feb 2025', fr: 'Août 2024 - Fév 2025' },
+    title: { en: 'Data Scientist Alternant', fr: 'Alternant Data Scientist' },
+    institution: { en: 'Apprenticeship, Écologie Logistique', fr: 'Alternance, Écologie Logistique' },
+    description: {
+      en: 'Computer vision models for vehicle detection. Personal website development. Organized a data science hackathon on pollution analysis.',
+      fr: 'Modèles de computer vision pour la détection de véhicules. Création du site web personnel. Organisation d\'un hackathon data science sur l\'analyse de pollution.',
+    },
+  },
+  {
+    date: { en: 'Jun-Sept 2024', fr: 'Juin-Sept 2024' },
+    title: { en: 'Finalist — GOOGLE & Think Young Hackathon', fr: 'Finaliste — Hackathon GOOGLE & Think Young' },
+    institution: { en: 'TSE Junior Enterprise', fr: 'TSE Junior Entreprise' },
+    description: {
+      en: 'Developed "Verichat", an NLP tool for fact-checking European Parliament members. Partnership with AFP. Presented at Google Paris HQ.',
+      fr: 'Développement de "Verichat", outil NLP de fact-checking des membres du Parlement Européen. Partenariat AFP. Présentation chez Google Paris.',
+    },
+    featured: true,
+  },
+  {
+    date: { en: 'May-Aug 2024', fr: 'Mai-Août 2024' },
+    title: { en: 'Data Scientist Intern', fr: 'Stagiaire Data Scientist' },
+    institution: { en: 'Internship, Écologie Logistique', fr: 'Stage, Écologie Logistique' },
+    description: {
+      en: 'Web scraping for automated data retrieval. Econometric models for pollution tracking. Access-to-CSV conversion application.',
+      fr: 'Web scraping pour la récupération automatisée de données. Modèles économétriques pour le suivi de pollution. Application de conversion Access vers CSV.',
+    },
+  },
+  {
+    date: { en: 'Apr-Jun 2024', fr: 'Avr-Juin 2024' },
+    title: { en: 'Data Scientist Consultant', fr: 'Consultant Data Scientist' },
+    institution: { en: 'Mission, TSE Junior Enterprise', fr: 'Mission, TSE Junior Entreprise' },
+    description: {
+      en: 'Predictive model for ADDEV Materials, an aerospace company.',
+      fr: 'Modèle prédictif pour ADDEV Materials, entreprise aérospatiale.',
+    },
+  },
+  {
+    date: { en: 'Jan-Jun 2023', fr: 'Jan-Juin 2023' },
+    title: { en: 'Economic Projects Assistant Intern', fr: 'Stage Assistant de Projets Économiques' },
+    institution: { en: 'General Delegation of Quebec in Paris', fr: 'Délégation Générale du Québec à Paris' },
+    description: {
+      en: 'Project support on events: Paris Air Show, VivaTech, Santexpo. Prospecting and networking between Quebec and French companies.',
+      fr: 'Assistance projet sur les événements : Salon de l\'Aéronautique, VivaTech, Santexpo. Prospection et mise en relation Québec-France.',
+    },
+  },
+  {
+    date: { en: 'Oct-Dec 2022', fr: 'Oct-Déc 2022' },
+    title: { en: 'Volunteer English Teacher', fr: "Professeur d'Anglais Bénévole" },
+    institution: { en: 'Ghunsa, Nepal', fr: 'Ghunsa, Népal' },
+    description: {
+      en: 'Taught English to children in a remote mountain village near Everest. Developed teaching materials and organized educational activities.',
+      fr: "Enseignement de l'anglais à des enfants dans un village isolé près de l'Everest. Développement de matériel pédagogique.",
+    },
+  },
+];
+---
+
+<section id="experience" class="py-section">
+  <div class="section-container">
+    <div class="text-center mb-16">
+      <h2 class="font-serif text-heading text-white mb-3">{t('experience.title', locale)}</h2>
+      <p class="text-text-muted">{t('experience.subtitle', locale)}</p>
+    </div>
+
+    <div class="relative">
+      <!-- Timeline line -->
+      <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-border-hover to-transparent md:-translate-x-px"></div>
+
+      {experiences.map((exp, i) => (
+        <div class={`relative flex flex-col md:flex-row gap-8 mb-12 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+          <!-- Timeline dot -->
+          <div class={`absolute left-0 md:left-1/2 w-3 h-3 rounded-full -translate-x-1.5 md:-translate-x-1.5 top-2 ${exp.featured ? 'bg-accent shadow-[0_0_12px_rgba(201,169,110,0.5)]' : 'bg-bg-elevated border border-border-hover'}`}></div>
+
+          <!-- Content -->
+          <div class={`ml-6 md:ml-0 md:w-1/2 ${i % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'}`}>
+            <div class="glass rounded-xl p-6 hover:border-border-hover transition-all duration-300">
+              <p class="text-accent text-sm tracking-wide mb-1">{exp.date[locale as 'en' | 'fr']}</p>
+              <h3 class="font-serif text-lg text-white mb-1">
+                {exp.title[locale as 'en' | 'fr']}
+                {exp.featured && <span class="inline-block ml-2 text-xs bg-accent/20 text-accent px-2 py-0.5 rounded-full">&#9733;</span>}
+              </h3>
+              <p class="text-sm text-text-subtle mb-3">{exp.institution[locale as 'en' | 'fr']}</p>
+              <p class="text-sm text-text-muted leading-relaxed">{exp.description[locale as 'en' | 'fr']}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,376 @@
+---
+import { t } from '@/i18n/ui';
+import { locations } from '@/data/locations';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+---
+
+<section id="hero" class="relative h-screen flex flex-col items-center justify-center overflow-hidden">
+  <!-- Globe canvas -->
+  <canvas id="globe-canvas" class="absolute inset-0 w-full h-full" style="touch-action: none;"></canvas>
+
+  <!-- Dark gradient at bottom for text readability -->
+  <div class="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-bg via-bg/70 to-transparent z-10 pointer-events-none"></div>
+
+  <!-- City label floating near active marker -->
+  <div id="city-label" class="absolute z-20 pointer-events-none opacity-0 flex items-center gap-1.5 whitespace-nowrap" style="transition: opacity 0.5s ease-out, left 0.1s linear, top 0.1s linear;">
+    <span class="block w-px h-4 bg-accent/60"></span>
+    <span id="city-label-text" class="text-accent text-[11px] font-sans font-medium tracking-[0.15em] uppercase"></span>
+  </div>
+
+  <!-- Pulse ring on active marker -->
+  <div id="marker-ring" class="absolute z-15 pointer-events-none opacity-0" style="transition: opacity 0.4s ease-out, left 0.1s linear, top 0.1s linear;">
+    <span class="block w-5 h-5 rounded-full border border-accent/50 animate-ping-slow"></span>
+  </div>
+
+  <!-- Bottom controls: text + badge + dots -->
+  <div class="absolute z-30 bottom-6 left-1/2 -translate-x-1/2 w-full max-w-xl px-6 flex flex-col items-center">
+    <div id="location-overlay" class="w-full text-center opacity-0 pointer-events-none flex flex-col items-center mb-4">
+      <p class="font-serif text-lg md:text-xl text-white leading-snug mb-3" style="text-shadow: 0 2px 20px rgba(0,0,0,0.8);">
+        &ldquo;<span id="caption-text"></span><span id="caption-cursor" class="inline-block w-[2px] h-[0.85em] bg-accent ml-0.5 align-text-bottom animate-blink"></span>&rdquo;
+      </p>
+      <span id="location-country" class="inline-block bg-accent/15 border border-accent/25 text-accent px-3 py-1 font-sans text-[10px] tracking-[0.2em] uppercase font-medium rounded-sm"></span>
+    </div>
+
+    <div class="flex items-center justify-center gap-3">
+      {locations.map((_loc, i) => (
+        <button
+          data-dot-index={i}
+          class="w-2 h-2 rounded-full bg-white/20 transition-all duration-300 dot-indicator hover:bg-white/50 cursor-pointer"
+          aria-label={_loc.city}
+        ></button>
+      ))}
+    </div>
+  </div>
+
+  <!-- Hero text overlay -->
+  <div id="hero-text" class="absolute inset-0 flex flex-col items-center justify-center z-20 text-center px-6 pointer-events-none">
+    <h1 class="font-serif text-5xl md:text-display text-white mb-4" style="text-shadow: 0 4px 30px rgba(0,0,0,0.5);">
+      {t('hero.name', locale)}
+    </h1>
+    <p class="text-lg md:text-subheading text-text-muted mb-8" style="text-shadow: 0 2px 15px rgba(0,0,0,0.5);">
+      {t('hero.subtitle', locale)}
+    </p>
+  </div>
+</section>
+
+<style>
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  .animate-blink {
+    animation: blink 0.8s step-end infinite;
+  }
+  @keyframes ping-slow {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+    100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+  }
+  .animate-ping-slow {
+    animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  #marker-ring span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>
+
+<script define:vars={{ locations, locale }}>
+  window.__GLOBE_LOCATIONS__ = locations;
+  window.__GLOBE_LOCALE__ = locale;
+</script>
+
+<script>
+  import createGlobe from 'cobe';
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const globeCanvas = document.getElementById('globe-canvas') as HTMLCanvasElement;
+  const overlay = document.getElementById('location-overlay') as HTMLElement;
+  const heroText = document.getElementById('hero-text') as HTMLElement;
+  const countryEl = document.getElementById('location-country')!;
+  const captionTextEl = document.getElementById('caption-text')!;
+  const captionCursor = document.getElementById('caption-cursor')!;
+  const cityLabel = document.getElementById('city-label') as HTMLElement;
+  const cityLabelText = document.getElementById('city-label-text')!;
+  const markerRing = document.getElementById('marker-ring') as HTMLElement;
+  const dots = document.querySelectorAll('[data-dot-index]');
+  const heroSection = document.getElementById('hero')!;
+
+  const locations = (window as any).__GLOBE_LOCATIONS__ as any[];
+  const locale = ((window as any).__GLOBE_LOCALE__ || 'en') as string;
+
+  // --- Typewriter ---
+  let typewriterTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function typewrite(text: string) {
+    if (typewriterTimer) clearTimeout(typewriterTimer);
+    captionTextEl.textContent = '';
+    captionCursor.style.display = 'inline-block';
+
+    const chars = text.split('');
+    let i = 0;
+
+    function next() {
+      if (i >= chars.length) {
+        typewriterTimer = setTimeout(() => {
+          captionCursor.style.display = 'none';
+        }, 800);
+        return;
+      }
+      captionTextEl.textContent += chars[i];
+      i++;
+      // Pause plus longue après ponctuation, légère variation sinon
+      const char = chars[i - 1];
+      const delay = char === '.' || char === ',' ? 150 + Math.random() * 100
+                  : char === ' ' ? 60 + Math.random() * 30
+                  : 35 + Math.random() * 25;
+      typewriterTimer = setTimeout(next, delay);
+    }
+    next();
+  }
+
+  // --- Globe state ---
+  function toAngles(lat: number, lng: number): [number, number] {
+    return [
+      Math.PI - ((lng * Math.PI) / 180 - Math.PI / 2),
+      (lat * Math.PI) / 180,
+    ];
+  }
+
+  let currentPhi = 0.4;
+  let targetPhi = 0.4;
+  let currentTheta = 0.25;
+  let targetTheta = 0.25;
+  let currentScale = 0.55;
+  let targetScale = 0.55;
+  let activeLocationIndex = -1;
+  let autoCycleIndex = 0;
+  let autoCycleTimer: ReturnType<typeof setTimeout> | null = null;
+
+  let canvasSize = 0;
+  let canvasOffsetX = 0;
+  let canvasOffsetY = 0;
+
+  function resize() {
+    const w = heroSection.clientWidth;
+    const h = heroSection.clientHeight;
+    const dpr = devicePixelRatio;
+    canvasSize = Math.max(w, h);
+    canvasOffsetX = (w - canvasSize) / 2;
+    canvasOffsetY = (h - canvasSize) / 2;
+    globeCanvas.width = canvasSize * dpr;
+    globeCanvas.height = canvasSize * dpr;
+    globeCanvas.style.width = canvasSize + 'px';
+    globeCanvas.style.height = canvasSize + 'px';
+    globeCanvas.style.left = canvasOffsetX + 'px';
+    globeCanvas.style.top = canvasOffsetY + 'px';
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // --- Project lat/lng → screen position ---
+  function projectToScreen(coords: [number, number]): [number, number, boolean] {
+    const latRad = (coords[0] * Math.PI) / 180;
+    const lngRad = (coords[1] * Math.PI) / 180;
+    // Invert toAngles: phi = 3PI/2 - lngRad → centeredLon = 3PI/2 - phi
+    const centeredLon = 3 * Math.PI / 2 - currentPhi;
+    const centeredLat = currentTheta;
+    const deltaLng = lngRad - centeredLon;
+    // Visibility check
+    const cosAngle = Math.sin(centeredLat) * Math.sin(latRad) +
+                     Math.cos(centeredLat) * Math.cos(latRad) * Math.cos(deltaLng);
+    // Orthographic projection (Cobe globe fills ~half the canvas at scale=1)
+    const R = (canvasSize / 2) * currentScale;
+    const x = R * Math.cos(latRad) * Math.sin(deltaLng);
+    const y = -R * (Math.cos(centeredLat) * Math.sin(latRad) -
+                     Math.sin(centeredLat) * Math.cos(latRad) * Math.cos(deltaLng));
+    const screenX = canvasSize / 2 + canvasOffsetX + x;
+    const screenY = canvasSize / 2 + canvasOffsetY + y;
+    return [screenX, screenY, cosAngle > 0.15];
+  }
+
+  const markers = locations.map((loc: any) => ({
+    location: loc.coordinates,
+    size: loc.markerSize,
+  }));
+
+  // --- Show location ---
+  function showLocation(index: number) {
+    if (index < 0 || index >= locations.length) {
+      gsap.to(overlay, { opacity: 0, duration: 0.3 });
+      activeLocationIndex = -1;
+      updateDots(-1);
+      return;
+    }
+    if (index === activeLocationIndex) return;
+
+    const loc = locations[index];
+    activeLocationIndex = index;
+    // Hide label and ring immediately before rotating to new destination
+    cityLabel.style.opacity = '0';
+    markerRing.style.opacity = '0';
+
+    gsap.to(overlay, {
+      opacity: 0, duration: 0.15,
+      onComplete: () => {
+        countryEl.textContent = (loc.country[locale] || loc.country.en).toUpperCase();
+        captionTextEl.textContent = '';
+        captionCursor.style.display = 'inline-block';
+        gsap.to(overlay, {
+          opacity: 1, duration: 0.4, ease: 'power2.out',
+          onComplete: () => typewrite(loc.caption[locale] || loc.caption.en),
+        });
+      }
+    });
+    updateDots(index);
+  }
+
+  function updateDots(activeIndex: number) {
+    dots.forEach((dot, i) => {
+      const el = dot as HTMLElement;
+      if (i === activeIndex) {
+        el.classList.add('!bg-accent', '!w-2.5', '!h-2.5', '!shadow-[0_0_6px_rgba(201,169,110,0.6)]');
+      } else {
+        el.classList.remove('!bg-accent', '!w-2.5', '!h-2.5', '!shadow-[0_0_6px_rgba(201,169,110,0.6)]');
+      }
+    });
+  }
+
+  function focusLocation(index: number) {
+    if (index < 0 || index >= locations.length) return;
+    const loc = locations[index];
+    const [phi, theta] = toAngles(loc.coordinates[0], loc.coordinates[1]);
+    targetPhi = phi;
+    targetTheta = theta;
+    targetScale = loc.zoomScale || 1.0;
+    showLocation(index);
+  }
+
+  // --- Dot clicks ---
+  dots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      stopAutoCycle();
+      const index = parseInt(dot.getAttribute('data-dot-index') || '0');
+      focusLocation(index);
+      autoCycleIndex = (index + 1) % locations.length;
+      autoCycleTimer = setTimeout(() => startAutoCycle(), 6000);
+    });
+  });
+
+  // --- Auto-cycle ---
+  function startAutoCycle() {
+    stopAutoCycle();
+    autoCycleTimer = setTimeout(() => {
+      gsap.to(heroText, { opacity: 0, duration: 0.6 });
+
+      function cycleNext() {
+        focusLocation(autoCycleIndex);
+        const prev = autoCycleIndex;
+        autoCycleIndex = (autoCycleIndex + 1) % locations.length;
+        const charCount = (locations[prev].caption[locale] || '').length || 30;
+        autoCycleTimer = setTimeout(cycleNext, charCount * 45 + 800 + 4000);
+      }
+      cycleNext();
+    }, 3000);
+  }
+
+  function stopAutoCycle() {
+    if (autoCycleTimer) { clearTimeout(autoCycleTimer); autoCycleTimer = null; }
+  }
+
+  // --- Create globe ---
+  const globe = createGlobe(globeCanvas, {
+    devicePixelRatio,
+    width: globeCanvas.width,
+    height: globeCanvas.height,
+    phi: currentPhi,
+    theta: currentTheta,
+    dark: 1,
+    diffuse: 1.2,
+    mapSamples: 40000,
+    mapBrightness: 4,
+    scale: 0.55,
+    baseColor: [0.1, 0.1, 0.12],
+    markerColor: [0.85, 0.72, 0.45],
+    glowColor: [0.04, 0.04, 0.06],
+    markers,
+    onRender: (state) => {
+      if (activeLocationIndex < 0) {
+        targetPhi += 0.002;
+        targetScale = 0.55;
+      }
+      currentPhi += (targetPhi - currentPhi) * 0.06;
+      currentTheta += (targetTheta - currentTheta) * 0.06;
+      currentScale += (targetScale - currentScale) * 0.04;
+      state.phi = currentPhi;
+      state.theta = currentTheta;
+      state.width = globeCanvas.width;
+      state.height = globeCanvas.height;
+      (state as any).scale = currentScale;
+
+      // Marker ring + city label tracking
+      if (activeLocationIndex >= 0) {
+        const loc = locations[activeLocationIndex];
+        const [sx, sy, vis] = projectToScreen(loc.coordinates);
+
+        // Check if globe has converged on the target (rotation nearly done)
+        const phiDelta = Math.abs(targetPhi - currentPhi);
+        const thetaDelta = Math.abs(targetTheta - currentTheta);
+        const converged = phiDelta < 0.05 && thetaDelta < 0.05;
+
+        // Pulse ring + city label — only appear after globe has settled
+        if (vis && converged) {
+          markerRing.style.left = Math.round(sx) + 'px';
+          markerRing.style.top = Math.round(sy) + 'px';
+          markerRing.style.opacity = '1';
+        } else {
+          markerRing.style.opacity = '0';
+        }
+
+        // City label
+        if (vis && converged) {
+          cityLabelText.textContent = loc.city;
+          cityLabel.style.left = Math.round(sx + 16) + 'px';
+          cityLabel.style.top = Math.round(sy - 6) + 'px';
+          cityLabel.style.opacity = '1';
+        } else {
+          cityLabel.style.opacity = '0';
+        }
+      } else {
+        cityLabel.style.opacity = '0';
+        markerRing.style.opacity = '0';
+      }
+    },
+  });
+
+  startAutoCycle();
+
+  // --- Section animations ---
+  document.querySelectorAll('#about, #experience, #projects, #education, #contact').forEach((section) => {
+    gsap.from(section, {
+      scrollTrigger: { trigger: section, start: 'top 85%', toggleActions: 'play none none none' },
+      opacity: 0, y: 40, duration: 0.8, ease: 'power2.out',
+    });
+  });
+  document.querySelectorAll('.glass').forEach((card) => {
+    gsap.from(card, {
+      scrollTrigger: { trigger: card, start: 'top 90%', toggleActions: 'play none none none' },
+      opacity: 0, y: 30, duration: 0.6, ease: 'power2.out',
+    });
+  });
+
+  window.addEventListener('beforeunload', () => {
+    globe.destroy();
+    stopAutoCycle();
+    if (typewriterTimer) clearTimeout(typewriterTimer);
+  });
+</script>

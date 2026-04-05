@@ -1,0 +1,19 @@
+---
+// Root page: detect browser language and redirect
+---
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0;url=/en/" />
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <script is:inline>
+      const saved = sessionStorage.getItem('preferredLang');
+      const browser = navigator.language?.startsWith('fr') ? 'fr' : 'en';
+      const lang = saved || browser;
+      window.location.href = `/${lang}/`;
+    </script>
+  </body>
+</html>

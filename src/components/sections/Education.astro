@@ -1,0 +1,75 @@
+---
+import { t } from '@/i18n/ui';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+
+const education = [
+  {
+    date: { en: '2023 - 2025', fr: '2023 - 2025' },
+    title: { en: "Master's Degree in Data Science for Social Sciences", fr: 'Master en Data Science pour les Sciences Sociales' },
+    institution: { en: 'Toulouse School of Economics (TSE)', fr: 'Toulouse School of Economics (TSE)' },
+    description: {
+      en: 'Advanced statistical methods, econometric modeling, machine learning, predictive analytics, time series analysis, and causal inference.',
+      fr: 'Méthodes statistiques avancées, modélisation économétrique, machine learning, analyse prédictive, séries temporelles et inférence causale.',
+    },
+  },
+  {
+    date: { en: '2022 - 2023', fr: '2022 - 2023' },
+    title: { en: 'Gap Year', fr: 'Année de césure' },
+    institution: { en: 'Nepal & Paris, France', fr: 'Népal & Paris, France' },
+    description: {
+      en: 'Volunteer English teaching in Nepal, followed by a 6-month internship at the General Delegation of Quebec in Paris.',
+      fr: "Bénévolat comme professeur d'anglais au Népal, suivi d'un stage de 6 mois à la Délégation Générale du Québec à Paris.",
+    },
+  },
+  {
+    date: { en: '2019 - 2022', fr: '2019 - 2022' },
+    title: { en: "Double Bachelor's Degree in Mathematics and Economics", fr: 'Double Licence en Mathématiques et Économie' },
+    institution: { en: 'Toulouse School of Economics (TSE)', fr: 'Toulouse School of Economics (TSE)' },
+    description: {
+      en: 'Microeconomics, macroeconomics, quantitative methods. Introduction to statistical analysis and programming with R and Python.',
+      fr: 'Microéconomie, macroéconomie, méthodes quantitatives. Introduction à l\'analyse statistique et à la programmation avec R et Python.',
+    },
+  },
+  {
+    date: { en: '2017 - 2019', fr: '2017 - 2019' },
+    title: { en: 'High School Diploma — Mathematics Specialization', fr: 'Bac Scientifique — Spécialité Mathématiques' },
+    institution: { en: 'Lycée Lapérouse, Albi', fr: 'Lycée Lapérouse, Albi' },
+  },
+  {
+    date: { en: '2016 - 2017', fr: '2016 - 2017' },
+    title: { en: 'Exchange Year', fr: "Année d'échange" },
+    institution: { en: 'Rotary Club, Puebla (Mexico)', fr: 'Rotary Club, Puebla (Mexique)' },
+    description: {
+      en: 'One year as an exchange student following the Mexican curriculum at UPAEP, living in three different host families.',
+      fr: "Une année d'échange au Mexique au sein de UPAEP, accueilli par trois familles d'accueil différentes.",
+    },
+  },
+];
+---
+
+<section id="education" class="py-section">
+  <div class="section-container">
+    <div class="text-center mb-16">
+      <h2 class="font-serif text-heading text-white mb-3">{t('education.title', locale)}</h2>
+      <p class="text-text-muted">{t('education.subtitle', locale)}</p>
+    </div>
+
+    <div class="max-w-2xl mx-auto space-y-8">
+      {education.map((edu) => (
+        <div class="glass rounded-xl p-6 hover:border-border-hover transition-all duration-300">
+          <p class="text-accent text-sm tracking-wide mb-1">{edu.date[locale as 'en' | 'fr']}</p>
+          <h3 class="font-serif text-lg text-white mb-1">{edu.title[locale as 'en' | 'fr']}</h3>
+          <p class="text-sm text-text-subtle mb-2">{edu.institution[locale as 'en' | 'fr']}</p>
+          {edu.description && (
+            <p class="text-sm text-text-muted leading-relaxed">{edu.description[locale as 'en' | 'fr']}</p>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

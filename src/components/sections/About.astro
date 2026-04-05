@@ -1,0 +1,20 @@
+---
+import { t } from '@/i18n/ui';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+---
+
+<section id="about" class="py-section">
+  <div class="section-container">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="font-serif text-heading text-white mb-8">{t('about.title', locale)}</h2>
+      <p class="text-lg text-text-muted leading-relaxed mb-8">
+        {t('about.text', locale)}
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+---
+import Base from '@/layouts/Base.astro';
+import Hero from '@/components/sections/Hero.astro';
+import About from '@/components/sections/About.astro';
+import Experience from '@/components/sections/Experience.astro';
+import Projects from '@/components/sections/Projects.astro';
+import Education from '@/components/sections/Education.astro';
+import Contact from '@/components/sections/Contact.astro';
+
+const locale = 'en';
+---
+
+<Base>
+  <Hero locale={locale} />
+  <About locale={locale} />
+  <Experience locale={locale} />
+  <Projects locale={locale} />
+  <Education locale={locale} />
+  <Contact locale={locale} />
+</Base>

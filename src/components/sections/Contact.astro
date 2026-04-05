@@ -1,0 +1,34 @@
+---
+import { t } from '@/i18n/ui';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+---
+
+<section id="contact" class="py-section bg-bg-surface">
+  <div class="section-container">
+    <div class="max-w-xl mx-auto text-center">
+      <h2 class="font-serif text-heading text-white mb-4">{t('contact.title', locale)}</h2>
+      <p class="text-text-muted mb-8">{t('contact.text', locale)}</p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="mailto:nathan.pizzetta@gmail.com"
+          class="px-6 py-3 rounded-full bg-accent text-bg font-medium text-sm hover:bg-accent-light transition-colors"
+        >
+          nathan.pizzetta@gmail.com
+        </a>
+        <a
+          href="/assets/CV_nathan_pizzetta.pdf"
+          target="_blank"
+          class="px-6 py-3 rounded-full border border-border hover:border-accent text-text-muted hover:text-accent transition-all text-sm"
+        >
+          {t('hero.download_cv', locale)}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

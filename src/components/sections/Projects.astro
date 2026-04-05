@@ -1,0 +1,118 @@
+---
+import { t } from '@/i18n/ui';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+
+const projects = [
+  {
+    title: { en: 'Object Detection on Videos', fr: "Détection d'objets sur vidéos" },
+    description: {
+      en: 'A YOLO-based object detection project with clean setup using pip, pre-commit hooks, linting, and testing.',
+      fr: "Projet de détection d'objets basé sur YOLO avec configuration propre : pip, pre-commit hooks, linting et tests.",
+    },
+    tags: ['YOLO', 'Python', 'Git/GitHub'],
+    image: '/assets/images/projects/object_detection_poster.jpg',
+    url: 'https://github.com/n-pizzetta/object_detection',
+  },
+  {
+    title: { en: 'Image Generation', fr: "Génération d'images" },
+    description: {
+      en: 'Deep dive into diffusion models and their integration with U-Net architectures for image generation.',
+      fr: "Exploration approfondie des modèles de diffusion et leur intégration avec les architectures U-Net.",
+    },
+    tags: ['Deep Learning', 'U-Net', 'GenAI'],
+    image: '/assets/images/projects/diffusion.png',
+    url: 'https://github.com/n-pizzetta/diffusion_model',
+  },
+  {
+    title: { en: 'Churn Prediction', fr: 'Prédiction du Churn' },
+    description: {
+      en: 'Predicting customer churn and clustering for targeted marketing strategies on a telecom dataset.',
+      fr: 'Prédiction du churn client et clustering pour des stratégies marketing ciblées sur un dataset télécoms.',
+    },
+    tags: ['Machine Learning', 'Clustering', 'Python'],
+    image: '/assets/images/projects/churn-prediction.jpg',
+    url: 'https://github.com/n-pizzetta/churn_prediction',
+  },
+  {
+    title: { en: 'CSV Manager', fr: 'Gestionnaire CSV' },
+    description: {
+      en: 'User-friendly application to read and convert ACCESS databases to CSV format efficiently.',
+      fr: 'Application pour lire et convertir efficacement des bases de données ACCESS au format CSV.',
+    },
+    tags: ['Python', 'Tkinter', 'Streamlit'],
+    image: '/assets/images/projects/csv_manager_app.gif',
+    url: 'https://github.com/n-pizzetta/csv-manager',
+  },
+  {
+    title: { en: 'Airport Traffic Analysis', fr: 'Analyse du trafic aérien' },
+    description: {
+      en: 'Time series modeling using SARIMA/SARIMAX to predict future traffic patterns.',
+      fr: 'Modélisation de séries temporelles avec SARIMA/SARIMAX pour prédire les tendances de trafic.',
+    },
+    tags: ['Time Series', 'SARIMA', 'R'],
+    image: '/assets/images/projects/airport_traffic.png',
+    url: 'https://n-pizzetta.github.io/Applied/airport-traffic-last-version.html',
+  },
+  {
+    title: { en: 'Chicago Crime Analysis', fr: 'Analyse de la criminalité à Chicago' },
+    description: {
+      en: 'Hackathon project: Merging and analyzing 3 years of Chicago crime data.',
+      fr: 'Projet hackathon : Fusion et analyse de 3 années de données criminelles de Chicago.',
+    },
+    tags: ['Data Analysis', 'Visualization', 'R'],
+    image: '/assets/images/projects/chicago_crime_poster.jpg',
+    url: 'https://n-pizzetta.github.io/r-project/chicago-crimes-weber-pizzetta.html',
+  },
+];
+---
+
+<section id="projects" class="py-section bg-bg-surface">
+  <div class="section-container">
+    <div class="text-center mb-16">
+      <h2 class="font-serif text-heading text-white mb-3">{t('projects.title', locale)}</h2>
+      <p class="text-text-muted">{t('projects.subtitle', locale)}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {projects.map((project) => (
+        <a
+          href={project.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group glass rounded-xl overflow-hidden hover:border-border-hover transition-all duration-300 hover:-translate-y-1"
+        >
+          <div class="relative h-48 overflow-hidden">
+            <img
+              src={project.image}
+              alt={project.title[locale as 'en' | 'fr']}
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-bg to-transparent opacity-60"></div>
+          </div>
+
+          <div class="p-5">
+            <h3 class="font-serif text-lg text-white mb-2 group-hover:text-accent transition-colors">
+              {project.title[locale as 'en' | 'fr']}
+            </h3>
+            <p class="text-sm text-text-muted leading-relaxed mb-4">
+              {project.description[locale as 'en' | 'fr']}
+            </p>
+            <div class="flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span class="text-xs px-2.5 py-1 rounded-full bg-accent/10 text-accent">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

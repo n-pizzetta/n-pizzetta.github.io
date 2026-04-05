@@ -1,0 +1,52 @@
+---
+import '@/styles/global.css';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import { getLocaleFromUrl } from '@/i18n/ui';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const locale = getLocaleFromUrl(Astro.url);
+const { title = 'Nathan Pizzetta — Applied AI Engineer', description = 'Portfolio showcasing data science projects, AI development, and international experience.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicons/np-v3.svg" />
+    <link rel="canonical" href={`https://nathan.directory/${locale}/`} />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={`https://nathan.directory/${locale}/`} />
+
+    <!-- Analytics: GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5S13RSPXSY"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5S13RSPXSY', { anonymize_ip: true });
+    </script>
+
+    <!-- Analytics: Plausible -->
+    <script defer data-domain="nathan.directory" src="https://plausible.io/js/plausible.outbound-links.js"></script>
+  </head>
+  <body>
+    <Header locale={locale} />
+    <main>
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>

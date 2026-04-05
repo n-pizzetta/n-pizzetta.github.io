@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // .tool_response.filePath' | { read -r f; if [[ \"$f\" == *.yml ]]; then ruby -ryaml -e \"YAML.load_file(ARGV[0])\" \"$f\" 2>&1; fi; }",
+            "timeout": 10,
+            "statusMessage": "Validating YAML..."
+          }
+        ]
+      }
+    ]
+  }
+}

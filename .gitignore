@@ -1,6 +1,7 @@
-*.Rhistory
-*.DS_Store
-*.mov
-_site/
+node_modules/
+dist/
+.astro/
+.DS_Store
 .jekyll-cache/
-.sass-cache/
+*.log
+.claude/settings.local.json

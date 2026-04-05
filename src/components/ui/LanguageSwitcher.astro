@@ -1,0 +1,18 @@
+---
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+const otherLocale = locale === 'en' ? 'fr' : 'en';
+const currentPath = Astro.url.pathname;
+const otherPath = currentPath.replace(`/${locale}`, `/${otherLocale}`);
+---
+
+<a
+  href={otherPath}
+  class="text-sm px-3 py-1.5 rounded-full border border-border hover:border-border-hover text-text-muted hover:text-white transition-all"
+  aria-label={`Switch to ${otherLocale === 'en' ? 'English' : 'Français'}`}
+>
+  {otherLocale.toUpperCase()}
+</a>
