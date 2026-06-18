@@ -1,0 +1,369 @@
+---
+// MorpionGame.astro — mobile easter-egg game (tic-tac-toe vs AI).
+// Touch-first counterpart to the breakout game: tap a square to place your mark.
+// Launch via the floating button (mobile only). Scoreboard persisted in localStorage.
+---
+
+<!-- Floating launch button (mobile only — desktop gets breakout instead) -->
+<button
+  id="mp-launch"
+  aria-label="Play tic-tac-toe"
+  class="group fixed bottom-6 right-6 z-[9997] flex items-center gap-2 rounded-full border border-border bg-bg-elevated/80 px-4 py-3 text-sm text-text-muted shadow-lg backdrop-blur transition-colors hover:border-accent hover:text-accent"
+>
+  <span class="text-base leading-none">⭕</span>
+  <span>Morpion</span>
+</button>
+
+<!-- Full-screen translucent game overlay (site stays visible behind) -->
+<div id="mp" class="fixed inset-0 z-[9998] hidden bg-black/50 backdrop-blur-sm">
+  <div class="absolute inset-0 flex flex-col items-center justify-center gap-6 px-4">
+    <!-- Scoreboard -->
+    <div class="flex w-full max-w-[360px] items-center justify-between px-2 text-xs uppercase tracking-widest">
+      <div>
+        <span class="block text-[10px] text-text-subtle">You</span>
+        <span id="mp-wins" class="text-lg font-bold text-accent-light">0</span>
+      </div>
+      <div class="text-center">
+        <span class="block text-[10px] text-text-subtle">Draws</span>
+        <span id="mp-draws" class="text-lg font-bold text-text-muted">0</span>
+      </div>
+      <div class="text-right">
+        <span class="block text-[10px] text-text-subtle">AI</span>
+        <span id="mp-losses" class="text-lg font-bold text-accent">0</span>
+      </div>
+    </div>
+
+    <!-- Status line -->
+    <p id="mp-status" class="h-5 text-sm tracking-widest text-text-muted">YOUR TURN</p>
+
+    <!-- Grid -->
+    <div id="mp-grid" class="mp-grid"></div>
+
+    <!-- Controls -->
+    <div class="flex w-full max-w-[360px] items-center justify-center gap-2">
+      <button id="mp-restart" class="mp-tool">↻ Rematch</button>
+      <button id="mp-menu" class="mp-tool">⚙ Difficulty</button>
+    </div>
+  </div>
+
+  <!-- Start / status overlay -->
+  <div
+    id="mp-overlay"
+    class="absolute inset-0 flex flex-col items-center justify-center gap-5 bg-black/70 px-8 text-center backdrop-blur-sm transition-opacity duration-200"
+  >
+    <h1 id="mp-title" class="font-serif text-5xl text-accent">MORPION</h1>
+    <p id="mp-msg" class="max-w-xs text-base leading-relaxed text-text-muted">
+      Line up three marks before the machine does.
+    </p>
+    <div id="mp-levels" class="flex flex-col gap-2.5">
+      <button class="mp-level" data-level="easy">Easy</button>
+      <button class="mp-level" data-level="medium">Medium</button>
+      <button class="mp-level" data-level="hard">Unbeatable</button>
+    </div>
+  </div>
+
+  <button
+    id="mp-close"
+    aria-label="Close"
+    class="absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-bg-elevated/60 text-text-muted backdrop-blur transition-colors hover:border-border-hover hover:text-text"
+  >✕</button>
+</div>
+
+<style is:global>
+  /* Grid cells are created in JS (createElement), so Astro's scoped styles
+     would not reach them — keep this block global. All selectors are mp-prefixed. */
+
+  /* morpion is the mobile game; desktop gets breakout instead */
+  @media (min-width: 768px) { #mp-launch { display: none !important; } }
+
+  /* ── Grid ── */
+  .mp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: min(80vw, 360px);
+    aspect-ratio: 1;
+    gap: 8px;
+  }
+  .mp-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(26, 26, 26, 0.75);
+    font-size: clamp(2.6rem, 16vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  }
+  .mp-cell:active { transform: scale(0.96); }
+  .mp-cell.x { color: #e0c48a; }
+  .mp-cell.o { color: #c9a96e; }
+  .mp-cell.win {
+    border-color: #c9a96e;
+    background: rgba(201, 169, 110, 0.22);
+  }
+  .mp-cell.disabled { cursor: default; }
+
+  /* ── Tools ── */
+  .mp-tool {
+    flex: 1;
+    max-width: 170px;
+    padding: 0.6rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(26, 26, 26, 0.8);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: border-color 0.12s ease, color 0.12s ease;
+  }
+  .mp-tool:hover { border-color: rgba(255, 255, 255, 0.15); color: #e5e5e5; }
+
+  /* ── Difficulty buttons ── */
+  .mp-level {
+    min-width: 200px;
+    padding: 0.7rem 1.5rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(26, 26, 26, 0.8);
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    color: #e5e5e5;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  }
+  .mp-level:hover { border-color: #c9a96e; color: #e0c48a; background: rgba(201, 169, 110, 0.12); }
+</style>
+
+<script>
+  type Mark = '' | 'X' | 'O';
+
+  const root = document.getElementById('mp');
+  const launchBtn = document.getElementById('mp-launch');
+
+  if (root && launchBtn) {
+    const gridEl = document.getElementById('mp-grid')!;
+    const statusEl = document.getElementById('mp-status')!;
+    const winsEl = document.getElementById('mp-wins')!;
+    const drawsEl = document.getElementById('mp-draws')!;
+    const lossesEl = document.getElementById('mp-losses')!;
+    const overlay = document.getElementById('mp-overlay')!;
+    const titleEl = document.getElementById('mp-title')!;
+    const msgEl = document.getElementById('mp-msg')!;
+    const levelsEl = document.getElementById('mp-levels')!;
+    const restartBtn = document.getElementById('mp-restart')!;
+    const menuBtn = document.getElementById('mp-menu')!;
+    const closeBtn = document.getElementById('mp-close')!;
+
+    const HUMAN: Mark = 'X';
+    const AI: Mark = 'O';
+    const LINES = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+      [0, 3, 6], [1, 4, 7], [2, 5, 8], // cols
+      [0, 4, 8], [2, 4, 6],            // diagonals
+    ];
+
+    let open = false;
+    let board: Mark[] = new Array(9).fill('');
+    let state: 'start' | 'playing' | 'over' = 'start';
+    let difficulty = 'hard';
+    let lock = false; // ignore taps while AI "thinks"
+
+    let wins = Number(localStorage.getItem('mp-wins') || 0);
+    let draws = Number(localStorage.getItem('mp-draws') || 0);
+    let losses = Number(localStorage.getItem('mp-losses') || 0);
+
+    const cellEls: HTMLElement[] = [];
+
+    // ── Game logic ─────────────────────────────────────────────────
+    function winnerOf(b: Mark[]): { mark: Mark; line: number[] } | null {
+      for (const ln of LINES) {
+        const [a, c, d] = ln;
+        if (b[a] && b[a] === b[c] && b[a] === b[d]) return { mark: b[a], line: ln };
+      }
+      return null;
+    }
+
+    function emptyCells(b: Mark[]): number[] {
+      const out: number[] = [];
+      for (let i = 0; i < 9; i++) if (!b[i]) out.push(i);
+      return out;
+    }
+
+    // Minimax — AI maximises, human minimises. Returns score for `turn`.
+    function minimax(b: Mark[], turn: Mark): { score: number; move: number } {
+      const w = winnerOf(b);
+      if (w) return { score: w.mark === AI ? 10 : -10, move: -1 };
+      const free = emptyCells(b);
+      if (free.length === 0) return { score: 0, move: -1 };
+
+      let best = { score: turn === AI ? -Infinity : Infinity, move: free[0] };
+      for (const i of free) {
+        b[i] = turn;
+        const res = minimax(b, turn === AI ? HUMAN : AI);
+        b[i] = '';
+        // prefer faster wins / slower losses by nudging toward zero with depth
+        const score = res.score - Math.sign(res.score) * 0.1 * (9 - free.length);
+        if (turn === AI ? score > best.score : score < best.score) best = { score, move: i };
+      }
+      return best;
+    }
+
+    function aiMove(): number {
+      const free = emptyCells(board);
+      // Varied opening when the AI starts — any first move is safe in tic-tac-toe.
+      if (free.length === 9) return free[Math.floor(Math.random() * 9)];
+      if (difficulty === 'easy') return free[Math.floor(Math.random() * free.length)];
+      if (difficulty === 'medium' && Math.random() < 0.45)
+        return free[Math.floor(Math.random() * free.length)];
+      return minimax(board, AI).move;
+    }
+
+    // ── Rendering ──────────────────────────────────────────────────
+    function render(winLine: number[] = []) {
+      for (let i = 0; i < 9; i++) {
+        const cell = cellEls[i];
+        const m = board[i];
+        cell.textContent = m;
+        cell.classList.toggle('x', m === 'X');
+        cell.classList.toggle('o', m === 'O');
+        cell.classList.toggle('win', winLine.includes(i));
+        cell.classList.toggle('disabled', state !== 'playing' || !!m);
+      }
+      winsEl.textContent = String(wins);
+      drawsEl.textContent = String(draws);
+      lossesEl.textContent = String(losses);
+    }
+
+    function setStatus(text: string) { statusEl.textContent = text; }
+
+    function saveScores() {
+      localStorage.setItem('mp-wins', String(wins));
+      localStorage.setItem('mp-draws', String(draws));
+      localStorage.setItem('mp-losses', String(losses));
+    }
+
+    // ── Turn flow ──────────────────────────────────────────────────
+    function tap(i: number) {
+      if (state !== 'playing' || lock || board[i]) return;
+      board[i] = HUMAN;
+      if (finish()) return;
+      aiTurn();
+    }
+
+    function aiTurn() {
+      lock = true;
+      setStatus('AI THINKING…');
+      render();
+      window.setTimeout(() => {
+        const mv = aiMove();
+        if (mv >= 0) board[mv] = AI;
+        lock = false;
+        if (!finish()) { render(); setStatus('YOUR TURN'); }
+      }, 320);
+    }
+
+    // Returns true if the game ended (win or draw).
+    function finish(): boolean {
+      const w = winnerOf(board);
+      if (w) {
+        state = 'over';
+        if (w.mark === HUMAN) { wins++; setStatus('YOU WIN — TAP REMATCH'); }
+        else { losses++; setStatus('AI WINS — TAP REMATCH'); }
+        saveScores();
+        render(w.line);
+        return true;
+      }
+      if (emptyCells(board).length === 0) {
+        state = 'over';
+        draws++;
+        saveScores();
+        setStatus('DRAW — TAP REMATCH');
+        render();
+        return true;
+      }
+      return false;
+    }
+
+    // ── Overlay ────────────────────────────────────────────────────
+    function showOverlay(title: string, msg: string, showLevels: boolean) {
+      titleEl.textContent = title;
+      msgEl.textContent = msg;
+      levelsEl.style.display = showLevels ? 'flex' : 'none';
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+    }
+    function hideOverlay() { overlay.classList.add('opacity-0', 'pointer-events-none'); }
+
+    // ── Lifecycle ──────────────────────────────────────────────────
+    function newGame(level: string) {
+      difficulty = level;
+      board = new Array(9).fill('');
+      state = 'playing';
+      lock = false;
+      render();
+      hideOverlay();
+      // Random starter: half the time the AI opens.
+      if (Math.random() < 0.5) aiTurn();
+      else setStatus('YOUR TURN');
+    }
+
+    function rematch() {
+      if (state === 'start') return;
+      newGame(difficulty);
+    }
+
+    function openGame() {
+      if (open) return;
+      open = true;
+      root!.classList.remove('hidden');
+      launchBtn!.classList.add('hidden');
+      document.body.style.overflow = 'hidden';
+      state = 'start';
+      render();
+      showOverlay('MORPION', 'Line up three marks before the machine does.', true);
+      // @ts-ignore — optional analytics
+      if (window.plausible) window.plausible('morpion-game');
+    }
+
+    function closeGame() {
+      open = false;
+      root!.classList.add('hidden');
+      launchBtn!.classList.remove('hidden');
+      document.body.style.overflow = '';
+    }
+
+    // ── Build DOM + wiring ─────────────────────────────────────────
+    for (let i = 0; i < 9; i++) {
+      const cell = document.createElement('button');
+      cell.className = 'mp-cell';
+      cell.setAttribute('aria-label', `Square ${i + 1}`);
+      cell.addEventListener('click', () => tap(i));
+      gridEl.appendChild(cell);
+      cellEls.push(cell);
+    }
+
+    levelsEl.querySelectorAll('.mp-level').forEach((btn) =>
+      btn.addEventListener('click', () => newGame((btn as HTMLElement).dataset.level!))
+    );
+    restartBtn.addEventListener('click', rematch);
+    menuBtn.addEventListener('click', () => {
+      state = 'start';
+      render();
+      showOverlay('MORPION', 'Pick a difficulty for the next match.', true);
+    });
+    launchBtn.addEventListener('click', openGame);
+    closeBtn.addEventListener('click', closeGame);
+
+    // Keyboard support (desktop testing + accessibility)
+    window.addEventListener('keydown', (e) => {
+      if (!open) return;
+      if (e.key === 'Escape') { closeGame(); return; }
+      if (state === 'playing' && e.key >= '1' && e.key <= '9') { tap(Number(e.key) - 1); e.preventDefault(); }
+      else if ((e.key === 'r' || e.key === 'R') && state === 'over') rematch();
+    });
+  }
+</script>
