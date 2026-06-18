@@ -19,7 +19,7 @@ export const locations: GlobeLocation[] = [
     period: '2016',
     caption: {
       en: 'A year as an exchange student in Mexico — full immersion.',
-      fr: "Une année d'échange au Mexique, entre découverte et dépaysement.",
+      fr: "Une année d'échange au Mexique pour apprendre l'espagnol et découvrir une nouvelle culture.",
     },
     markerSize: 0.03,
     zoomScale: 0.85,
