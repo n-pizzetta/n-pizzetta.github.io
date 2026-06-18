@@ -11,7 +11,9 @@ const { locale } = Astro.props;
 
 <section id="hero" class="relative h-screen flex flex-col items-center justify-center overflow-hidden">
   <!-- Globe canvas -->
-  <canvas id="globe-canvas" class="absolute inset-0 w-full h-full" style="touch-action: none;"></canvas>
+  <!-- touch-action: pan-y lets the page scroll vertically over the globe on mobile
+       (the globe has no drag-to-rotate gesture, so blocking touch wasn't needed). -->
+  <canvas id="globe-canvas" class="absolute inset-0 w-full h-full" style="touch-action: pan-y;"></canvas>
 
   <!-- Dark gradient at bottom for text readability -->
   <div class="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-bg via-bg/70 to-transparent z-10 pointer-events-none"></div>
