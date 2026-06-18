@@ -18,6 +18,15 @@ const experiences = [
     },
   },
   {
+    date: { en: 'Sept 2025 - Present', fr: 'Sept 2025 - Présent' },
+    title: { en: 'Co-founder', fr: 'Cofondateur' },
+    institution: { en: 'Tensaure', fr: 'Tensaure' },
+    description: {
+      en: 'Tensaure is a B2B software publisher behind <a href="https://calendia.ai" target="_blank" rel="noopener" class="text-accent hover:underline">calendia.ai</a>, a scheduling optimizer for the restaurant industry.',
+      fr: 'Tensaure est un éditeur de logiciels B2B à l\'origine de <a href="https://calendia.ai" target="_blank" rel="noopener" class="text-accent hover:underline">calendia.ai</a>, un optimisateur de planning pour la restauration.',
+    },
+  },
+  {
     date: { en: 'Apr-Oct 2025', fr: 'Avr-Oct 2025' },
     title: { en: 'Data Science Consultant Intern', fr: 'Stagiaire Consultant Data Scientist' },
     institution: { en: 'Internship, AVISIA', fr: 'Stage, AVISIA' },
@@ -109,7 +118,7 @@ const experiences = [
                 {exp.featured && <span class="inline-block ml-2 text-xs bg-accent/20 text-accent px-2 py-0.5 rounded-full">&#9733;</span>}
               </h3>
               <p class="text-sm text-text-subtle mb-3">{exp.institution[locale as 'en' | 'fr']}</p>
-              <p class="text-sm text-text-muted leading-relaxed">{exp.description[locale as 'en' | 'fr']}</p>
+              <p class="text-sm text-text-muted leading-relaxed" set:html={exp.description[locale as 'en' | 'fr']}></p>
             </div>
           </div>
         </div>
