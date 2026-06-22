@@ -1,0 +1,13 @@
+# Cloudflare Pages config — static assets in dist/ + Functions in functions/.
+# The site itself is built by Astro (`npm run build`); this file only wires the
+# D1 binding the leaderboard Function needs, and enables local `wrangler pages dev`.
+name = "nathan-directory"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "dist"
+
+# Breakout leaderboard database. Create it once, then paste the returned id here:
+#   npx wrangler d1 create breakout_leaderboard
+[[d1_databases]]
+binding = "DB"
+database_name = "breakout_leaderboard"
+database_id = "4e9e4a1e-9671-4612-9dc5-b7c9eb3f6c47"

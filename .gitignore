@@ -5,3 +5,5 @@ dist/
 .jekyll-cache/
 *.log
 .claude/settings.local.json
+.wrangler/
+.dev.vars

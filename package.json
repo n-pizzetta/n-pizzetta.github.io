@@ -6,7 +6,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "cf:dev": "astro build && wrangler pages dev dist",
+    "db:create": "wrangler d1 create breakout_leaderboard",
+    "db:migrate": "wrangler d1 execute breakout_leaderboard --remote --file=./migrations/0001_create_scores.sql",
+    "db:migrate:local": "wrangler d1 execute breakout_leaderboard --local --file=./migrations/0001_create_scores.sql"
   },
   "dependencies": {
     "@astrojs/tailwind": "^6.0.2",
@@ -14,5 +18,8 @@
     "cobe": "^0.6.3",
     "gsap": "^3.12.7",
     "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "wrangler": "^3.78.0"
   }
 }
