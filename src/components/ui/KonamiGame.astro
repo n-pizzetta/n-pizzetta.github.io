@@ -337,8 +337,9 @@
     // --- State ---
     const PADDLE_H = 14;
     let BALL_R = 8;
-    const paddle = { x: 0, y: 0, w: 120, speed: 9 };
-    const ball = { x: 0, y: 0, dx: 0, dy: 0, speed: 5, stuck: true };
+    // px/py = previous-step position, kept so draw() can interpolate (smooth render).
+    const paddle = { x: 0, y: 0, px: 0, w: 120, speed: 9 };
+    const ball = { x: 0, y: 0, px: 0, py: 0, dx: 0, dy: 0, speed: 5, stuck: true };
     let score = 0, lives = 3, level = 1;
     let lvl = LEVELS[0];
     let levelStart = 0, gameStart = 0;
@@ -399,6 +400,7 @@
       paddle.y = H - 60 * scale;
       paddle.speed = 9 * scale;
       paddle.x = Math.max(8, Math.min(W - paddle.w - 8, paddle.x || (W / 2 - paddle.w / 2)));
+      paddle.px = paddle.x;
 
       if (state === 'playing' || state === 'dead') layoutBricks();
       else buildBricks();
@@ -411,6 +413,7 @@
       ball.x = paddle.x + paddle.w / 2;
       ball.y = paddle.y - BALL_R;
       ball.dx = 0; ball.dy = 0;
+      ball.px = ball.x; ball.py = ball.y; // don't interpolate across the respawn jump
     }
 
     function setLevel(n: number) {
@@ -425,6 +428,7 @@
       pseudoEl.blur(); // gameplay keys shouldn't land in the input
       score = 0; lives = 3;
       paddle.x = W / 2 - paddle.w / 2;
+      paddle.px = paddle.x;
       setLevel(1);
       particles = [];
       state = 'playing';
@@ -503,19 +507,19 @@
       submitScore(timeMs);
     }
 
-    function update() {
+    function update(dt: number) {
       if (state !== 'playing') return;
 
-      if (keys['ArrowLeft']) paddle.x -= paddle.speed;
-      if (keys['ArrowRight']) paddle.x += paddle.speed;
+      if (keys['ArrowLeft']) paddle.x -= paddle.speed * dt * PADDLE_BOOST;
+      if (keys['ArrowRight']) paddle.x += paddle.speed * dt * PADDLE_BOOST;
       paddle.x = Math.max(8, Math.min(W - paddle.w - 8, paddle.x));
 
       if (ball.stuck) {
         ball.x = paddle.x + paddle.w / 2;
         ball.y = paddle.y - BALL_R;
       } else {
-        ball.x += ball.dx;
-        ball.y += ball.dy;
+        ball.x += ball.dx * dt * BALL_BOOST;
+        ball.y += ball.dy * dt * BALL_BOOST;
 
         if (ball.x - BALL_R < 0) { ball.x = BALL_R; ball.dx *= -1; }
         if (ball.x + BALL_R > W) { ball.x = W - BALL_R; ball.dx *= -1; }
@@ -575,7 +579,7 @@
         }
       }
 
-      for (const p of particles) { p.x += p.dx; p.y += p.dy; p.dy += 0.12; p.life -= 0.035; }
+      for (const p of particles) { p.x += p.dx * dt; p.y += p.dy * dt; p.dy += 0.12 * dt; p.life -= 0.035 * dt; }
       particles = particles.filter((p) => p.life > 0);
     }
 
@@ -589,8 +593,13 @@
       ctx.closePath();
     }
 
-    function draw() {
+    function draw(alpha: number) {
       ctx.clearRect(0, 0, W, H);
+
+      // Interpolate the moving bodies between the previous and current sim step.
+      const bx = ball.px + (ball.x - ball.px) * alpha;
+      const by = ball.py + (ball.y - ball.py) * alpha;
+      const pxi = paddle.px + (paddle.x - paddle.px) * alpha;
 
       for (const b of bricks) {
         if (!b.alive) continue;
@@ -626,12 +635,12 @@
       ctx.save();
       ctx.shadowColor = '#3ad1ff';
       ctx.shadowBlur = 18;
-      const grad = ctx.createLinearGradient(paddle.x, 0, paddle.x + paddle.w, 0);
+      const grad = ctx.createLinearGradient(pxi, 0, pxi + paddle.w, 0);
       grad.addColorStop(0, '#1b7fa0');
       grad.addColorStop(0.5, '#7fe8ff');
       grad.addColorStop(1, '#1b7fa0');
       ctx.fillStyle = grad;
-      roundRect(paddle.x, paddle.y, paddle.w, PADDLE_H, 5);
+      roundRect(pxi, paddle.y, paddle.w, PADDLE_H, 5);
       ctx.fill();
       ctx.restore();
 
@@ -641,16 +650,57 @@
       ctx.shadowBlur = 22;
       ctx.fillStyle = '#fff';
       ctx.beginPath();
-      ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI * 2);
+      ctx.arc(bx, by, BALL_R, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     }
 
-    function loop() {
+    // Frame-rate independence: scale all motion by dt, normalized so dt = 1.0 at
+    // 60 Hz. On a 144 Hz monitor dt ≈ 0.42 (smaller step, more frames); on 30 Hz
+    // dt ≈ 2.0 (bigger step, fewer frames) → identical real-time speed everywhere.
+    // Global pace knob — speeds the whole sim (ball, paddle, particles) equally.
+    // 1.0 = the old 60 Hz feel; 1.15 = ~15% faster everywhere.
+    const GAME_SPEED = 1.15;
+    // Ball-only extra pace, on top of GAME_SPEED. Multiplies the ball's step so the
+    // ball feels snappier without making the particles twitchier. 1.0 = off.
+    const BALL_BOOST = 1.32;
+    // Paddle-only extra pace, on top of GAME_SPEED. Kept higher than BALL_BOOST so the
+    // bar out-runs the faster ball and stays controllable. 1.0 = off.
+    const PADDLE_BOOST = 1.40;
+
+    // ── Fixed-timestep loop with render interpolation ──
+    // The sim advances in CONSTANT steps (SIM_HZ), so per-step motion is perfectly
+    // even — no performance.now() jitter → smooth like the old refresh-tied loop.
+    // We accumulate real elapsed time and run as many fixed steps as it buys; draw()
+    // then interpolates between the last two states by the leftover fraction, so it
+    // stays fluid on ANY refresh rate (incl. 144 Hz, not a multiple of the sim rate).
+    // Real-time speed is identical on every PC (ISO). Finer steps ⇒ less tunneling too.
+    const SIM_HZ = 120;
+    const STEP_MS = 1000 / SIM_HZ;
+    const FIXED_DT = (60 / SIM_HZ) * GAME_SPEED; // one sim step in old "60 Hz frame" units
+    let lastTime = 0, acc = 0;
+    function loop(now: number) {
       if (!open) return;
-      update();
-      draw();
+      if (!lastTime) lastTime = now;
+      let frame = now - lastTime;
+      lastTime = now;
+      if (frame > 250) frame = 250; // tab-switch / GC gap: cap so we don't burst-step
+      acc += frame;
+      let steps = 0;
+      while (acc >= STEP_MS && steps < 8) { // step cap = spiral-of-death guard
+        savePrev();
+        update(FIXED_DT);
+        acc -= STEP_MS;
+        steps++;
+      }
+      draw(acc / STEP_MS); // leftover fraction (0..1) → interpolation factor
       requestAnimationFrame(loop);
+    }
+
+    // Snapshot positions before a sim step so draw() can interpolate toward the new ones.
+    function savePrev() {
+      ball.px = ball.x; ball.py = ball.y;
+      paddle.px = paddle.x;
     }
 
     // ── Leaderboard (network) ──
@@ -780,6 +830,7 @@
       loadBoard();
       // @ts-ignore — optional analytics
       if (window.plausible) window.plausible('breakout-game');
+      lastTime = 0; acc = 0; // fresh clock + accumulator so the first frame is clean
       requestAnimationFrame(loop);
     }
 
