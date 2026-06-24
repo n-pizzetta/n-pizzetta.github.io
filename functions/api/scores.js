@@ -14,7 +14,7 @@
 // We sanity-cap, rate-limit per IP, and filter pseudos — enough for a fun easter-egg board.
 
 const PSEUDO_RE = /^[A-Za-z0-9_-]{2,16}$/;
-const MAX_SCORE = 25000;
+const MAX_SCORE = 75000; // headroom for combo multipliers + perfect/flawless bonuses
 const MAX_LEVEL = 3;
 const RATE_MAX = 30;          // max rows from one IP within the window
 const RATE_WINDOW = 3600;     // seconds

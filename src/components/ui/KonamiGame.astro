@@ -28,6 +28,7 @@
     <div class="kg-hud">
       <span class="kg-hud-label">SCORE</span>
       <span id="kg-score" class="kg-hud-val kg-cyan">0</span>
+      <span id="kg-combo" class="kg-combo"></span>
     </div>
     <div class="kg-hud kg-hud-c">
       <span class="kg-hud-label">LEVEL</span>
@@ -193,6 +194,12 @@
   .kg-hud-r { text-align: right; }
   .kg-hud-label { font-size: 0.5rem; letter-spacing: 1px; color: #6a6a6a; }
   .kg-hud-val { font-size: 0.9rem; color: #fff; }
+  /* Combo chip — appears under SCORE when a multiplier is live, fades out on reset */
+  .kg-combo {
+    font-size: 0.62rem; letter-spacing: 1px; color: #ffe74c; min-height: 0.8rem;
+    opacity: 0; transition: opacity 0.12s ease, transform 0.12s ease; transform: translateY(-2px);
+  }
+  .kg-combo.is-on { opacity: 1; transform: none; text-shadow: 0 0 10px rgba(255, 231, 76, 0.7); }
   /* ● / ○ aren't in Press Start 2P — render the lives dots in a monospace fallback */
   #kg-lives { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 2px; }
 
@@ -274,6 +281,7 @@
   if (root && cv && launchBtn) {
     const ctx = cv.getContext('2d')!;
     const scoreEl = document.getElementById('kg-score')!;
+    const comboEl = document.getElementById('kg-combo')!;
     const levelEl = document.getElementById('kg-level')!;
     const livesEl = document.getElementById('kg-lives')!;
 
@@ -299,7 +307,7 @@
       rateLimited: 'TROP DE TENTATIVES, REVIENS PLUS TARD.', submitting: 'ENVOI DU SCORE...',
       launch: 'ESPACE POUR LANCER', ballLost: 'BALLE PERDUE', press: 'ESPACE POUR CONTINUER',
       level: 'NIVEAU', cleared: 'NIVEAU FRANCHI !', win: 'VICTOIRE', over: 'PARTIE TERMINÉE',
-      score: 'SCORE', rank: 'RANG',
+      score: 'SCORE', rank: 'RANG', perfect: 'SANS FAUTE !', flawless: 'PARTIE PARFAITE !',
     } : {
       start: 'NEW GAME', replay: 'PLAY AGAIN',
       loading: 'LOADING...', empty: 'BE THE FIRST!', unavailable: 'LEADERBOARD UNAVAILABLE',
@@ -307,7 +315,7 @@
       rateLimited: 'TOO MANY TRIES, COME BACK LATER.', submitting: 'SUBMITTING SCORE...',
       launch: 'SPACE TO LAUNCH', ballLost: 'BALL LOST', press: 'SPACE TO CONTINUE',
       level: 'LEVEL', cleared: 'LEVEL CLEARED!', win: 'YOU WIN', over: 'GAME OVER',
-      score: 'SCORE', rank: 'RANK',
+      score: 'SCORE', rank: 'RANK', perfect: 'NO DEATHS!', flawless: 'FLAWLESS RUN!',
     };
     startBtn.textContent = T.start;
     const nf = new Intl.NumberFormat(FR ? 'fr-FR' : 'en-US');
@@ -328,7 +336,12 @@
     // ── Scoring (bricks dominant; bonuses secondary) ──
     const LIVES_BONUS = 200;          // × lives remaining, at game end
     const LEVEL_BONUS = 200;          // × level number, per cleared level
-    const TIME_BONUS = 5;             // × seconds under par, per cleared level
+    const TIME_BONUS = 10;            // × seconds under par, per cleared level
+    // Combo: each brick destroyed before the ball touches the paddle again raises the
+    // multiplier (×1, ×2 … capped). Resets on every paddle bounce / launch / ball lost.
+    const COMBO_MAX = 5;              // multiplier ceiling for one ball flight
+    const PERFECT_LEVEL_BONUS = 500;  // per level cleared without losing a life
+    const FLAWLESS_BONUS = 1500;      // whole game won without ever dying
 
     let W = 0, H = 0, scale = 1, dpr = 1;
     let open = false;
@@ -341,6 +354,9 @@
     const paddle = { x: 0, y: 0, px: 0, w: 120, speed: 9 };
     const ball = { x: 0, y: 0, px: 0, py: 0, dx: 0, dy: 0, speed: 5, stuck: true };
     let score = 0, lives = 3, level = 1;
+    let combo = 0;                  // bricks broken since the last paddle touch
+    let lifeLostThisLevel = false;  // drives the per-level "no deaths" bonus
+    let deaths = 0;                 // total deaths in the run → "flawless" bonus
     let lvl = LEVELS[0];
     let levelStart = 0, gameStart = 0;
     // start | playing | dead | levelclear | over
@@ -419,6 +435,7 @@
     function setLevel(n: number) {
       level = n;
       lvl = LEVELS[n - 1];
+      lifeLostThisLevel = false; // fresh level → eligible for the no-deaths bonus
       paddle.w = Math.min(280, Math.max(70, W * lvl.paddleFactor));
       buildBricks();
       resetBall();
@@ -426,7 +443,7 @@
 
     function startGame() {
       pseudoEl.blur(); // gameplay keys shouldn't land in the input
-      score = 0; lives = 3;
+      score = 0; lives = 3; combo = 0; deaths = 0;
       paddle.x = W / 2 - paddle.w / 2;
       paddle.px = paddle.x;
       setLevel(1);
@@ -441,6 +458,7 @@
 
     function launchBall() {
       ball.stuck = false;
+      combo = 0;
       hideBanner();
       const ang = (-Math.PI / 4) - Math.random() * Math.PI / 2;
       ball.dx = Math.cos(ang) * ball.speed;
@@ -459,6 +477,13 @@
       scoreEl.textContent = nf.format(score);
       levelEl.textContent = level + '/3';
       livesEl.textContent = '●'.repeat(Math.max(0, lives)) + '○'.repeat(Math.max(0, 3 - lives));
+      const mult = Math.min(combo, COMBO_MAX);
+      if (mult >= 2) {
+        comboEl.textContent = 'COMBO ×' + mult;
+        comboEl.classList.add('is-on');
+      } else {
+        comboEl.classList.remove('is-on');
+      }
     }
 
     // ── Overlay helpers ──
@@ -486,21 +511,29 @@
     }
 
     function clearLevel() {
-      score += LEVEL_BONUS * level + timeBonus();
+      const perfect = lifeLostThisLevel ? 0 : PERFECT_LEVEL_BONUS;
+      const gained = LEVEL_BONUS * level + timeBonus() + perfect;
+      score += gained;
+      combo = 0;
       updateHUD();
       if (level >= LEVELS.length) { endGame(true); return; }
+      const clearedLevel = level;
       state = 'levelclear';
       setLevel(level + 1);
       updateHUD();
-      banner(`${T.level} ${level}`, T.cleared, T.press);
+      const msg = `${T.cleared}${perfect ? ' ' + T.perfect : ''} +${nf.format(gained)}`;
+      banner(`${T.level} ${clearedLevel}`, msg, T.press);
     }
 
     function endGame(won: boolean) {
       score += LIVES_BONUS * lives; // lives bonus, applied once at the end
+      const flawless = won && deaths === 0;
+      if (flawless) score += FLAWLESS_BONUS;
       updateHUD();
       state = 'over';
       const timeMs = Math.round(perfNow() - gameStart);
       resultEl.textContent = `${won ? T.win : T.over} - ${T.score} ${nf.format(score)}`;
+      if (flawless) resultEl.textContent += ` - ${T.flawless}`;
       resultEl.classList.remove('hidden');
       startBtn.textContent = T.replay;
       showMenu();
@@ -535,6 +568,8 @@
           ball.dx = Math.sin(ang) * ball.speed;
           ball.dy = -Math.abs(Math.cos(ang) * ball.speed);
           ball.y = paddle.y - BALL_R - 1;
+          combo = 0; // paddle touch ends the current chain
+          updateHUD();
         }
 
         for (const b of bricks) {
@@ -552,7 +587,8 @@
             b.hp--;
             if (b.hp <= 0) {
               b.alive = false;
-              score += b.points;
+              combo++;
+              score += b.points * Math.min(combo, COMBO_MAX); // chain multiplier
               spawnParticles(b.x + b.w / 2, b.y + b.h / 2, b.color);
             } else {
               spawnParticles(ball.x, ball.y, b.color);
@@ -568,6 +604,9 @@
 
         if (state === 'playing' && ball.y - BALL_R > H) {
           lives--;
+          deaths++;
+          lifeLostThisLevel = true;
+          combo = 0;
           updateHUD();
           if (lives <= 0) {
             endGame(false);
