@@ -34,6 +34,10 @@
       <span class="kg-hud-label">LEVEL</span>
       <span id="kg-level" class="kg-hud-val">1/3</span>
     </div>
+    <div class="kg-hud kg-hud-c">
+      <span class="kg-hud-label" id="kg-time-label">TIME</span>
+      <span id="kg-time" class="kg-hud-val kg-time">0:45</span>
+    </div>
     <div class="kg-hud kg-hud-r">
       <span class="kg-hud-label">LIVES</span>
       <span id="kg-lives" class="kg-hud-val kg-red">●●●</span>
@@ -200,6 +204,9 @@
     opacity: 0; transition: opacity 0.12s ease, transform 0.12s ease; transform: translateY(-2px);
   }
   .kg-combo.is-on { opacity: 1; transform: none; text-shadow: 0 0 10px rgba(255, 231, 76, 0.7); }
+  /* Time-bonus countdown — drains from par to 0:00, turns red in the last 10s */
+  .kg-time { font-variant-numeric: tabular-nums; transition: color 0.2s ease; }
+  .kg-time.is-low { color: #ff3b3b; text-shadow: 0 0 10px rgba(255, 59, 59, 0.7); }
   /* ● / ○ aren't in Press Start 2P — render the lives dots in a monospace fallback */
   #kg-lives { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 2px; }
 
@@ -282,6 +289,7 @@
     const ctx = cv.getContext('2d')!;
     const scoreEl = document.getElementById('kg-score')!;
     const comboEl = document.getElementById('kg-combo')!;
+    const timeEl = document.getElementById('kg-time')!;
     const levelEl = document.getElementById('kg-level')!;
     const livesEl = document.getElementById('kg-lives')!;
 
@@ -308,6 +316,7 @@
       launch: 'ESPACE POUR LANCER', ballLost: 'BALLE PERDUE', press: 'ESPACE POUR CONTINUER',
       level: 'NIVEAU', cleared: 'NIVEAU FRANCHI !', win: 'VICTOIRE', over: 'PARTIE TERMINÉE',
       score: 'SCORE', rank: 'RANG', perfect: 'SANS FAUTE !', flawless: 'PARTIE PARFAITE !',
+      timeLabel: 'TEMPS',
     } : {
       start: 'NEW GAME', replay: 'PLAY AGAIN',
       loading: 'LOADING...', empty: 'BE THE FIRST!', unavailable: 'LEADERBOARD UNAVAILABLE',
@@ -316,8 +325,10 @@
       launch: 'SPACE TO LAUNCH', ballLost: 'BALL LOST', press: 'SPACE TO CONTINUE',
       level: 'LEVEL', cleared: 'LEVEL CLEARED!', win: 'YOU WIN', over: 'GAME OVER',
       score: 'SCORE', rank: 'RANK', perfect: 'NO DEATHS!', flawless: 'FLAWLESS RUN!',
+      timeLabel: 'TIME',
     };
     startBtn.textContent = T.start;
+    document.getElementById('kg-time-label')!.textContent = T.timeLabel;
     const nf = new Intl.NumberFormat(FR ? 'fr-FR' : 'en-US');
     const PSEUDO_RE = /^[A-Za-z0-9_-]{2,16}$/;
     const perfNow = () => performance.now();
@@ -358,7 +369,8 @@
     let lifeLostThisLevel = false;  // drives the per-level "no deaths" bonus
     let deaths = 0;                 // total deaths in the run → "flawless" bonus
     let lvl = LEVELS[0];
-    let levelStart = 0, gameStart = 0;
+    let levelStart = 0, gameStart = 0, pauseStart = 0;
+    let lastTimeShown = -1; // last integer second painted (skip redundant DOM writes)
     // start | playing | dead | levelclear | over
     let state = 'start';
     let bricks: any[] = [];
@@ -451,7 +463,9 @@
       state = 'playing';
       gameStart = perfNow();
       levelStart = perfNow();
+      lastTimeShown = -1;
       updateHUD();
+      updateTimer();
       hideMenu();
       banner('', '', T.launch);
     }
@@ -484,6 +498,22 @@
       } else {
         comboEl.classList.remove('is-on');
       }
+    }
+
+    // Live time-bonus countdown (par − elapsed). Only writes the DOM when the shown
+    // second changes; frozen automatically while not 'playing' (loop stops calling it).
+    function fmtTime(sec: number) {
+      const s = Math.max(0, Math.ceil(sec));
+      return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+    }
+    function updateTimer() {
+      const remaining = lvl.par - (perfNow() - levelStart) / 1000;
+      const shown = Math.max(0, Math.ceil(remaining));
+      if (shown !== lastTimeShown) {
+        lastTimeShown = shown;
+        timeEl.textContent = fmtTime(remaining);
+      }
+      timeEl.classList.toggle('is-low', remaining <= 10);
     }
 
     // ── Overlay helpers ──
@@ -519,6 +549,7 @@
       if (level >= LEVELS.length) { endGame(true); return; }
       const clearedLevel = level;
       state = 'levelclear';
+      pauseStart = perfNow(); // freeze the countdown during the level banner
       setLevel(level + 1);
       updateHUD();
       const msg = `${T.cleared}${perfect ? ' ' + T.perfect : ''} +${nf.format(gained)}`;
@@ -612,6 +643,7 @@
             endGame(false);
           } else {
             state = 'dead';
+            pauseStart = perfNow(); // freeze the countdown during the banner
             resetBall();
             banner(T.ballLost, '', T.press);
           }
@@ -732,6 +764,7 @@
         acc -= STEP_MS;
         steps++;
       }
+      if (state === 'playing') updateTimer(); // ticks the countdown; paused otherwise
       draw(acc / STEP_MS); // leftover fraction (0..1) → interpolation factor
       requestAnimationFrame(loop);
     }
@@ -883,12 +916,17 @@
     // ── Advance from a transient pause (ball lost / level cleared) ──
     function continuePlay() {
       if (state === 'dead') {
+        const paused = perfNow() - pauseStart; // don't bill the banner against the bonus
+        levelStart += paused; gameStart += paused;
         state = 'playing';
         hideBanner();
         banner('', '', T.launch);
       } else if (state === 'levelclear') {
+        gameStart += perfNow() - pauseStart;   // keep total game time honest
         state = 'playing';
         levelStart = perfNow();
+        lastTimeShown = -1;
+        updateTimer();
         hideBanner();
         banner('', '', T.launch);
       }
