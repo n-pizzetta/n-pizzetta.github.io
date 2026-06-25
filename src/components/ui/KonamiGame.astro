@@ -36,7 +36,7 @@
     </div>
     <div class="kg-hud kg-hud-c">
       <span class="kg-hud-label" id="kg-time-label">TIME</span>
-      <span id="kg-time" class="kg-hud-val kg-time">0:45</span>
+      <span id="kg-time" class="kg-hud-val kg-time">2:00</span>
     </div>
     <div class="kg-hud kg-hud-r">
       <span class="kg-hud-label">LIVES</span>
@@ -340,9 +340,9 @@
 
     // ── Level config — what changes across the 3 levels ──
     const LEVELS = [
-      { speed: 5.0, maxSpeed: 11.0, paddleFactor: 0.140, solidMod: 5, par: 45 },
-      { speed: 6.2, maxSpeed: 12.5, paddleFactor: 0.110, solidMod: 3, par: 50 },
-      { speed: 7.5, maxSpeed: 14.0, paddleFactor: 0.085, solidMod: 2, par: 55 },
+      { speed: 5.0, maxSpeed: 11.0, paddleFactor: 0.140, solidMod: 5, par: 120 },
+      { speed: 6.2, maxSpeed: 12.5, paddleFactor: 0.110, solidMod: 3, par: 110 },
+      { speed: 7.5, maxSpeed: 14.0, paddleFactor: 0.085, solidMod: 2, par: 100 },
     ];
     // ── Scoring (bricks dominant; bonuses secondary) ──
     const LIVES_BONUS = 200;          // × lives remaining, at game end
@@ -369,7 +369,11 @@
     let lifeLostThisLevel = false;  // drives the per-level "no deaths" bonus
     let deaths = 0;                 // total deaths in the run → "flawless" bonus
     let lvl = LEVELS[0];
-    let levelStart = 0, gameStart = 0, pauseStart = 0;
+    let gameStart = 0;
+    // Level timer counts ONLY active flight time: it runs between launch and ball
+    // loss / level clear, and is frozen on the menu, the "space to launch" wait and
+    // every banner. levelActiveMs banks completed segments; segStart times the live one.
+    let levelActiveMs = 0, segStart = 0, timerActive = false;
     let lastTimeShown = -1; // last integer second painted (skip redundant DOM writes)
     // start | playing | dead | levelclear | over
     let state = 'start';
@@ -448,6 +452,7 @@
       level = n;
       lvl = LEVELS[n - 1];
       lifeLostThisLevel = false; // fresh level → eligible for the no-deaths bonus
+      levelActiveMs = 0; timerActive = false; lastTimeShown = -1; // reset the level clock
       paddle.w = Math.min(280, Math.max(70, W * lvl.paddleFactor));
       buildBricks();
       resetBall();
@@ -458,12 +463,10 @@
       score = 0; lives = 3; combo = 0; deaths = 0;
       paddle.x = W / 2 - paddle.w / 2;
       paddle.px = paddle.x;
-      setLevel(1);
+      setLevel(1); // resets the level clock (frozen until the ball launches)
       particles = [];
       state = 'playing';
       gameStart = perfNow();
-      levelStart = perfNow();
-      lastTimeShown = -1;
       updateHUD();
       updateTimer();
       hideMenu();
@@ -473,6 +476,7 @@
     function launchBall() {
       ball.stuck = false;
       combo = 0;
+      if (!timerActive) { timerActive = true; segStart = perfNow(); } // clock starts on launch
       hideBanner();
       const ang = (-Math.PI / 4) - Math.random() * Math.PI / 2;
       ball.dx = Math.cos(ang) * ball.speed;
@@ -507,7 +511,7 @@
       return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
     }
     function updateTimer() {
-      const remaining = lvl.par - (perfNow() - levelStart) / 1000;
+      const remaining = lvl.par - levelElapsedSec();
       const shown = Math.max(0, Math.ceil(remaining));
       if (shown !== lastTimeShown) {
         lastTimeShown = shown;
@@ -535,9 +539,12 @@
     }
 
     // ── Scoring helpers ──
+    // Active play time this level, in seconds (banked segments + the live one).
+    function levelElapsedSec() {
+      return (levelActiveMs + (timerActive ? perfNow() - segStart : 0)) / 1000;
+    }
     function timeBonus() {
-      const elapsed = (perfNow() - levelStart) / 1000;
-      return Math.round(Math.max(0, lvl.par - elapsed) * TIME_BONUS);
+      return Math.round(Math.max(0, lvl.par - levelElapsedSec()) * TIME_BONUS);
     }
 
     function clearLevel() {
@@ -549,8 +556,7 @@
       if (level >= LEVELS.length) { endGame(true); return; }
       const clearedLevel = level;
       state = 'levelclear';
-      pauseStart = perfNow(); // freeze the countdown during the level banner
-      setLevel(level + 1);
+      setLevel(level + 1); // resets + freezes the clock for the next level
       updateHUD();
       const msg = `${T.cleared}${perfect ? ' ' + T.perfect : ''} +${nf.format(gained)}`;
       banner(`${T.level} ${clearedLevel}`, msg, T.press);
@@ -638,12 +644,12 @@
           deaths++;
           lifeLostThisLevel = true;
           combo = 0;
+          if (timerActive) { levelActiveMs += perfNow() - segStart; timerActive = false; } // bank + freeze
           updateHUD();
           if (lives <= 0) {
             endGame(false);
           } else {
             state = 'dead';
-            pauseStart = perfNow(); // freeze the countdown during the banner
             resetBall();
             banner(T.ballLost, '', T.press);
           }
@@ -764,7 +770,7 @@
         acc -= STEP_MS;
         steps++;
       }
-      if (state === 'playing') updateTimer(); // ticks the countdown; paused otherwise
+      updateTimer(); // frozen unless a flight segment is live (timerActive)
       draw(acc / STEP_MS); // leftover fraction (0..1) → interpolation factor
       requestAnimationFrame(loop);
     }
@@ -891,6 +897,7 @@
       document.body.style.overflow = 'hidden';
       state = 'start';
       level = 1; lvl = LEVELS[0];
+      levelActiveMs = 0; timerActive = false; lastTimeShown = -1; // show full par on the menu
       pseudo = localStorage.getItem('kg-pseudo') || '';
       pseudoEl.value = pseudo;
       resultEl.classList.add('hidden');
@@ -915,18 +922,9 @@
 
     // ── Advance from a transient pause (ball lost / level cleared) ──
     function continuePlay() {
-      if (state === 'dead') {
-        const paused = perfNow() - pauseStart; // don't bill the banner against the bonus
-        levelStart += paused; gameStart += paused;
+      // Clock stays frozen here; it only restarts on the next launchBall().
+      if (state === 'dead' || state === 'levelclear') {
         state = 'playing';
-        hideBanner();
-        banner('', '', T.launch);
-      } else if (state === 'levelclear') {
-        gameStart += perfNow() - pauseStart;   // keep total game time honest
-        state = 'playing';
-        levelStart = perfNow();
-        lastTimeShown = -1;
-        updateTimer();
         hideBanner();
         banner('', '', T.launch);
       }
