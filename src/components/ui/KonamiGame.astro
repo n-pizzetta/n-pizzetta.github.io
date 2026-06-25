@@ -374,7 +374,7 @@
     // loss / level clear, and is frozen on the menu, the "space to launch" wait and
     // every banner. levelActiveMs banks completed segments; segStart times the live one.
     let levelActiveMs = 0, segStart = 0, timerActive = false;
-    let lastTimeShown = -1; // last integer second painted (skip redundant DOM writes)
+    let lastTimeShown = NaN; // last integer second painted (skip redundant DOM writes)
     // start | playing | dead | levelclear | over
     let state = 'start';
     let bricks: any[] = [];
@@ -452,7 +452,7 @@
       level = n;
       lvl = LEVELS[n - 1];
       lifeLostThisLevel = false; // fresh level → eligible for the no-deaths bonus
-      levelActiveMs = 0; timerActive = false; lastTimeShown = -1; // reset the level clock
+      levelActiveMs = 0; timerActive = false; lastTimeShown = NaN; // reset the level clock
       paddle.w = Math.min(280, Math.max(70, W * lvl.paddleFactor));
       buildBricks();
       resetBall();
@@ -506,18 +506,26 @@
 
     // Live time-bonus countdown (par − elapsed). Only writes the DOM when the shown
     // second changes; frozen automatically while not 'playing' (loop stops calling it).
-    function fmtTime(sec: number) {
-      const s = Math.max(0, Math.ceil(sec));
+    // Format a non-negative second count as M:SS.
+    function fmtClock(sec: number) {
+      const s = Math.floor(sec);
       return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
     }
     function updateTimer() {
       const remaining = lvl.par - levelElapsedSec();
-      const shown = Math.max(0, Math.ceil(remaining));
-      if (shown !== lastTimeShown) {
-        lastTimeShown = shown;
-        timeEl.textContent = fmtTime(remaining);
+      let txt: string, keySec: number;
+      if (remaining >= 0) {
+        keySec = Math.ceil(remaining);    // countdown: par … 0:01
+        txt = fmtClock(keySec);
+      } else {
+        keySec = Math.floor(remaining);   // overtime: distinct negative keys
+        txt = '+' + fmtClock(-remaining); // counts up past the par: +0:00, +0:01 …
       }
-      timeEl.classList.toggle('is-low', remaining <= 10);
+      if (keySec !== lastTimeShown) {
+        lastTimeShown = keySec;
+        timeEl.textContent = txt;
+      }
+      timeEl.classList.toggle('is-low', remaining <= 10); // red in the last 10s and all overtime
     }
 
     // ── Overlay helpers ──
@@ -897,7 +905,7 @@
       document.body.style.overflow = 'hidden';
       state = 'start';
       level = 1; lvl = LEVELS[0];
-      levelActiveMs = 0; timerActive = false; lastTimeShown = -1; // show full par on the menu
+      levelActiveMs = 0; timerActive = false; lastTimeShown = NaN; // show full par on the menu
       pseudo = localStorage.getItem('kg-pseudo') || '';
       pseudoEl.value = pseudo;
       resultEl.classList.add('hidden');
